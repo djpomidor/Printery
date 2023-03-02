@@ -2,3 +2,4 @@ finalproject/__pycache__/
 printery/__pycache__/
 printery/migrations/__pycache__/
 backend/env
+frontend/node_modules/
