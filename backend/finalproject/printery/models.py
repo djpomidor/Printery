@@ -7,8 +7,8 @@ from django.db.models import Max
 # Create your models here.
 class User(AbstractUser):
     # orders = models.ManyToManyField("Order", blank=True, symmetrical=False, related_name="order")
-    phone_number = models.IntegerField(null=True, blank=True)
-    company = models.ForeignKey('Company', null=True, blank=True, on_delete=models.CASCADE)
+    phone_number = PhoneNumberField(null=False, blank=True)
+    company = models.ForeignKey('Company', related_name='company', null=True, blank=True, on_delete=models.CASCADE)
     is_customer = models.BooleanField(default=True)
     is_employee = models.BooleanField(default=False)
 
@@ -160,7 +160,7 @@ class Order(models.Model):
 ######################################################################################
 
 class Part(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
         ('BLO', 'Block'),
         ('COV', 'Cover'),
