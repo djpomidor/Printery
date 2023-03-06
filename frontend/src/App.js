@@ -14,7 +14,6 @@ const App = () => (
         <Header />
         <main className="py-6 bg-surface-secondary">
           <Main />
-          <RightPanel />
         </main>
       </div>
   </div>

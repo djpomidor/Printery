@@ -2,3 +2,4 @@ finalproject/__pycache__/
 printery/__pycache__/
 printery/migrations/__pycache__/
 env/
+runserver.bat
