@@ -14,11 +14,11 @@ const OrdersList = ({orders, title}) => {
           <th scope="col">Due Date</th>
         </tr>
         </thead>
-        {/* <tbody>
+        <tbody>
             {orders.map((order, i) => (
-                <Order key={i} {...order} onClick={ShowOrderDetails}/>
+                <Order key={i} {...order}/>
             ))}
-        </tbody> */}
+        </tbody>
     </table>
   )
 }

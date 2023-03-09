@@ -1,8 +1,8 @@
 import React from 'react'
 
-const ShowOrderDetails = () => {
+const ShowOrderDetails = (props) => {
   return (
-    <div>{console.log("SSSSSSSSSSSSSSS")}</div>
+    console.log("Order:", props)
   )
 }
 

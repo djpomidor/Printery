@@ -1,11 +1,14 @@
 import React from 'react'
+import avatar from '../../assets/avatar_saul.jpg';
 
 const UserMenu = () => {
   return (
     <div className="dropdown">
     <a className="d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
         <div>
-            <div className="avatar avatar-sm bg-warning rounded-circle text-white"><img alt="..." src="/static/media/avatar_saul.d4daa805cd23118d9c41.jpg" /></div>
+            <div className="avatar avatar-sm bg-warning rounded-circle text-white">
+              <img alt="..."src={ avatar } />
+            </div>
         </div>
         <div className="d-none d-sm-block ms-3"><span className="h6">baz</span></div>
         <div className="d-none d-md-block ms-md-2"><i className="bi bi-chevron-down text-muted text-xs"></i></div>
