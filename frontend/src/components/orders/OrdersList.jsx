@@ -4,6 +4,11 @@ import ShowOrderDetails from './ShowOrderDetails'
 
 const OrdersList = ({orders, title}) => {
   return (
+<<<<<<< HEAD
+=======
+    <>
+    <h1>{title}</h1>
+>>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
     <table className="table table-hover table-nowrap">
         <thead>
         <tr>
@@ -20,7 +25,13 @@ const OrdersList = ({orders, title}) => {
             ))}
         </tbody>
     </table>
+<<<<<<< HEAD
   )
+=======
+    </>
+  )
+  
+>>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
 }
 
 export default OrdersList

@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.serializers import Serializer, ModelSerializer, CharField
+from rest_framework.authtoken.models import Token
 from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
@@ -7,7 +9,22 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('pk','username', 'first_name', 'last_name', 'email', 'phone_number', 'company', 'is_customer', 'is_employee')
 
+class IssueTokenRequestSerializer(Serializer):
+    model = User
+
+    username = CharField(required=True)
+    password = CharField(required=True)
+
+
+class TokenSeriazliser(ModelSerializer):
+
+    class Meta:
+        model = Token
+        fields = ['key']
+
+
 ###############################
+
 
 class PaperSerializer(serializers.ModelSerializer):
     class Meta:

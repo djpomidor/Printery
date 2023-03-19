@@ -15,9 +15,15 @@ from printery.forms import *
 from django.forms import modelformset_factory
 
 from rest_framework.response import Response
+<<<<<<< HEAD
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+=======
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+>>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import *
 # Create your views here.
 ################################################################################
@@ -230,6 +236,10 @@ def users_detail(request, pk):
 
 
 @api_view(['GET', 'POST'])
+<<<<<<< HEAD
+=======
+@authentication_classes([TokenAuthentication])
+>>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
 # @permission_classes([IsAuthenticated])
 def orders_list (request):
     if request.method == 'GET':
