@@ -8,17 +8,6 @@ const GetOrders = () => {
 
   useEffect(()=>{
         fetch('http://localhost:8000/api/orders/')
-        .then(response => response.json())
-        .then(setOrders);
-  }, []);
-  
-  return (
-        <OrdersList orders={orders} title="Latest orders!!"/>
-=======
-  const [error, setError] = useState();
-
-  useEffect(()=>{
-        fetch('/api/orders/')
         .then(response => {
             if (response.ok) {
               return response.json()
