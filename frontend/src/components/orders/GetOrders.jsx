@@ -5,7 +5,8 @@ import {useEffect, useState, useRef} from "react";
 
 const GetOrders = () => {
   const [orders, setOrders] = useState([]);
-
+  const [error, setError] = useState();
+     
   useEffect(()=>{
         fetch('http://localhost:8000/api/orders/')
         .then(response => {
