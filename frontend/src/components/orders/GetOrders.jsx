@@ -1,14 +1,10 @@
 import React from 'react';
-<<<<<<< HEAD
-=======
 import axios from "axios";
->>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
 import OrdersList from './OrdersList';
 import {useEffect, useState, useRef} from "react";
 
 const GetOrders = () => {
   const [orders, setOrders] = useState([]);
-<<<<<<< HEAD
 
   useEffect(()=>{
         fetch('http://localhost:8000/api/orders/')
@@ -45,7 +41,6 @@ const GetOrders = () => {
         <OrdersList orders={orders} title="Latest orders!!"/>
       }
       </div>
->>>>>>> 65e9cb5465c0ee949f7aec77ee4784d4593cea6d
   );
 }
 
