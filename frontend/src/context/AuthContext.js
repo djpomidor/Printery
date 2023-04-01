@@ -38,13 +38,15 @@ export const AuthProvider = ({ children }) => {
       setAuthTokens(data);
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
-      history.push("/");
+      history.push("/user-cabinet");
     } else {
       alert("Something went wrong!");
+      console.log("1 !#!#!#____", data.detail);
     }
   };
 
   const registerUser = async (username, password, password2) => {
+    try {
     const response = await fetch("http://127.0.0.1:8000/api/register/", {
       method: "POST",
       headers: {
@@ -56,11 +58,22 @@ export const AuthProvider = ({ children }) => {
         password2
       })
     });
+    const data = await response.json();
     if (response.status === 201) {
       history.push("/login");
     } else {
       alert("Something went wrong!");
-    }
+      return data;
+      // console.log("1 !#!#!#", data.username);
+      // console.log("2 !#!#!#", data.password2);
+    }    
+
+    
+    } catch (error) {
+      console.error(error);
+    } 
+
+    
   };
 
   const logoutUser = () => {

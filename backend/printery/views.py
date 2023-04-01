@@ -22,7 +22,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import *
 
 
-# from printery.serializer import MyTokenObtainPairSerializer, RegisterSerializer
+from printery.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -211,7 +211,7 @@ def print_schedule(request):
 
 @api_view(['GET', 'POST'])
 # @authentication_classes([SessionAuthentication])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def orders_list (request):
     if request.method == 'GET':
         data = Order.objects.all()
@@ -226,17 +226,16 @@ def orders_list (request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
 
 #########################################################################
+########### Authentication
 ########################################################################
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
-
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -247,7 +246,6 @@ def getRoutes(request):
         '/api/prediction/'
     ]
     return Response(routes)
-
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])

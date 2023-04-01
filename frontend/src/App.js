@@ -9,21 +9,28 @@ import Home from "./views/homePage";
 import Login from "./views/loginPage";
 import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
+import UserCabinet from "./views/UserCabinet";
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen overflow-hidden">
         <AuthProvider>
-          <Navbar />
+          
+          {/* <div className="text-center flex flex-col min-h-screen overflow-hidden"> */}
+          
           <Switch>
+            <PrivateRoute component={UserCabinet} path="/user-cabinet" exact />
+            {/* <PrivateRoute component={Manage} path="/manage" exact /> */}
             <PrivateRoute component={ProtectedPage} path="/protected" exact />
             <Route component={Login} path="/login" />
             <Route component={Register} path="/register" />
             <Route component={Home} path="/" />
           </Switch>
+          {/* <Footer /> */}
+          
         </AuthProvider>
-        <Footer />
+        
       </div>
     </Router>
   );

@@ -3,6 +3,7 @@ import AuthContext from "../context/AuthContext";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Navbar from "../components/Navbar";
 
 import "./signin.css";
 
@@ -15,33 +16,19 @@ const LoginPage = () => {
     username.length > 0 && loginUser(username, password);
   };
 
-//   return (
-//     <section>
-//       <form onSubmit={handleSubmit}>
-//         <h1>Login </h1>
-//         <hr />
-//         <label htmlFor="username">Username</label>
-//         <input type="text" id="username" placeholder="Enter Username" />
-//         <label htmlFor="password">Password</label>
-//         <input type="password" id="password" placeholder="Enter Password" />
-//         <button type="submit">Login</button>
-//       </form>
-//     </section>
-//   );
-// };
-
-
 return (
+  <div className="text-center">
+  <Navbar props="/login"/>
   <section>
     <div className="text-center">
     <div className="form-signin w-100 m-auto">
-    <Form className=" " onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="username">
         <Form.Label>Username</Form.Label>
         <Form.Control type="text" placeholder="Enter Username"/>
-        <Form.Text className="text-muted">
+        {/* <Form.Text className="text-muted">
           We'll never share your email with anyone else.
-        </Form.Text>
+        </Form.Text> */}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="password">
@@ -55,6 +42,7 @@ return (
     </div>
     </div>
   </section>
+  </div>
 );
 };
 

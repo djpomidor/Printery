@@ -28,7 +28,7 @@ const GetOrders = () => {
       {error?
        <p>{error}</p>
       :
-        <OrdersList orders={orders} title="Latest orders!!"/>
+        <OrdersList orders={orders} title=""/>
       }
       </div>
   );

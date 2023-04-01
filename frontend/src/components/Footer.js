@@ -1,8 +1,6 @@
 const Footer = () => {
   return (
-    <div>
-      <h4>Footer</h4>
-    </div>
+    <p className="mt-5 mb-3 text-muted">© 2021–2023</p>
   );
 };
 
