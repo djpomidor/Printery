@@ -203,28 +203,6 @@ def manage(request):
 def print_schedule(request):
     return render(request, "printery/manage.html")
 
-
-##################################################################################
-##################################################################################
-#################################################################################
-
-
-@api_view(['GET', 'POST'])
-# @authentication_classes([SessionAuthentication])
-@permission_classes([AllowAny])
-def orders_list (request):
-    if request.method == 'GET':
-        data = Order.objects.all()
-        serializer = OrderSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        print('post')
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
-
 #########################################################################
 ########### Authentication
 ########################################################################
@@ -260,6 +238,24 @@ def testEndPoint(request):
     return Response({}, status.HTTP_400_BAD_REQUEST)
 
 ##################################################################################
-################################################################################
+##############  api orders  ####################################
+#################################################################################
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+# @permission_classes([AllowAny])
+def ordersView (request):
+    if request.method == 'GET':
+        print("!!!!", request.user.pk)
+        data = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
+        serializer = OrderSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        print('post')
+        serializer = OrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 

@@ -1,7 +1,12 @@
-import React from 'react'
-import ShowOrderDetails from './ShowOrderDetails'
+// import React from 'react'
+// import ShowOrderDetails from './ShowOrderDetails'
 
 const Order = (props) => {
+  const ShowOrderDetails = (props) => {
+    return (
+      console.log("Order:", props)
+    )
+  }
   return (
     <tr id={props.number} onClick={()=>ShowOrderDetails(props)}>
     <th>{props.number}</th>

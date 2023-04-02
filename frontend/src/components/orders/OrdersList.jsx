@@ -1,6 +1,5 @@
 import React from 'react'
 import Order from './Order'
-import ShowOrderDetails from './ShowOrderDetails'
 
 const OrdersList = ({orders, title}) => {
   return (
