@@ -1,22 +1,42 @@
-import React from 'react';
+import React from "react";
+import "./index.css";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./utils/PrivateRoute";
+import { AuthProvider } from "./context/AuthContext";
+import Home from "./views/homePage";
+import Login from "./views/loginPage";
+import Register from "./views/registerPage";
+import ProtectedPage from "./views/ProtectedPage";
+import UserCabinet from "./views/UserCabinet";
+import CreateOrder from "./components/orders/CreateOrder";
 
-import { Search, UserMenu, VerticalMenu } from './components';
-import { Header, Main, RightPanel, Sidebar, TopNav } from './containers';
-
-import './css/main.css';
-import './css/utilities.css';
-
-const App = () => (
-  <div className="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
-      <Sidebar />
-      <div className="flex-lg-1 h-screen overflow-y-lg-auto">
-        <TopNav />
-        <Header />
-        <main className="py-6 bg-surface-secondary">
-          <Main />
-        </main>
+function App() {
+  return (
+    <Router>
+      <div className="flex flex-col min-h-screen overflow-hidden">
+        <AuthProvider>
+          
+          {/* <div className="text-center flex flex-col min-h-screen overflow-hidden"> */}
+          
+          <Switch>
+            <PrivateRoute component={UserCabinet} path="/user-cabinet" exact />
+            <PrivateRoute component={CreateOrder} path="/create-order" exact />
+            {/* <PrivateRoute component={Manage} path="/manage" exact /> */}
+            <PrivateRoute component={ProtectedPage} path="/protected" exact />
+            <Route component={Login} path="/login" />
+            <Route component={Register} path="/register" />
+            <Route component={Home} path="/" />
+            
+          </Switch>
+          {/* <Footer /> */}
+          
+        </AuthProvider>
+        
       </div>
-  </div>
-);
+    </Router>
+  );
+}
 
 export default App;

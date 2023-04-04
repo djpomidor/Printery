@@ -1,19 +1,25 @@
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 from rest_framework import serializers
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
 from rest_framework.authtoken.models import Token
 from .models import *
 
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-class UserSerializer(serializers.ModelSerializer):
-    company = serializers.StringRelatedField(read_only=True)
-    class Meta:
-        model = User
-        fields = ('pk','username', 'first_name', 'last_name', 'email', 'phone_number', 'company', 'is_customer', 'is_employee')
+
+
+# class UserSerializer(serializers.ModelSerializer):
+#     company = serializers.StringRelatedField(read_only=True)
+#     class Meta:
+#         model = User
+#         fields = ('pk','username', 'first_name', 'last_name', 'email', 'phone_number', 'company', 'is_customer', 'is_employee')
 
 
 class PaperSerializer(serializers.ModelSerializer):

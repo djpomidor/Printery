@@ -18,9 +18,18 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
-from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import *
+
+
+from printery.serializers import MyTokenObtainPairSerializer, RegisterSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import generics
+from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 # Create your views here.
 ################################################################################
 def index(request):
@@ -194,18 +203,51 @@ def manage(request):
 def print_schedule(request):
     return render(request, "printery/manage.html")
 
+#########################################################################
+########### Authentication
+########################################################################
 
-##################################################################################
-##################################################################################
-#################################################################################
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+@api_view(['GET'])
+def getRoutes(request):
+    routes = [
+        '/api/token/',
+        '/api/register/',
+        '/api/token/refresh/',
+        '/api/prediction/'
+    ]
+    return Response(routes)
 
 @api_view(['GET', 'POST'])
-@authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
-def orders_list (request):
+def testEndPoint(request):
     if request.method == 'GET':
-        data = Order.objects.all()
+        data = f"Congratulation {request.user}, your API just responded to GET request"
+        return Response({'response': data}, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        text = request.POST.get('text')
+        data = f'Congratulation your API just responded to POST request with text: {text}'
+        return Response({'response': data}, status=status.HTTP_200_OK)
+    return Response({}, status.HTTP_400_BAD_REQUEST)
+
+##################################################################################
+##############  api orders  ####################################
+#################################################################################
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+# @permission_classes([AllowAny])
+def ordersView (request):
+    if request.method == 'GET':
+        print("!!!!", request.user.pk)
+        data = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
         serializer = OrderSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -214,8 +256,6 @@ def orders_list (request):
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)            
-
-
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 

@@ -13,7 +13,9 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('test/', views.testEndPoint, name='test'),
-    path('', views.getRoutes)
+    path('', views.getRoutes),
+    path("orders/<int:user_id>", views.ordersView, name="orders_list"),
+    path("orders/all", views.ordersView, name="orders-list")
 ]
 
 # urlpatterns = [
