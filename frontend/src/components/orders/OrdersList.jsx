@@ -1,17 +1,18 @@
 import React from 'react'
 import Order from './Order'
+import Table from 'react-bootstrap/Table';
 
 const OrdersList = ({orders, title}) => {
   return (
     <>
-    <h1>{title}</h1>
-    <table className="table table-hover table-nowrap">
+    <Table striped bordered hover >
         <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Title</th>
           <th scope="col">Size</th>
           <th scope="col">Circulation</th>
+          <th scope="col">Delivery Date</th>
           <th scope="col">Due Date</th>
         </tr>
         </thead>
@@ -20,7 +21,7 @@ const OrdersList = ({orders, title}) => {
                 <Order key={i} {...order}/>
             ))}
         </tbody>
-    </table>
+    </Table>
     </>
   )
   

@@ -10,6 +10,7 @@ import Login from "./views/loginPage";
 import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
 import UserCabinet from "./views/UserCabinet";
+import CreateOrder from "./components/orders/CreateOrder";
 
 function App() {
   return (
@@ -21,11 +22,13 @@ function App() {
           
           <Switch>
             <PrivateRoute component={UserCabinet} path="/user-cabinet" exact />
+            <PrivateRoute component={CreateOrder} path="/create-order" exact />
             {/* <PrivateRoute component={Manage} path="/manage" exact /> */}
             <PrivateRoute component={ProtectedPage} path="/protected" exact />
             <Route component={Login} path="/login" />
             <Route component={Register} path="/register" />
             <Route component={Home} path="/" />
+            
           </Switch>
           {/* <Footer /> */}
           

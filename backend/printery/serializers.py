@@ -27,6 +27,7 @@ class PaperSerializer(serializers.ModelSerializer):
         model=Paper
         fields = ["name", "type","density","width","height", "manufacturer"]
 
+
 class PartSerializer(serializers.ModelSerializer):
     paper = serializers.StringRelatedField(read_only=True)
     # paper = PaperSerializer(many=True, read_only=True)  # paper object
@@ -34,12 +35,16 @@ class PartSerializer(serializers.ModelSerializer):
         model = Part
         fields = ['part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']
 
+
 class OrderSerializer(serializers.ModelSerializer):
     parts = PartSerializer(many=True, read_only=True)
-    
+    nameOfOrder = serializers.CharField(source='name')
+    typeOfOrder = serializers.CharField(source='type')
+    owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+
     class Meta:
         model = Order 
-        fields = ['pk','number', 'name', 'owner', 'type', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
+        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
 
 
 ########################################################################
@@ -56,6 +61,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return token
 
+##############################################################
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -82,3 +88,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+#########################################
+
+class CreatOrderSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Order
+        fields = ('name', 'type', 'circulation', 'binding', 'width', 'height', 'due_date', 'delivery_date')       
+
+    # def create(self, validated_data):
+    #     order = Order.objects.create(        
+    #         name
+    #         owner
+    #         type
+    #         circulation
+    #         binding
+    #         width
+    #         height
+    #         created
+    #         due_date
+    #         delivery_date
+    #     )    

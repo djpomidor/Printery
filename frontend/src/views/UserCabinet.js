@@ -29,10 +29,10 @@ function UserCabinet() {
       <Sidebar />
       <div className="flex-lg-1 h-screen overflow-y-lg-auto">
         <TopNav />
-        <Header />
-        <main className="py-6 bg-surface-secondary">
+        {/* <Header /> */}
+        {/* <main className="py-6 bg-surface-secondary"> */}
           <Main />
-        </main>
+        {/* </main> */}
         {/* <p>{res}</p> */}
       </div>
   </div>

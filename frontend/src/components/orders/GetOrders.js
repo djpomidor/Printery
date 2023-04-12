@@ -13,7 +13,7 @@ function GetOrders() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/orders/all");
+        const response = await api.get("/orders/");
         console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
@@ -44,13 +44,13 @@ function GetOrders() {
   //     }, []);
   
   return (
-      <div>
+      <>
       {res?
        <p>{res}</p>
       :
         <OrdersList orders={orders} title=""/>
       }
-      </div>
+      </>
   );
 }
 
