@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import RightPanel from '../rightpanel/RightPanel'
 import GetOrders from '../../components/orders/GetOrders'
-import { AuthProvider } from "../../context/AuthContext";
-
-import Header from './Header';
 
 const Main = () => {
   return (
