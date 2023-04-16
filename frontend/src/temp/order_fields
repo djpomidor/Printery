@@ -1,0 +1,43 @@
+const [number, setNumber] = useState("");
+const [nameOfOrder, setNameOfOrder] = useState("");
+const [owner, setOwner] = useState("");
+const [type, setType] = useState("");
+const [circulation, setCirculation] = useState("");
+const [binding, setBinding] = useState("");
+const [width, setWidth] = useState("");
+const [height, setHeight] = useState("");
+const [created, setCreated] = useState("");
+const [due_date, setDue_date] = useState("");
+const [delivery_date, setDelivery_date] = useState("");
+
+number, name, owner, type, circulation, binding, width, height, block, cover, insert, created, due_date, delivery_date
+
+number
+nameOfOrder
+owner
+type
+circulation
+binding
+width
+height
+block
+cover
+insert
+created
+due_date
+delivery_date
+
+number,
+nameOfOrder,
+owner,
+type
+circulation,
+binding,
+width,
+height,
+block,
+cover,
+insert
+created,
+due_date,
+delivery_date,

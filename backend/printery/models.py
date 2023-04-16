@@ -120,8 +120,10 @@ class Order(models.Model):
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, blank=True)
-    due_date = models.DateTimeField(null=True, blank=True)
     delivery_date = models.DateTimeField(null=True, blank=True)
+    submiting_files = models.DateTimeField(null=True, blank=True)
+    due_date = models.DateTimeField(null=True, blank=True)
+
 
 #    def __str__(self):
 #        return f"{self.number} {self.name}"

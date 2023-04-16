@@ -67,13 +67,9 @@ export const AuthProvider = ({ children }) => {
       // console.log("1 !#!#!#", data.username);
       // console.log("2 !#!#!#", data.password2);
     }    
-
-    
     } catch (error) {
       console.error(error);
     } 
-
-    
   };
 
   const logoutUser = () => {

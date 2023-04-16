@@ -4,32 +4,101 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
+import { useHistory } from "react-router-dom";
 
-import { Formik } from 'formik';
+
+import { useState, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import OrderParts from './OrderParts';
+
+import { useFormikContext, Formik } from 'formik';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  username: yup.string().required(),
-  city: yup.string().required(),
-  state: yup.string().required(),
-  zip: yup.string().required(),
+  nameOfOrder: yup.string(),
+  typeOfOrder: yup.string().required(),
+  circulation: yup.string().required(),
+  binding: yup.string().required(),
+  width: yup.string(),
+  height: yup.string(),
+  pages: yup.string().required(),
+  color: yup.string().required(),
+  paper: yup.string().required(),
   terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
 
-function CreateOrder() {
+const CreateOrder = (props) => {
+  const { user } = useContext(AuthContext);
+  console.log("user.pk---", user.user_id);
+  const [validated, setValidated] = useState(false);
+  const [errororder, setErrorOrder] = useState();
+  const [errors, setErrors] = useState();
+
+  const addOrder = async (props, user) => {
+    const { number, nameOfOrder, typeOfOrder, circulation, binding, width, pages, color, paper, height, created, due_date, delivery_date} = props;
+    const owner = [user.user_id]
+    const parts = [props.pages, props.color, props.paper]
+    try {
+    console.log("props--", props)
+    console.log("pkk--", props)
+    const response = await fetch("http://127.0.0.1:8000/api/orders/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        nameOfOrder,
+        typeOfOrder,
+        circulation,
+        binding,
+        width,
+        height,
+        owner,
+        parts,
+        // created,
+        // due_date,
+        // delivery_date
+      })
+    });
+    const data = await response.json();
+    if (response.status === 201) {
+      alert("All good! status: 201");
+      console.log("___--", data);
+      // window.location.reload();
+    } else {
+      alert("Something went wrong, response.status:!", response.status);
+      return data;
+    }    
+    } catch (error) {
+      console.error(error);
+    } 
+  };
+  
+  const onSubmit = async values => {
+    const newOrder = await addOrder(values, user);
+    console.log("___--___", newOrder)
+    setValidated(true);
+    setErrors(newOrder)
+  };
+
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={console.log}
+      onSubmit={onSubmit}
       initialValues={{
-        firstName: 'Mark',
-        lastName: 'Otto',
-        username: '',
-        city: '',
-        state: '',
-        zip: '',
+        nameOfOrder: '',
+        typeOfOrder: '',
+        circulation: '',
+        binding: '',
+        width: '',
+        height: '',
+        pages: '',
+        color: '',
+        paper: '',
+        parts: '',
+        created: '',
+        due_date: '',
+        delivery_date: '',
         terms: false,
       }}
     >
@@ -45,93 +114,121 @@ function CreateOrder() {
         <Form noValidate onSubmit={handleSubmit}>
           <Row className="mb-3">
             <Form.Group as={Col} md="4" controlId="validationFormik01">
-              <Form.Label>First name</Form.Label>
+              <Form.Label>Order name</Form.Label>
               <Form.Control
                 type="text"
-                name="firstName"
-                value={values.firstName}
+                name="nameOfOrder"
+                placeholder="Short name of the product"
+                value={values.nameOfOrder}
                 onChange={handleChange}
-                isValid={touched.firstName && !errors.firstName}
+                isValid={touched.nameOfOrder && !errors.nameOfOrder}
+                isInvalid={errors.nameOfOrder}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
+
             <Form.Group as={Col} md="4" controlId="validationFormik02">
-              <Form.Label>Last name</Form.Label>
-              <Form.Control
+              <Form.Label>Type</Form.Label>
+              <Form.Select
                 type="text"
-                name="lastName"
-                value={values.lastName}
+                name="typeOfOrder"
+                value={values.typeOfOrder}
                 onChange={handleChange}
-                isValid={touched.lastName && !errors.lastName}
-              />
-
+                isInvalid={!!errors.typeOfOrder}
+                isValid={touched.typeOfOrder && !errors.typeOfOrder}
+              >
+                <option value="">Select...</option>
+                <option value="BK" >Book</option>
+                <option value="CL">Calendar</option>
+                <option value="MZ">Magazine</option>
+                <option value="NP">Newspaper</option>
+                <option value="FL">Flyers</option>
+              </Form.Select>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="4" controlId="validationFormikUsername">
-              <Form.Label>Username</Form.Label>
-              <InputGroup hasValidation>
-                <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="Username"
-                  aria-describedby="inputGroupPrepend"
-                  name="username"
-                  value={values.username}
-                  onChange={handleChange}
-                  isInvalid={!!errors.username}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.username}
-                </Form.Control.Feedback>
-              </InputGroup>
+          
+            <Form.Group as={Col} md="4" controlId="validationFormik03">
+              <Form.Label>Circulation</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Circulation"
+                name="circulation"
+                value={values.circulation}
+                onChange={handleChange}
+                isInvalid={!!errors.circulation}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.circulation}
+              </Form.Control.Feedback>
             </Form.Group>
-          </Row>
+          </Row>  
+
           <Row className="mb-3">
-            <Form.Group as={Col} md="6" controlId="validationFormik03">
-              <Form.Label>City</Form.Label>
-              <Form.Control
+            <Form.Group as={Col} md="4" controlId="validationFormik04">
+              <Form.Label>Binding</Form.Label>
+              <Form.Select
                 type="text"
-                placeholder="City"
-                name="city"
-                value={values.city}
+                name="binding"
+                placeholder="Binding style"
+                value={values.binding}
                 onChange={handleChange}
-                isInvalid={!!errors.city}
-              />
-
+                isValid={touched.binding && !errors.binding}
+                isInvalid={!!errors.binding}
+              >
+                <option value="">Select...</option>
+                <option value="GLU">Glue</option>
+                <option value="STA">Staple</option>
+                <option value="HAR">Hardcover</option>
+                <option value="FOL">Folding</option>
+              </Form.Select>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type="invalid">
-                {errors.city}
+                {errors.binding}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationFormik04">
-              <Form.Label>State</Form.Label>
+
+            <Form.Group as={Col} md="2" controlId="validationFormik05">
+              <Form.Label>Width</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="State"
-                name="state"
-                value={values.state}
+                type="number"
+                placeholder="Width"
+                name="width"
+                value={values.width}
                 onChange={handleChange}
-                isInvalid={!!errors.state}
+                isInvalid={!!errors.width}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.state}
+                {errors.width}
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationFormik05">
-              <Form.Label>Zip</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Zip"
-                name="zip"
-                value={values.zip}
-                onChange={handleChange}
-                isInvalid={!!errors.zip}
-              />
 
+            <div className="text-center col-sm-auto gy-10 p-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </div>
+
+            <Form.Group as={Col} md="2" controlId="validationFormik06">
+              <Form.Label>Height</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Height"
+                name="height"
+                value={values.height}
+                onChange={handleChange}
+                isInvalid={!!errors.height}
+              />
               <Form.Control.Feedback type="invalid">
-                {errors.zip}
+                {errors.height}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
+
+          <Row className="mb-3">
+            <OrderParts errors={errors} values={values} handleChange={handleChange}></OrderParts>
+          </Row>
+          
           <Form.Group className="mb-3">
             <Form.Check
               required

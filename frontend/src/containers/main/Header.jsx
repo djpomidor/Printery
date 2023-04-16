@@ -1,6 +1,6 @@
-import React from 'react'
+// import React from 'react'
 
-const Header = () => {
+const Header = ({ setComponent }) => {
   return (
     <header>
     <div className="container-fluid">
@@ -14,16 +14,18 @@ const Header = () => {
                  <a href="#modalExport" className="btn btn-sm btn-neutral border-base" data-bs-toggle="modal">
                      <span className="pe-2"><i className="bi bi-people-fill"></i> </span><span>Share</span>
                  </a>
-                 <a href="#offcanvasCreate" className="btn btn-sm btn-primary" data-bs-toggle="offcanvas">
+                 {/* <a href="#offcanvasCreate" className="btn btn-sm btn-primary" data-bs-toggle="offcanvas">
                      <span className="pe-2"><i className="bi bi-plus-square-dotted"></i> </span><span>Create</span>
-                 </a>
+                 </a> */}
+                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("OrdersTable")}>My Orders</button>
+                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Create</button>
              </div>
            </div>
           </div>
           <ul className="nav nav-tabs overflow-x border-0">
-              <li className="nav-item"><a href="#" className="nav-link active">View all</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Most recent</a></li>
-              <li className="nav-item"><a href="#" className="nav-link">Popular</a></li>
+              <li className="nav-item"><a href="http://localhost:3000/user-cabinet" className="nav-link active">View all</a></li>
+              <li className="nav-item"><a href="http://localhost:3000/user-cabinet" className="nav-link">Most recent</a></li>
+              <li className="nav-item"><a href="http://localhost:3000/user-cabinet" className="nav-link">Popular</a></li>
           </ul>
       </div>
     </div>
