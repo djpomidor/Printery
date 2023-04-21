@@ -2,7 +2,7 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-// import handleChange from './CreateOrder.js'
+import handleChange from './CreateOrder.js'
 
 import * as yup from 'yup';
 import { Formik } from 'formik';
@@ -10,24 +10,36 @@ import { Formik } from 'formik';
 import { useContext } from 'react';
 import { CreateOrder } from './CreateOrder.js';
 
-const OrderParts = (values, errors, handleChange) => {
-  console.log('handleChange!!', handleChange);
-  console.log('values!!', values);
+const OrderParts = (props) => {
   return (
     <Card>
     <Card.Body>
-      <Card.Title>Card Title</Card.Title>
+      <Card.Title>{props.title}</Card.Title>
+      
+      <Form.Group className="mb-3">
+        <Form.Control 
+          onChange={props.handleChange}
+          type="text"
+          name="part_name"
+          value={props.part_name}
+          defaultValue={props.part_name}
+          readOnly
+          // isValid='True'
+          // disabled 
+          />
+      </Form.Group>
+        
         <Row className="mb-3">
             <Form.Group as={Col} md="4" controlId="validationFormik01">
               <Form.Label>Number of pages</Form.Label>
               <Form.Control
-                type="text"
-                name="number"
-                placeholder="Short name of the product"
-                value={values.number}
-                onChange={handleChange}
-                // isValid={touched.number && !errors.number}
-                isInvalid={errors.number}
+                type="number"
+                name="pages"
+                placeholder="Number of pages"
+                value={props.values.pages}
+                onChange={props.handleChange}
+                // isValid={props.touched.pages && !props.errors.pages}
+                isInvalid={props.errors.pages}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
@@ -37,9 +49,9 @@ const OrderParts = (values, errors, handleChange) => {
               <Form.Select
                 type="text"
                 name="color"
-                value={values.color}
-                onChange={handleChange}
-                isInvalid={!!errors.color}
+                value={props.values.color}
+                onChange={props.handleChange}
+                isInvalid={!!props.errors.color}
                 // isValid={touched.color && !errors.color}
               >
                 <option value="">Select...</option>
@@ -48,7 +60,7 @@ const OrderParts = (values, errors, handleChange) => {
                 <option value='1_1'>1(Black)+1(Black)</option>
               </Form.Select>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{props.errors.circulation}</Form.Control.Feedback>
             </Form.Group>
           
             <Form.Group as={Col} md="4" controlId="validationFormik03">
@@ -56,9 +68,9 @@ const OrderParts = (values, errors, handleChange) => {
               <Form.Select
                 type="text"
                 name="paper"
-                value={values.paper}
-                onChange={handleChange}
-                isInvalid={!!errors.paper}
+                value={props.values.paper}
+                onChange={props.handleChange}
+                isInvalid={!!props.errors.paper}
                 // isValid={touched.paper && !errors.paper}
               >
                 <option value="">Select...</option>
@@ -69,7 +81,7 @@ const OrderParts = (values, errors, handleChange) => {
                 <option value="FL">Paper5</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">
-                {errors.circulation}
+                {props.errors.circulation}
               </Form.Control.Feedback>
             </Form.Group>
           </Row> 

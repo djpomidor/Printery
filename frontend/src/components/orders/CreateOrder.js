@@ -29,18 +29,17 @@ const schema = yup.object().shape({
 
 const CreateOrder = (props) => {
   const { user } = useContext(AuthContext);
-  console.log("user.pk---", user.user_id);
+  // console.log("user.pk---", user.user_id);
   const [validated, setValidated] = useState(false);
   const [errororder, setErrorOrder] = useState();
   const [errors, setErrors] = useState();
 
   const addOrder = async (props, user) => {
-    const { number, nameOfOrder, typeOfOrder, circulation, binding, width, pages, color, paper, height, created, due_date, delivery_date} = props;
+    const { number, nameOfOrder, typeOfOrder, circulation, binding, width, height, order, part_name, pages, paper, color, laminate, uflak, created, due_date, delivery_date} = props;
     const owner = [user.user_id]
-    const parts = [props.pages, props.color, props.paper]
+    // const part = {pages, color, paper}
     try {
     console.log("props--", props)
-    console.log("pkk--", props)
     const response = await fetch("http://127.0.0.1:8000/api/orders/", {
       method: "POST",
       headers: {
@@ -54,7 +53,7 @@ const CreateOrder = (props) => {
         width,
         height,
         owner,
-        parts,
+        parts:[{order, part_name, pages, paper, color, laminate, uflak }],
         // created,
         // due_date,
         // delivery_date
@@ -81,6 +80,9 @@ const CreateOrder = (props) => {
     setErrors(newOrder)
   };
 
+  // const parts = ['Block','Cover','Insert']
+  const name_of_parts = [['Block','BLO'], ['Cover', 'COV'], ['insert', 'INS']]
+
   return (
     <Formik
       validationSchema={schema}
@@ -96,6 +98,7 @@ const CreateOrder = (props) => {
         color: '',
         paper: '',
         parts: '',
+        // part_name: '',
         created: '',
         due_date: '',
         delivery_date: '',
@@ -225,10 +228,12 @@ const CreateOrder = (props) => {
             </Form.Group>
           </Row>
 
-          <Row className="mb-3">
-            <OrderParts errors={errors} values={values} handleChange={handleChange}></OrderParts>
-          </Row>
-          
+          {  name_of_parts.map((part, i) => (
+            <Row className="mb-3">
+              <OrderParts key={i} title={part[0]} part_name={part[1]} errors={errors} values={values} handleChange={handleChange}></OrderParts>
+            </Row>
+          ))}
+
           <Form.Group className="mb-3">
             <Form.Check
               required

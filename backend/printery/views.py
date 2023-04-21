@@ -249,12 +249,10 @@ def testEndPoint(request):
 # @permission_classes([AllowAny])
 def ordersView (request):
     if request.method == 'GET':
-        print("!!!!", request.user.pk)
         data = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
         serializer = OrderSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        print('!!!!!!post')
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
