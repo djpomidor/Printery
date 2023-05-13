@@ -15,7 +15,7 @@ import CreateOrder from "./components/orders/CreateOrder";
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen overflow-hidden">
+      <div className="flex flex-col min-h-screen">
         <AuthProvider>
           
           {/* <div className="text-center flex flex-col min-h-screen overflow-hidden"> */}

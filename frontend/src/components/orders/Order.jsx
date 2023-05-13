@@ -24,12 +24,6 @@ const Part = (part) => {
 
 function Order(props) {
   const [open, setOpen] = useState(false);
-
-  // const ShowOrderDetails = (props) => {
-  //   return (
-  //     console.log("Order:", props)
-  //   )
-  // }
   return (
     <>
     <tr id={props.number} 

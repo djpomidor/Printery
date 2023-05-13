@@ -15,11 +15,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     company = serializers.StringRelatedField(read_only=True)
-#     class Meta:
-#         model = User
-#         fields = ('pk','username', 'first_name', 'last_name', 'email', 'phone_number', 'company', 'is_customer', 'is_employee')
+
 
 
 class PaperSerializer(serializers.ModelSerializer):
@@ -29,15 +25,26 @@ class PaperSerializer(serializers.ModelSerializer):
 
 
 class PartSerializer(serializers.ModelSerializer):
+    pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    order = serializers.PrimaryKeyRelatedField(read_only=True)
     paper = serializers.StringRelatedField(read_only=True)
     # paper = PaperSerializer(many=True, read_only=True)  # paper object
+    def validate_pages(self, value):
+        if not value:
+            return 0
+        try:
+            return int(value)
+        except ValueError:
+            raise serializers.ValidationError('You must supply an integer')
+    
     class Meta:
         model = Part
-        fields = ['part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']
+        # fields = ['order', 'part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    parts = PartSerializer(many=True, read_only=True)
+    parts = PartSerializer(many=True)
     nameOfOrder = serializers.CharField(source='name')
     typeOfOrder = serializers.CharField(source='type')
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
@@ -46,6 +53,25 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order 
         fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
 
+    def create(self, validated_data):
+        print("!!!_validated_data_", validated_data)
+        owners = validated_data.pop('owner')
+        parts_data = validated_data.pop('parts')
+        order = Order.objects.create(**validated_data)
+        order.owner.set(owners)
+        print("order_", order)
+        for part_data in parts_data:
+            Part.objects.create(order=order, **part_data)
+        return order
+        
+        
+
+class UserSerializer(serializers.ModelSerializer):
+    # company = serializers.StringRelatedField(read_only=True)
+    order_owners = OrderSerializer(many=True, read_only=True)
+    class Meta:
+        model = User
+        fields = ('pk','username', 'first_name', 'last_name', 'email', 'phone_number', 'company', 'is_customer', 'is_employee', 'order_owners')        
 
 ########################################################################
 

@@ -26,23 +26,7 @@ function GetOrders() {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(()=>{
-  //       fetch('http://localhost:8000/api/orders/')
-  //       .then(response => {
-  //           if (response.ok) {
-  //             return response.json()
-  //           } else {
-  //             throw Error(`Something went wrong: code ${response.status}`)
-  //           }
-  //         })
-  //       .then(setOrders)
-  //       .catch(error => {
-  //           console.log('Aaalarmee!!!',error)
-  //           setError('Ошибка, подробности в консоли')
-  //         })
-  //     }, []);
-  
+ 
   return (
       <>
       {res?
