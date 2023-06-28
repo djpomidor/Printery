@@ -25,9 +25,18 @@ class PaperSerializer(serializers.ModelSerializer):
 
 
 class PartSerializer(serializers.ModelSerializer):
+    pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
     paper = serializers.StringRelatedField(read_only=True)
     # paper = PaperSerializer(many=True, read_only=True)  # paper object
+    def validate_pages(self, value):
+        if not value:
+            return 0
+        try:
+            return int(value)
+        except ValueError:
+            raise serializers.ValidationError('You must supply an integer')
+    
     class Meta:
         model = Part
         # fields = ['order', 'part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']

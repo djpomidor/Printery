@@ -91,7 +91,7 @@ class Order(models.Model):
 
     number = models.IntegerField(unique=True, default=counter)
     name = models.CharField(blank=True, max_length=16)
-    owner = models.ManyToManyField('User', blank=True, related_name="order_owners")
+    owner = models.ManyToManyField('User', blank=False, related_name="order_owners")
 
     BOOK = 'BK'
     CALENDAR = 'CL'
@@ -169,7 +169,7 @@ class Part(models.Model):
         ('INS', 'Insert'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
-    pages = models.IntegerField()
+    pages = models.IntegerField(blank=True, null=True)
     paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
