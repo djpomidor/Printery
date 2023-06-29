@@ -30,6 +30,9 @@ function App() {
             {/* <PrivateRoute component={CreateOrder} path="/create-order" exact /> */}
             <PrivateRoute component={CtpPage} path="/ctp" exact />
             {/* <PrivateRoute component={ProtectedPage} path="/protected" exact /> */}
+            <PrivateRoute component={CreateOrder} path="/create-order" exact />
+            {/* <PrivateRoute component={Manage} path="/manage" exact /> */}
+            <PrivateRoute component={ProtectedPage} path="/protected" exact />
             <Route component={Login} path="/login" />
             <Route component={Register} path="/register" />
             <Route component={Home} path="/" />
