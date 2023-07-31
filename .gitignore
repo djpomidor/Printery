@@ -2,4 +2,6 @@ finalproject/__pycache__/
 printery/__pycache__/
 printery/migrations/__pycache__/
 backend/env
+backend/_venv
 frontend/node_modules/
+backend/finalproject/static/
