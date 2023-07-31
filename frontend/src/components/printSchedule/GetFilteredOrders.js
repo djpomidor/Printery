@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
-import OrdersList from './OrdersList';
+import OrdersList from '../orders/OrdersList';
 
-function GetOrders() {
+function GetFilteredOrders() {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
 
@@ -12,14 +12,15 @@ function GetOrders() {
      
   useEffect(() => {
     const fetchData = async () => {
+      const currentDate = "2023-07-27 15:33:28.146113";
       try {
-        const response = await api.get("/orders/");
-        // console.log('response!!!', response.data);
+        const response = await api.get("/orders/last-month/" + currentDate);
+        console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
         
       } catch {
-        console.log('Aaalarmee!!!')
+        console.log('Something went wrong')
         setRes("Something went wrong");
       }
     };
@@ -28,6 +29,13 @@ function GetOrders() {
   }, []);
  
   return (
+    // <>
+    // <div>
+    //   {orders.map((order, i)=> (
+    //     <Order key={i} {...order} />
+    //   ))}
+    // </div>
+    // </>
       <>
       {res?
        <p>{res}</p>
@@ -38,4 +46,4 @@ function GetOrders() {
   );
 }
 
-export default GetOrders
+export default GetFilteredOrders

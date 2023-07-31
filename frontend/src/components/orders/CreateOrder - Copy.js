@@ -44,6 +44,7 @@ const CreateOrder = () => {
   const addOrder = async (values, user) => {
     // const { number, nameOfOrder, typeOfOrder, circulation, binding, width, height, order, part_name, pages, paper, color, laminate, uflak, created, due_date, delivery_date} = props;
     values.owner = [user.user_id]
+<<<<<<< HEAD
 
   //   values.parts.map((part, index) => {
   //     // console.log("values--!", part);
@@ -58,6 +59,11 @@ const CreateOrder = () => {
     
 
     try {
+=======
+    // values.parts.map()
+    try {
+    console.log("values--", values.parts[0].pages)
+>>>>>>> 1960293e068b7aeb85fe44af27271754837b9e82
     const response = await fetch("http://127.0.0.1:8000/api/orders/", {
       method: "POST",
       headers: {

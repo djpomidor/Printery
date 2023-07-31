@@ -267,13 +267,12 @@ class OrderList(APIView):
 
     def get(self, request, format=None):
         orders = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
+        print("____", )
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
         serializer = OrderSerializer(data=request.data)
-        print('')
-        print('serializer!!!!!!!!!!!!!!!!!!!!', serializer)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -287,7 +286,7 @@ class OrderDetail(APIView):
     def get_object(self, pk):
         try:
             return Order.objects.get(pk=pk)
-        except Order.DoesNotExist:
+        except Order.DoesNotExist: 
             raise Http404
 
     def get(self, request, pk, format=None):
@@ -307,3 +306,12 @@ class OrderDetail(APIView):
         order = self.get_object(pk)
         order.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class OrdersByDate(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request, created):
+        orders = Order.objects.filter(created__range=["2023-04-01", created]).order_by("-created").all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)

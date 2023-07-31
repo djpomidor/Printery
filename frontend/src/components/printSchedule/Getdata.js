@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
-import OrdersList from './OrdersList';
-
-function GetOrders() {
+const Getdata = () => {
+    console.log('Aaalarmee!!!!!!!!!!')
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
 
@@ -12,9 +11,10 @@ function GetOrders() {
      
   useEffect(() => {
     const fetchData = async () => {
+      const currentDate = "2023-07-27 15:33:28.146113";
       try {
-        const response = await api.get("/orders/");
-        // console.log('response!!!', response.data);
+        const response = await api.get("/orders/last-month/" + currentDate);
+        console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
         
@@ -27,15 +27,7 @@ function GetOrders() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
  
-  return (
-      <>
-      {res?
-       <p>{res}</p>
-      :
-        <OrdersList orders={orders} title=""/>
-      }
-      </>
-  );
-}
+  return orders;
+};
 
-export default GetOrders
+export default Getdata

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import avatar from '../../assets/avatar_saul.jpg';
+import logo_cmyk from '../../assets/logo-cmyk.png'
 
 const Sidebar = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -11,6 +12,7 @@ const Sidebar = () => {
             <span className="navbar-toggler-icon"></span>
         </button>
         <a className="navbar-brand d-inline-block py-lg-2 mb-lg-5 px-lg-6 me-0" href="/">
+        <img alt="..." src={ logo_cmyk } className=''/> 
           <span className="fs-5 fw-semibold">Printery</span></a>
         <div className="navbar-user d-lg-none">
             <div className="dropdown">

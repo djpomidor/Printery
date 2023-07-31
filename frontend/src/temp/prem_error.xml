@@ -1,0 +1,42 @@
+  <?xml version="1.0" encoding="UTF-8" ?> 
+- <ntf:NOTIFICATIONS xmlns:ntf="flng_notification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="taskv1" xmlns:bgt="xmlbgtypesv1" xmlns:eg="http://www.esko-graphics.com/EGschema1_0" version="1" xsi:schemaLocation="flng_notification xmlnotifv1.xsd">
+- <EVENT>
+- <TASK>
+  <TASKNAME>PITSTOPTASK</TASKNAME> 
+  <TICKETNAME Modified="maybe">PITSTOPTASK/Default</TICKETNAME> 
+  <TICKETWFLAB>Preflight with PitStop</TICKETWFLAB> 
+  <OPERATOR>adm@ae</OPERATOR> 
+  <STARTED>2023-02-16T12:53:46.92Z</STARTED> 
+  <ENDED>2023-02-16T12:53:53.16Z</ENDED> 
+  <SERVER>ae</SERVER> 
+  <STATUS>OK,Warning</STATUS> 
+  <WORKFLOWSTATUS>OK,Warning</WORKFLOWSTATUS> 
+  <PRIORITY>High</PRIORITY> 
+  <JOBFOLDERUNC>\\ae\JobContainer_D\Hot_Folder_PitStop_v5\tmp</JOBFOLDERUNC> 
+  <WFID>20230216155346806903bfe0e-49cb-4a95-93c3-031b6c2172c6</WFID> 
+  <SHORTID>735603</SHORTID> 
+- <INPUT>
+  <INPUTUNC>\\ae\JobContainer_D\Hot_Folder_PitStop_v5\tmp\0213_107LPI_171.pdf</INPUTUNC> 
+  </INPUT>
+- <OUTPUT>
+  <OUTPUTUNC>\\ae\JobContainer_D\Hot_Folder_PitStop_v5\tmp\0213_107LPI_171.pdf</OUTPUTUNC> 
+  </OUTPUT>
+- <REPORT>
+  <REPORTUNC>\\pp-ftp\ftp\lesprominform\0213\Reports\107LPI_171_report.pdf</REPORTUNC> 
+  <REPORTUNC>\\pp-ftp\ftp\lesprominform\0213\Reports\107LPI_171_report.xml</REPORTUNC> 
+  </REPORT>
+- <MESSAGES>
+  <COMMENT Type="INFO">Input file: file://ae/JobContainer_D/Hot_Folder_PitStop_v5/tmp/0213_107LPI_171.pdf</COMMENT> 
+  <COMMENT Type="INFO">PitStopTask.Message.NrCritialFailures</COMMENT> 
+  <COMMENT Type="INFO">Number of errors: 0</COMMENT> 
+  <COMMENT Type="INFO">PitStopTask.Message.NrNonCriticalFailures</COMMENT> 
+  <COMMENT Type="INFO">Number of warnings: 1</COMMENT> 
+  <COMMENT Type="INFO">Warning: Рекомендуется сохранять PDF в версии 1.3</COMMENT> 
+  <COMMENT Type="INFO">Number of fixed issues: 1</COMMENT> 
+  <COMMENT Type="INFO">Info: Compressed objects using ZIP compression</COMMENT> 
+  <COMMENT Type="REPORT"><HTML>PitStopTask.Message.ReportPDF <A href="file://pp-ftp/ftp/lesprominform/0213/Reports/107LPI_171_report.pdf">report</A></HTML></COMMENT> 
+  <COMMENT Type="REPORT"><HTML>PitStopTask.Message.ReportXML <A href="file://pp-ftp/ftp/lesprominform/0213/Reports/107LPI_171_report.xml">report</A></HTML></COMMENT> 
+  </MESSAGES>
+  </TASK>
+  </EVENT>
+  </ntf:NOTIFICATIONS>

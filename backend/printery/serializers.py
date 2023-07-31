@@ -13,11 +13,6 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-
-
-
-
-
 class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model=Paper
