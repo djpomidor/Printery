@@ -69,7 +69,7 @@ const PrintSchedule = () => {
   const [res, setRes] = useState("");
   const api = useAxios();  
      
-  // useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       const currentDate = "2023-07-27 15:33:28.146113";
       try {
@@ -89,17 +89,18 @@ const PrintSchedule = () => {
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  }, []);
  
   console.log('orders! 2', orders);
   return orders;
 };
 
   /////////////////////////////
-  console.log('Getdata()! ', Getdata());
-  const days = daysOfPrint(Getdata());
-  console.log("___",daysOfPrint());
-  console.log("_____",days);
+  // console.log('Getdata()! ', Getdata());
+  const data = Getdata();
+  const days = daysOfPrint(data);
+  // console.log("___",daysOfPrint());
+  console.log("_____",data);
   const [columns, setColumns] = useState(days);
   console.log("!!!!columns", columns)
 

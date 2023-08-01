@@ -122,11 +122,11 @@ return dates;
     
   //     },]
 
-  export const daysOfPrint = (data)=> {
-  console.log("111", data);
-  const items = data;
+  export const daysOfPrint = orders => {
+  console.log("orders1111111", orders);
+  // const items = data;
 
-  console.log("222", items);
+  // console.log("222  items", items);
   const obj = {};
   const days = daysGenerator();
   const curentDate = new Date();
@@ -135,13 +135,13 @@ return dates;
         date: key,
         timeofday: (index % 2 === 0)? "day":"night",
         // items: (key === "вт, 25.07" && index % 2 === 0)?<Getdata draggableId={index} />:[],
-        items: (key === "вт, 25.07" && index % 2 === 0)?items:[],
+        items: (key === "чт, 27.07" && index % 2 === 0)?orders:[],
         // items: items,
       };
   };
   return obj;
 };
-console.log("!!! daysOfPrint_", daysOfPrint())
+// console.log("!!! daysOfPrint_", daysOfPrint())
 
 
 
