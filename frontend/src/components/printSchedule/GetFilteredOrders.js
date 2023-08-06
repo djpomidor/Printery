@@ -15,7 +15,7 @@ function GetFilteredOrders() {
       const currentDate = "2023-07-27 15:33:28.146113";
       try {
         const response = await api.get("/orders/last-month/" + currentDate);
-        console.log('response!!!', response.data);
+        // console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
         

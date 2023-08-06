@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django import forms
 import json
+import datetime
 
 from printery.models import *
 from printery.forms import *
@@ -316,6 +317,7 @@ class OrdersByDate(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, created):
-        orders = Order.objects.filter(created__range=["2023-04-01", created]).order_by("-created").all()
+        x = datetime.datetime.now()
+        orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
@@ -5,7 +6,7 @@ import OrdersList from './OrdersList';
 
 function GetOrders() {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState();
+  // const [error, setError] = useState();
 
   const [res, setRes] = useState("");
   const api = useAxios();  
@@ -24,7 +25,7 @@ function GetOrders() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint -disable-next-line react-hooks/exhaustive-deps
   }, []);
  
   return (
