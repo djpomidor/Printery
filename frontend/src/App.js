@@ -11,7 +11,7 @@ import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
 import UserCabinet from "./views/UserCabinet";
 import CreateOrder from "./components/orders/CreateOrder";
-import CtpPage from "./views/ctpPage";
+import PrintSchedulePage from "./views/PrintSchedulePage";
 import Manage from "./views/Manage";
 import TechManage from "./views/TechManage";
 
@@ -28,7 +28,7 @@ function App() {
             <PrivateRoute component={Manage} path="/manage" exact />
             <PrivateRoute component={TechManage} path="/tech-manage" exact />
             {/* <PrivateRoute component={CreateOrder} path="/create-order" exact /> */}
-            <PrivateRoute component={CtpPage} path="/ctp" exact />
+            <PrivateRoute component={PrintSchedulePage} path="/print-schedule" exact />
             {/* <PrivateRoute component={ProtectedPage} path="/protected" exact /> */}
             <PrivateRoute component={CreateOrder} path="/create-order" exact />
             {/* <PrivateRoute component={Manage} path="/manage" exact /> */}

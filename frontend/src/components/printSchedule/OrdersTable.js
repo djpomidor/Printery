@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // const getItems = [ 'cell 1', 'cell 2', 'cell 3', 'cell 4', 'cell 5'] ;
@@ -46,7 +46,7 @@ const getListStyle = isDraggingOver => ({
   width: 'auto'
 });
 
-class App extends Component {
+class OrdersTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -138,4 +138,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default OrdersTable;

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 
-import '.././css/main.css';
-import '.././css/utilities.css';
+// import '.././css/main.css';
+// import '.././css/utilities.css';
 
-import { Search, UserMenu, VerticalMenu } from '.././components';
-import { Header, Main, RightPanel, Sidebar, TopNav } from '.././containers';
+import { Search, UserMenu, VerticalMenu } from '../components';
+import { Main, RightPanel, TopNav } from '../containers';
+import Sidebar from "../components/printSchedule/Sidebar.jsx";
+import PrintSchedule from "../components/printSchedule/PrintSchedule";
+import Header from "../components/printSchedule/Header.js";
 
-function CtpPage() {
+function PrintSchedulePage() {
   const [res, setRes] = useState("");
   const api = useAxios();
 
@@ -29,12 +32,11 @@ function CtpPage() {
       <Sidebar />
       <div className="flex-lg-1 h-screen overflow-y-lg-auto">
         <TopNav />
-        {/* <Header /> */}
-        {/* <main className="py-6 bg-surface-secondary"> */}
-          {/* <Main /> */}
+        <Header />
+        <PrintSchedule className="py-6 bg-surface-secondary"/>
       </div>
   </div>
   );
 }
 
-export default CtpPage;
+export default PrintSchedulePage;

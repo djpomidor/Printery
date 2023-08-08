@@ -204,8 +204,8 @@ class Part(models.Model):
 
 ###############################################################################################
 
-class Printing(models.Model):
-    order = models.OneToOneField(Order, on_delete = models.CASCADE, primary_key = True)
+class PrintSchedule(models.Model):
+    order = models.ForeignKey(Order, on_delete = models.CASCADE)
     print_date = models.DateField(null=True, blank=True)
     day = models.BooleanField(default=True)
     night = models.BooleanField(default=False)

@@ -1,7 +1,7 @@
 import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404, Http404
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, Http404
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -20,11 +20,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.views import APIView
-
 from rest_framework.views import APIView
 
 from .serializers import *
@@ -271,6 +267,7 @@ class OrderList(APIView):
 
     def get(self, request, format=None):
         orders = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
+        print("____", )
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
@@ -289,7 +286,7 @@ class OrderDetail(APIView):
     def get_object(self, pk):
         try:
             return Order.objects.get(pk=pk)
-        except Order.DoesNotExist:
+        except Order.DoesNotExist: 
             raise Http404
 
     def get(self, request, pk, format=None):
@@ -309,3 +306,12 @@ class OrderDetail(APIView):
         order = self.get_object(pk)
         order.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class OrdersByDate(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request, created):
+        orders = Order.objects.filter(created__range=["2023-04-01", created]).order_by("-created").all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)

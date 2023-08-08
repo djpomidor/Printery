@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateJob>
+<Job>
+	<OrderID>0213</OrderID>
+	<OrderType>Offset_Orders</OrderType>
+	<JobStatus>Ожидаем загрузку 124 страниц</JobStatus>
+	<Name>ЛесПромИнформ №1-2023 (171)</Name>
+	<JobDescription>журнал</JobDescription>
+	<NameTranslit>les_LesPromInform_N1_2023_171</NameTranslit>
+	<DueDate>February 20, 2023</DueDate>
+	<JobManager>Витман О.С.</JobManager>
+	<JobManagerEmail>print@premium-press.ru</JobManagerEmail>
+	<Quantity>1000</Quantity>
+	<PageHeigth>275</PageHeigth>
+	<PageWidth>210</PageWidth>
+	<CoverPageWidth>
+		275+275+7.50		
+	</CoverPageWidth>
+	<TotalPages>124</TotalPages>
+	<BlockPages>120</BlockPages>
+	<CoverPages>4</CoverPages>
+	<VkleykaPages> </VkleykaPages>
+	<Spine>7.50</Spine>
+	<BlockColors>4+4</BlockColors>
+	<CoverColors>4+4</CoverColors>
+	<VkleikaColors>4+4</VkleikaColors>
+	<Cloud_record_id></Cloud_record_id>	
+</Job>
+<Customer>
+	<CustomerID>00000160</CustomerID>
+	<CustomerName>ООО "Эколайн"</CustomerName>
+	<CustomerSR>Александр</CustomerSR>
+	<CustomerSRPhone>8-906-26-53-875</CustomerSRPhone>
+	<CustomerSREmail>nudota@gmail.com</CustomerSREmail>
+	<CustomerFTPfolder>lesprominform</CustomerFTPfolder>
+</Customer>
+<System>
+	<JobDirRoot>\\DELL_EVO\dataVolumes\</JobDirRoot>
+	<XMLRepository>\\AE\ExampleJobContainer\XML_Orders_Repository\2021\</XMLRepository>
+	<XMLToPOSHDir>\\AE\JobContainer_D\Hot_Folder_XML_to_POSH_v5\</XMLToPOSHDir>
+</System>
+</CreateJob>
+
