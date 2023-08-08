@@ -64,9 +64,10 @@ const PrintSchedule = () => {
           const fetchedOrders = response.data;
           const fetchedColumns = daysOfPrint(fetchedOrders); // Pass fetchedOrders to the daysOfPrint function
           setState({ orders: fetchedOrders, columns: fetchedColumns });
-        } catch {
+        } catch (error) {
           setRes("Something went wrong");
           console.log('Aaalarmee!!!', res);
+          console.error(error);
         }
       };
       fetchData();
