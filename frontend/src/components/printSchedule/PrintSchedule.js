@@ -4,6 +4,7 @@ import styled from "@emotion/styled/macro";
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import OrderCard from './OrderCard';
 import useAxios from "../../utils/useAxios";
+// import updatePositions from "./updatePositions.js";
 import { v4 as uuidv4 } from 'uuid';
 
 const Container = styled.div`
@@ -88,35 +89,70 @@ const PrintSchedule = () => {
   });
   return dates;
   };
+////////////////////////////////////////////////////////
+
+  // const 
+///////////////////////////////////////////////////////
 
   const daysOfPrint = (items) => {
     // Pass fetchedOrders (items) as an argument
-    console.log("items",items)
     const obj = {};
     const days = daysGenerator();
     const currendDay = new window.Date();
     for (const [index, key] of days.entries()) {
-      let temp;
-      for (const [i, order] of items.entries()){
-        const dateStr = order.created;
-        const jsDate = new window.Date(order.created.replace(' ', 'T', 'Z'));
+      const timeofday = index % 2 === 0 ? "day" : "night"; 
+      let itemsOfday = [];
+      items.forEach((item)=>{
+        if ((key + '_' + timeofday) === item.printing[0].parent_day ) {
+          itemsOfday.push(item);
+        }        
         
-        // console.log("!@#$%2222", jsDate)
+      })
+
+      // let temp;
+      // for (const [i, order] of items.entries()){
+      //   const dateStr = order.created;
+      //   const jsDate = new window.Date(order.created.replace(' ', 'T', 'Z'));
         
-        temp = jsDate.toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
-        // console.log("!@#$%", temp)
-      }
-      console.log("!__temp", temp)
-      obj[uuidv4()] = {
+      //   // console.log("!@#$%2222", jsDate)
+        
+      //   temp = jsDate.toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
+      //   // console.log("!@#$%", temp)
+      // }
+      // console.log("!__temp", temp)
+
+      const today = new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
+      obj[key + '_' + timeofday] = {
         date: key,
-        timeofday: index % 2 === 0 ? "day" : "night",
-        items: key === new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   }) && index % 2 === 0 ? items : [],
+        timeofday: timeofday,
+        // items: key === today && index % 2 === 0 ? items : [],
+        items: itemsOfday.sort((a, b)=>{
+          return a.printing[0].position - b.printing[0].position;
+        }),
       };
     
   }
-  console.log("!__obj", obj)
     return obj;
   };
+
+  const updatePositions = async (itemId, newPosition, newColumnId) => {
+    try {
+      const response = await api.put(`/orders/printShedule/${itemId}/update_position/`, {
+        position: newPosition,
+        parent_day: newColumnId,
+      });
+  
+      // Do anything with the updated item data if necessary
+      // console.log(response.data);
+  
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+    }
+  };
+
+
+
 
   const onDragEnd = (result, columns, setState) => {
 
@@ -133,22 +169,32 @@ const PrintSchedule = () => {
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...sourceColumn, items: sourceItems };
+      newColumns[source.droppableId].items.forEach((item, index) => {
+        updatePositions(item.pk, index, source.droppableId); 
+      });
+
       newColumns[destination.droppableId] = { ...destColumn, items: destItems };
+
+      newColumns[destination.droppableId].items.forEach((item, index) => {
+        updatePositions(item.pk, index, destination.droppableId);
+      });
+
     } else {
       const column = newColumns[source.droppableId];
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...column, items: copiedItems };
+
+      newColumns[source.droppableId].items.forEach((item, index) => {
+        updatePositions(item.pk, index, source.droppableId);
+      });
     }
   
     setState(prevState => ({
       ...prevState,
       columns: newColumns
     }));
-    console.log("!__result", result)
-    console.log("!__columns2", state.columns)
-    
 
   };
   return (
@@ -157,14 +203,12 @@ const PrintSchedule = () => {
       onDragEnd={(result) => onDragEnd(result, state.columns, setState)}
     >
       <Container>
-        {    console.log("!__columns2", state.columns)}
         <OrderColumnStyles>
           {Object.entries(state.columns).map(([columnId, column], index) => {
             return (
               <Droppable key={columnId} droppableId={columnId}>
                 {(provided, snapshot) => (
                   <Day>
-                    {/* {console.log("_+_+_+_snapshot", snapshot)} */}
                     <Date><h1>{(index % 2 === 0)?(column.date):''}</h1></Date>
                     <DayNight><p>{(index % 2 === 0 )?('День'):('Ночь')}</p></DayNight>
                   <OrderList

@@ -1,14 +1,14 @@
-In order to save the position of items to a database, you'll want to update the database whenever a change in the items' positions occurs. Here's a high-level overview of what you would need to do:
+Чтобы сохранить позицию элементов в базу данных, вы захотите обновить базу данных, когда происходит изменение позиций элементов.Вот обзор высокого уровня того, что вам нужно сделать:
 
-1. Ensure that your database has a schema to store the position information. This might include adding columns for `position` and/or `parent_container` (if your items are part of containers, like lists or boards). You should also add a unique identifier (e.g., `id`) for each item.
+1. Убедитесь, что в вашей базе данных есть схема для хранения информации о позиции.Это может включать добавление столбцов для `position` и/или` parent_container` (если ваши элементы являются частью контейнеров, таких как списки или доски).Вы также должны добавить уникальный идентификатор (например, `id`) для каждого элемента.
 
-2. Create an API endpoint in your Django backend that allows you to update an item's positional data. (e.g., something like `/api/items/:id/update_position/`)
+2. Создайте конечную точку API в своем бэкэнде Django, которая позволяет вам обновить позиционные данные элемента.(например, что -то вроде `/api/items/: id/update_position/`)
 
-3. Write a function in your Django view that receives the updated position data and updates the item in the database accordingly.
+3. Напишите функцию в вашем представлении Django, которая получает обновленные данные положения и соответственно обновляет элемент в базе данных.
 
-4. In your React app, add an event handler for when an item's position changes (for example, using `onDragEnd` event if you are using the react-beautiful-dnd library). When this handler is triggered, update the item's position in its state and send an API request to the Django backend with the updated positional data.
+4. В вашем приложении React добавьте обработчик событий, когда изменяется позиция элемента (например, используя событие `ondragend`, если вы используете библиотеку React-Beautiful-DND).Когда этот обработчик запускается, обновите позицию элемента в его состоянии и отправьте запрос API в бэкэнд Django с обновленными позиционными данными.
 
-Here's a simple example of how you might implement this in your Django view to update the position:
+Вот простой пример того, как вы можете реализовать это в своем представлении Django, чтобы обновить позицию:
 
 ```python
 from rest_framework import status

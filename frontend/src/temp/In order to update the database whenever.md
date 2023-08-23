@@ -1,10 +1,10 @@
-In order to update the database whenever a change in the items' positions occurs, you should modify the `onDragEnd` function to send an API request with the updated positions. Let's follow these steps to implement this:
+Чтобы обновить базу данных всякий раз, когда происходит изменение в позициях элементов, вам следует изменить функцию `ondragend` для отправки запроса API с обновленными позициями.Давайте выполним эти шаги, чтобы реализовать это:
 
-1. Create an API endpoint in your Django backend to update the positions of the items.
-2. Write a function in your Django view that receives the updated position data and updates the items in the database accordingly.
-3. Update the `onDragEnd` function to send an API request to the Django backend with updated positions.
+1. Создайте конечную точку API в своем бэкэнд Django, чтобы обновить позиции элементов.
+2. Напишите функцию в вашем представлении Django, которая получает обновленные данные положения и соответственно обновляет элементы в базе данных.
+3. Обновите функцию `ondragend`, чтобы отправить запрос API в бэкэнд Django с обновленными позициями.
 
-First, create a function in your React app that sends the updated positions to the Django backend:
+Во -первых, создайте функцию в вашем приложении React, которая отправляет обновленные позиции в бэкэнд Django:
 
 ```javascript
 const updatePositions = async (itemId, newPosition, newColumnId) => {
@@ -51,3 +51,8 @@ const onDragEnd = (result, columns, setState) => {
 Make sure your items have unique identifiers (e.g., `item.id`). Finally, you need to implement the API endpoint and the view function in your Django backend to save the updated positions.
 
 It's important to note that this method triggers API requests for each item in the source and destination columns. This could potentially lead to many API calls. An alternative approach is to update the positions in bulk by sending the order of all items in their respective columns to the Django backend in a single API request.
+
+
+Убедитесь, что ваши элементы имеют уникальные идентификаторы (например, `item.id`).Наконец, вам необходимо реализовать конечную точку API и функцию представления в вашем бэкэнд Django, чтобы сохранить обновленные позиции.
+
+Важно отметить, что этот метод запускает запросы API для каждого элемента в столбцах источника и назначения.Это потенциально может привести ко многим вызовам API.Альтернативный подход состоит в том, чтобы обновить позиции оптом путем отправки порядка всех элементов в их соответствующих столбцах в бэкэнд Django в одном запросе API.

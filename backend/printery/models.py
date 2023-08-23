@@ -124,6 +124,12 @@ class Order(models.Model):
     submiting_files = models.DateTimeField(null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+        super().save(*args, **kwargs)  # Call the superclass's save method
+
+        if is_new:  # If the instance was newly created
+            PrintSchedule.objects.create(order=self)
 
 #    def __str__(self):
 #        return f"{self.number} {self.name}"
@@ -205,12 +211,14 @@ class Part(models.Model):
 ###############################################################################################
 
 class PrintSchedule(models.Model):
-    order = models.ForeignKey(Order, on_delete = models.CASCADE)
+    order = models.ForeignKey(Order, related_name='printing', on_delete = models.CASCADE)
     print_date = models.DateField(null=True, blank=True)
     day = models.BooleanField(default=True)
-    night = models.BooleanField(default=False)
+    night = models.BooleanField(default=True)
     paper_print_run = models.IntegerField(null=True, blank=True)
-    plates_is_done = models.BooleanField(default=False)
+    plates_is_done = models.BooleanField(default=True)
+    position = models.IntegerField(null=True, blank=True)
+    parent_day = models.CharField(blank=True, max_length=20)
 
     def __str__(self):
         if self.day:

@@ -37,19 +37,29 @@ class PartSerializer(serializers.ModelSerializer):
         # fields = ['order', 'part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']
         fields = '__all__'
 
+class PrintScheduleSerializer(serializers.ModelSerializer):
+    order = serializers.PrimaryKeyRelatedField( read_only=True) 
+    class Meta:
+        model = PrintSchedule
+        fields = ['order', 'parent_day', 'position']
+
+    # def create(self, validated_data):
+    #     order =   
+
 
 class OrderSerializer(serializers.ModelSerializer):
     parts = PartSerializer(many=True)
     nameOfOrder = serializers.CharField(source='name')
     typeOfOrder = serializers.CharField(source='type')
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    printing = PrintScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order 
-        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
+        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts', 'printing']
 
     def create(self, validated_data):
-        print("!!!_validated_data_", validated_data)
+        # print("!!!_validated_data_", validated_data)
         owners = validated_data.pop('owner')
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
@@ -118,16 +128,7 @@ class CreatOrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ('name', 'type', 'circulation', 'binding', 'width', 'height', 'due_date', 'delivery_date')       
 
-    # def create(self, validated_data):
-    #     order = Order.objects.create(        
-    #         name
-    #         owner
-    #         type
-    #         circulation
-    #         binding
-    #         width
-    #         height
-    #         created
-    #         due_date
-    #         delivery_date
-    #     )    
+
+
+
+  

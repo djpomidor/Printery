@@ -1,4 +1,5 @@
-// import React from 'react'
+/* eslint-disable react/prop-types */
+import React from 'react'
 import Nav from 'react-bootstrap/Nav'
 
 const Header = ({ setComponent }) => {
@@ -12,15 +13,16 @@ const Header = ({ setComponent }) => {
            </div>
            <div className="col-sm-auto col-12 mt-4 mt-sm-0">
              <div className="hstack gap-2 justify-content-sm-end">
-                 <a href="#modalExport" className="btn btn-sm btn-neutral border-base" data-bs-toggle="modal">
+                 {/* <a href="#modalExport" className="btn btn-sm btn-neutral border-base" data-bs-toggle="modal">
                      <span className="pe-2"><i className="bi bi-people-fill"></i> </span><span>Share</span>
-                 </a>
+                 </a> */}
                  {/* <a href="#offcanvasCreate" className="btn btn-sm btn-primary" data-bs-toggle="offcanvas">
                      <span className="pe-2"><i className="bi bi-plus-square-dotted"></i> </span><span>Create</span>
                  </a> */}
-                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("OrdersTable")}>My Orders</button>
-                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Create</button>
-             </div>
+                  {/* <button className="btn btn-sm btn-primary" onClick={() => setComponent("OrdersTable")}>Редактировать</button> */}
+                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Сохранить изменения</button>
+                  
+             </div><p>Последнее изменение было в <br/> 13.10,  23 окт.</p>
            </div>
           </div>
           <Nav variant="tabs">
