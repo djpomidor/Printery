@@ -331,6 +331,7 @@ class OrdersByDate(APIView):
 
     def get(self, request, created):
         x = datetime.datetime.now()
+        print("!!!!!", x)
         orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
@@ -353,7 +354,6 @@ class Update_position(APIView):
         print("position____", position)
         parent_day = request.data.get('parent_day')
         print("parent_day____", parent_day)
-        print("item____", item)
         serializer = PrintScheduleSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()

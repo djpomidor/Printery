@@ -2,7 +2,7 @@
 import React from 'react'
 import Nav from 'react-bootstrap/Nav'
 
-const Header = ({ setComponent }) => {
+const Header = ({ setSelectedTab }) => {
   return (
     <header className="position-lg-sticky top-lg-0 d-none d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
     <div className="container-fluid ">
@@ -22,18 +22,19 @@ const Header = ({ setComponent }) => {
                   {/* <button className="btn btn-sm btn-primary" onClick={() => setComponent("OrdersTable")}>Редактировать</button> */}
                   <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Сохранить изменения</button>
                   
-             </div><p>Последнее изменение было в <br/> 13.10,  23 окт.</p>
+             </div>
+             {/* <p>Последнее изменение было в <br/> 13.10,  23 окт.</p> */}
            </div>
           </div>
           <Nav variant="tabs">
           <Nav.Item>
-              <Nav.Link  href="http://localhost:3000/print-schedule" >SM-1</Nav.Link> 
+              <Nav.Link  onClick={() => setSelectedTab('sm1')} >SM-1</Nav.Link> 
           </Nav.Item>    
           <Nav.Item>
-          <Nav.Link  href="http://localhost:3000/print-schedule" >SM-2</Nav.Link> 
+          <Nav.Link  onClick={() => setSelectedTab('sm2')} >SM-2</Nav.Link> 
           </Nav.Item>    
           <Nav.Item>
-          <Nav.Link  href="http://localhost:3000/print-schedule" >Rapida</Nav.Link> 
+          <Nav.Link  onClick={() => setSelectedTab('rapida')} >Rapida</Nav.Link> 
           </Nav.Item>
           </Nav>
       {/* </div> */}

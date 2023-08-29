@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+
+import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 
@@ -21,7 +24,6 @@ function UserCabinet() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -83,7 +84,7 @@ class OrdersTable extends Component {
               ref={provided.innerRef}
               style={getListStyle(snapshot.isDraggingOver)}
             >
-		          {/* <thead>
+              {/* <thead>
 			          <tr>
 			          	<td colspan="2" />
 			          	<td>

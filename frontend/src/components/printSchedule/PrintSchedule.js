@@ -48,6 +48,12 @@ const Date = styled.div`
   // max-width: 100px;
   width:23vh;
 `;
+const DateToday = styled.div`
+  font-weight: 800 !important;
+  color: red;
+  padding: 2px 10px;
+  width:23vh;
+`;
  const DayNight = styled.div`
   margin-right: 10px
 `;
@@ -61,12 +67,12 @@ const PrintSchedule = () => {
       const fetchData = async () => {
         // const d = new window.Date().toISOString();
         try {
-          const response = await api.get("/orders/last-month/" + new window.Date().toISOString());
+          const response = await api.get("/orders/printShedule/" + new window.Date().toISOString());
           const fetchedOrders = response.data;
           const fetchedColumns = daysOfPrint(fetchedOrders); // Pass fetchedOrders to the daysOfPrint function
           setState({ orders: fetchedOrders, columns: fetchedColumns });
         } catch (error) {
-          setRes("Something went wrong");
+          setRes("Something went wrong: ", error);
           console.log('Aaalarmee!!!', res);
           console.error(error);
         }
@@ -203,13 +209,27 @@ const PrintSchedule = () => {
       onDragEnd={(result) => onDragEnd(result, state.columns, setState)}
     >
       <Container>
-        <OrderColumnStyles>
+        <OrderColumnStyles> 
+          
+          {/* <Droppable key={0} droppableId={0}></Droppable>
+          <div>!!!!</div> */}
           {Object.entries(state.columns).map(([columnId, column], index) => {
             return (
               <Droppable key={columnId} droppableId={columnId}>
+               
                 {(provided, snapshot) => (
                   <Day>
+                    {(column.date === new window.Date().toLocaleDateString('Ru', {  
+                       day: "numeric", 
+                       month:"numeric", 
+                       weekday:"short",
+                     }))?
+                    <DateToday>
+                      <h1 style={{fontWeight: 'bold'}}>{(index % 2 === 0)?(column.date):''}</h1>
+                      <h5>{(index % 2 === 0 )?'Сегодня':''}</h5>
+                    </DateToday>:
                     <Date><h1>{(index % 2 === 0)?(column.date):''}</h1></Date>
+                }
                     <DayNight><p>{(index % 2 === 0 )?('День'):('Ночь')}</p></DayNight>
                   <OrderList
                     ref={provided.innerRef}

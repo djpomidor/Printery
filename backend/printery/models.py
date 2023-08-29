@@ -3,6 +3,15 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.db import models
 from django.db.models import Max
 
+import locale
+import datetime
+
+locale.setlocale(locale.LC_TIME, "ru_RU")  # Установить русскую локализацию
+
+def parent_day():
+    today = datetime.datetime.now()
+    formatted_date = today.strftime("%a, %d.%m") + "_day"
+    return formatted_date.lower()
 
 # Create your models here.
 class User(AbstractUser):
@@ -40,27 +49,35 @@ class Company(models.Model):
 #########################################################################
 
 class Paper(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(blank=True, max_length=64)
     TYPE_CHOICES = [
         (None, 'Select...'),
-        ('GL', 'Glossy'),
-        ('MAT', 'Matte'),
-        ('SIL', 'Silk'),
-        ('OFF', 'Offset'),
+        ('OFF', 'Офсетная'),
+        ('GL', 'Глянцевая'),
+        ('MAT', 'Матовая'),
+        ('CAR', 'Картон'),
+        
+        # (None, 'Select...'),
+        # ('GL', 'Glossy'),
+        # ('MAT', 'Matte'),
+        # ('SIL', 'Silk'),
+        # ('OFF', 'Offset'),
     ]
     type = models.CharField(max_length=3,
         choices=TYPE_CHOICES,
         )
     class Density(models.IntegerChoices):
-        D80 = 80, '80 gr/m2'
-        D100 = 100, '100 gr/m2'
-        D105 = 105, '105 gr/m2'
-        D115 = 115, '115 gr/m2'
-        D120 = 120, '120 gr/m2'
-        D150 = 150, '150 gr/m2'
-        D170 = 170, '170 gr/m2'
-        D200 = 200, '200 gr/m2'
-        D250 = 250, '250 gr/m2'
+        D80 = 80, '80'
+        D100 = 100, '100'
+        D105 = 105, '105'
+        D115 = 115, '115'
+        D120 = 120, '120'
+        D130 = 130, '130'
+        D150 = 150, '150'
+        D170 = 170, '170'
+        D200 = 200, '200'
+        D250 = 250, '250'
+        D300 = 300, '300'
     density = models.IntegerField(choices=Density.choices)
     width = models.IntegerField()
     height = models.IntegerField()
@@ -124,12 +141,19 @@ class Order(models.Model):
     submiting_files = models.DateTimeField(null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
 
+    # def parent_day():
+    #     today = datetime.now()
+    #     formatted_date = today.strftime("%a, %d.%m") + "_day"
+    #     return formatted_date
+
+
     def save(self, *args, **kwargs):
         is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
         super().save(*args, **kwargs)  # Call the superclass's save method
 
         if is_new:  # If the instance was newly created
-            PrintSchedule.objects.create(order=self)
+            print("!print(locale.getlocale())  ", locale.getlocale())  
+            PrintSchedule.objects.create(order=self, parent_day=parent_day())
 
 #    def __str__(self):
 #        return f"{self.number} {self.name}"
@@ -179,9 +203,10 @@ class Part(models.Model):
     paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
-        ('4_4', '4(CMYK)+4(CMYK)'),
-        ('4_0', '4(CMYK)+0'),
-        ('1_1', '1(Black)+1(Black)'),
+        ('4_4', '4+4'),
+        ('4_0', '4+0'),
+        ('1_1', '1+1'),
+        ('1_1', '1+0'),
     ]
     color = models.CharField(blank=True, max_length=3, choices=COLOR_CHOICES)
 
@@ -213,8 +238,9 @@ class Part(models.Model):
 class PrintSchedule(models.Model):
     order = models.ForeignKey(Order, related_name='printing', on_delete = models.CASCADE)
     print_date = models.DateField(null=True, blank=True)
-    day = models.BooleanField(default=True)
-    night = models.BooleanField(default=True)
+    sm1 = models.BooleanField(default=True)
+    sm2 = models.BooleanField(default=False)
+    rapida = models.BooleanField(default=False)
     paper_print_run = models.IntegerField(null=True, blank=True)
     plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)

@@ -56,6 +56,7 @@ const OrderCard = ({ item, index }) => {
         >
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
+            {/* <OrderItem>{item.pk}</OrderItem> */}
             <OrderItem>{item.number}</OrderItem>
             <OrderItem>{item.nameOfOrder}</OrderItem>
             <OrderItem>{item.circulation}</OrderItem>
