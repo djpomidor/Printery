@@ -21,7 +21,7 @@ const Notifications = () => {
             </div>
         </div>
         <div className="dropdown-item py-3 d-flex">
-            <div><img alt="..." src="/img/people/img-1.jpg" className="avatar rounded-circle" /></div>
+            <div><img alt="..." src="/img/people/img-profile.jpg" className="avatar rounded-circle" /></div>
             <div className="flex-fill ms-3">
                 <div className="text-sm lg-snug w-64 text-wrap">
                     <a href="#" className="font-semibold text-heading text-primary-hover">Robert</a> sent a message to <a href="#" className="font-semibold text-heading text-primary-hover">Username</a>
@@ -30,7 +30,7 @@ const Notifications = () => {
             </div>
         </div>
         <div className="dropdown-item py-3 d-flex">
-            <div><img alt="..." src="/img/people/img-2.jpg" className="avatar rounded-circle" /></div>
+            <div><img alt="..." src="/img/people/img-profile.jpg" className="avatar rounded-circle" /></div>
             <div className="flex-fill ms-3">
                 <div className="text-sm lg-snug w-64 text-wrap">
                     <a href="#" className="font-semibold text-heading text-primary-hover">Robert</a> sent a message to <a href="#" className="font-semibold text-heading text-primary-hover">Username</a>
@@ -48,7 +48,7 @@ const Notifications = () => {
             </div>
         </div>
         <div className="dropdown-item py-3 d-flex">
-            <div><img alt="..." src="/img/people/img-4.jpg" className="avatar rounded-circle" /></div>
+            <div><img alt="..." src="/img/people/img-profile.jpg" className="avatar rounded-circle" /></div>
             <div className="flex-fill ms-3">
                 <div className="text-sm lg-snug w-64 text-wrap">
                     <a href="#" className="font-semibold text-heading text-primary-hover">Robert</a> sent a message to <a href="#" className="font-semibold text-heading text-primary-hover">Username</a>

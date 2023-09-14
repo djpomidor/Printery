@@ -11,11 +11,14 @@ const Part = (part) => {
   return (
       <tr>
         <td>
+          <button ><i className="bi bi-arrow-bar-left"></i></button>
+        </td>
+        <td>
           {(part.part_name === 'BLO')?('Block'):''}
           {(part.part_name === 'COV')?('Cover'):''}
           {(part.part_name === 'INS')?('Insert'):''}  
         </td>
-        <td>{part.pages}</td>
+        {/* <td>{part.pages}</td> */}
         <td>{part.color_display}</td>
         <td>{part.paper.type_display + ", " + part.paper.density}</td>
         <td>{part.laminate}</td>
@@ -52,7 +55,8 @@ function Order(props) {
           <thead>
           <tr>
             <th></th>
-            <th>Pages</th>
+            <th></th>
+            {/* <th>Pages</th> */}
             <th>Color</th>
             <th>Paper</th>
             <th></th>

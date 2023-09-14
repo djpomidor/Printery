@@ -1,4 +1,5 @@
 import Button from 'react-bootstrap/Button';
+<<<<<<< HEAD
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -392,3 +393,5 @@ const CreateOrder = () => {
 }
 
 export default CreateOrder;
+=======
+>>>>>>> 8430c51b3b135ece03eae90f4dcffa562dca9369

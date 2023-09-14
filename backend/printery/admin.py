@@ -8,8 +8,9 @@ class OrdersAdmin(admin.ModelAdmin):
     list_display = ("number", "name", "type")
 
 # Register your models here.
-admin.site.register(User, UsersAdmin)
+admin.site.register(User, UsersAdmin) #, Company, Paper, Order, OrdersAdmin, Part, PrintSchedule)
 admin.site.register(Company)
 admin.site.register(Paper)
 admin.site.register(Order, OrdersAdmin)
 admin.site.register(Part)
+admin.site.register(PrintSchedule)

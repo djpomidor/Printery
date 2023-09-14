@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-
-import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 
@@ -10,7 +7,7 @@ import '.././css/utilities.css';
 import { Search, UserMenu, VerticalMenu } from '.././components';
 import { Header, Main, RightPanel, Sidebar, TopNav } from '.././containers';
 
-function UserCabinet() {
+function CtpPage() {
   const [res, setRes] = useState("");
   const api = useAxios();
 
@@ -24,6 +21,7 @@ function UserCabinet() {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -33,12 +31,11 @@ function UserCabinet() {
         <TopNav />
         {/* <Header /> */}
         {/* <main className="py-6 bg-surface-secondary"> */}
-          <Main />
-        {/* </main> */}
-        {/* <p>{res}</p> */}
+          {/* <Main /> */}
       </div>
   </div>
   );
 }
 
-export default UserCabinet;
+export default CtpPage;
+

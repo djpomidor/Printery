@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import avatar from '../../assets/avatar_saul.jpg';
 import logo_cmyk from '../../assets/logo-cmyk.png'
@@ -12,7 +13,7 @@ const Sidebar = () => {
             <span className="navbar-toggler-icon"></span>
         </button>
         <a className="navbar-brand d-inline-block py-lg-2 mb-lg-5 px-lg-6 me-0" href="/">
-        <img alt="..." src={ logo_cmyk } className=''/> 
+        <img alt="..." src={ logo_cmyk } style={{width: "40px", height: "40px"}} className=''/> 
           <span className="fs-5 fw-semibold">Printery</span></a>
         <div className="navbar-user d-lg-none">
             <div className="dropdown">

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 // import React from 'react';
 import Order from './Order'
 import Table from 'react-bootstrap/Table';
-import './css/style.css';
+import '../orders/css/style.css';
 
 const OrdersList = ({orders, title}) => {
   const [searchTerm, setSearchTerm] = useState("");

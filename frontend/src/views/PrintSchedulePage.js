@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 
@@ -5,10 +7,12 @@ import useAxios from "../utils/useAxios";
 // import '.././css/utilities.css';
 
 import { Search, UserMenu, VerticalMenu } from '../components';
-import { Main, RightPanel, TopNav } from '../containers';
+import { Main, TopNav } from '../containers';
 import Sidebar from "../components/printSchedule/Sidebar.jsx";
 import PrintSchedule from "../components/printSchedule/PrintSchedule";
 import Header from "../components/printSchedule/Header.js";
+import RightPanel from "../components/printSchedule/RightPanel.jsx";
+
 
 function PrintSchedulePage() {
   const [res, setRes] = useState("");
@@ -24,7 +28,7 @@ function PrintSchedulePage() {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   return (
@@ -32,9 +36,18 @@ function PrintSchedulePage() {
       <Sidebar />
       <div className="flex-lg-1 h-screen overflow-y-lg-auto">
         <TopNav />
+        <main className="py-6 bg-surface-secondary">
         <Header />
+        <div className="container-fluid">
+        <div className="row">
+          <div className='col-lg-8 table-responsive'>
         <PrintSchedule className="py-6 bg-surface-secondary"/>
-      </div>
+        </div>
+       <RightPanel/>
+       </div>
+       </div>
+       </main>
+      </div> 
   </div>
   );
 }
