@@ -70,7 +70,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
 
     def create(self, validated_data):
-        # print("!!!_validated_data_", validated_data)
         owners = validated_data.pop('owner')
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
@@ -79,7 +78,6 @@ class OrderSerializer(serializers.ModelSerializer):
         for part_data in parts_data:
             Part.objects.create(order=order, **part_data)
         return order
-        
         
 
 class UserSerializer(serializers.ModelSerializer):

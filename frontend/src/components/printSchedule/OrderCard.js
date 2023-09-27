@@ -65,7 +65,7 @@ const OrderCard = ({ item, index }) => {
                     day: '2-digit',
                   })}
             </OrderItem>
-            {console.log("))))", item.parts[0].printing[0])}
+            {console.log("printing!!", item.parts[0].printing[0])}
             <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem>
           </OrderInformation>
         </div>

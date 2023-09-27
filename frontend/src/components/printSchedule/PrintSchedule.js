@@ -65,7 +65,6 @@ const PrintSchedule = () => {
      
     useEffect(() => {
       const fetchData = async () => {
-        // const d = new window.Date().toISOString();
         try {
           const response = await api.get("/orders/printShedule/" + new window.Date().toISOString());
           const fetchedOrders = response.data;
@@ -107,11 +106,13 @@ const PrintSchedule = () => {
       const timeofday = index % 2 === 0 ? "day" : "night"; 
       let itemsOfday = [];
       items.forEach((item)=>{
-        if ((key + '_' + timeofday) === item.parts[0].printing[0].parent_day ) {
+        item.parts.forEach((part)=>{
+        if ((key + '_' + timeofday) === part.printing[0].parent_day ) {
           itemsOfday.push(item);
           console.log("!@#$%^&*(", itemsOfday)
         }        
       })
+    })
       // const today = new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
       obj[key + '_' + timeofday] = {
         date: key,
@@ -131,23 +132,18 @@ const PrintSchedule = () => {
         position: newPosition,
         parent_day: newColumnId,
       });
-  
-      // Do anything with the updated item data if necessary
+        // Do anything with the updated item data if necessary
       // console.log(response.data);
-  
-    } catch (error) {
+      } catch (error) {
       // Handle errors
       console.error(error);
     }
   };
 
   const onDragEnd = (result, columns, setState) => {
-
     if (!result.destination) return;
     const { source, destination } = result;
-  
     const newColumns = { ...columns };
-  
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = newColumns[source.droppableId];
       const destColumn = newColumns[destination.droppableId];
