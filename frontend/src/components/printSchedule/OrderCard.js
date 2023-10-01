@@ -46,6 +46,7 @@ const OrderItem = styled.div`
 // `;
 
 const OrderCard = ({ item, index }) => {
+  // console.log("7777777", item)
   return (
     <Draggable key={item.pk} draggableId={String(item.pk)} index={index}>
       {(provided) => (
@@ -60,13 +61,13 @@ const OrderCard = ({ item, index }) => {
             <OrderItem>{item.number}</OrderItem>
             <OrderItem>{item.nameOfOrder}</OrderItem>
             <OrderItem>{item.circulation}</OrderItem>
-            <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
+            {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',
                   })}
-            </OrderItem>
-            {console.log("printing!!", item.parts[0].printing[0])}
-            <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem>
+            </OrderItem> */}
+            {/* {console.log("printing!!", item.parts[0].printing[0])} */}
+            {/* <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem> */}
           </OrderInformation>
         </div>
       )}
@@ -75,8 +76,3 @@ const OrderCard = ({ item, index }) => {
 };
 
 export default OrderCard;
-
-// <span className="priority">
-// {item.Priority === 'High' ? (<RedArrow />) : item.Priority === 'Medium' ? (<YellowArrow />) : (<BlueArrow />)}
-// </span>
-// <div><CustomAvatar name={item.Assignee} isTable={false} size={16} /></div>

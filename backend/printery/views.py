@@ -272,7 +272,6 @@ class OrderList(APIView):
 
     def get(self, request, format=None):
         orders = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
-        print("____", )
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
@@ -282,7 +281,6 @@ class OrderList(APIView):
         if serializer_order.is_valid() and serializer_printSheduler.is_valid() :
             serializer_order.save()
             return Response(serializer_order.data, status=status.HTTP_201_CREATED)
-        print("____", serializer_printSheduler.errors)
         return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -320,7 +318,6 @@ class OrdersByDate(APIView):
 
     def get(self, request, created):
         x = datetime.datetime.now()
-        print("!!!!!", x)
         orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
@@ -330,7 +327,6 @@ class Update_position(APIView):
     permission_classes = (AllowAny,)
     def get_object(self, pk, part):
         try:
-            print("!!pk__", pk)
             return PrintSchedule.objects.get(order_part=pk)
         except Order.DoesNotExist: 
             raise Http404    
@@ -338,9 +334,7 @@ class Update_position(APIView):
     def put(self, request, pk, part, format=None):
         item = self.get_object(pk, part)
         position = request.data.get('position')
-        print("position____", position)
         parent_day = request.data.get('parent_day')
-        print("parent_day____", parent_day)
         serializer = PrintScheduleSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()

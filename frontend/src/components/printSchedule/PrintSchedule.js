@@ -6,6 +6,7 @@ import OrderCard from './OrderCard';
 import useAxios from "../../utils/useAxios";
 // import updatePositions from "./updatePositions.js";
 import { v4 as uuidv4 } from 'uuid';
+import daysOfPrint from './utils/daysOfPrint';
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +35,8 @@ const OrderColumnStyles = styled.div`
   // display: flex;
   // width: 100%;
   min-height: 80vh;
-  ${Day}:nth-child(even) {
+  ${Day}:nth-of-type(even) { 
+    // was nth-child
     margin-bottom: 20px;
   }
 `;
@@ -79,53 +81,6 @@ const PrintSchedule = () => {
       fetchData();
     }, []);
  
-  const daysGenerator = () => {
-    let dates = [];
-    [...Array(8).keys()].map(index => {
-    const d = new window.Date();
-    d.setDate((d.getDate() - 2) + index);
-    let day = d.toLocaleDateString('Ru', {  
-      day: "numeric", 
-      month:"numeric", 
-      weekday:"short",
-    });
-    dates.push(day);
-    return dates.push(day);
-  });
-  return dates;
-  };
-
-///////////////////////////////////////////////////////
-
-  const daysOfPrint = (items) => {
-    // Pass fetchedOrders (items) as an argument
-    const obj = {};
-    const days = daysGenerator();
-    const currendDay = new window.Date();
-    for (const [index, key] of days.entries()) {
-      const timeofday = index % 2 === 0 ? "day" : "night"; 
-      let itemsOfday = [];
-      items.forEach((item)=>{
-        item.parts.forEach((part)=>{
-        if ((key + '_' + timeofday) === part.printing[0].parent_day ) {
-          itemsOfday.push(item);
-          console.log("!@#$%^&*(", itemsOfday)
-        }        
-      })
-    })
-      // const today = new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
-      obj[key + '_' + timeofday] = {
-        date: key,
-        timeofday: timeofday,
-        // items: key === today && index % 2 === 0 ? items : [],
-        items: itemsOfday.sort((a, b)=>{
-          return a.parts[0].printing[0].position - b.parts[0].printing[0].position;
-        }),
-      };
-  }
-    return obj;
-  };
-
   const updatePositions = async (itemId, newPosition, newColumnId) => {
     try {
       const response = await api.put(`/orders/printShedule/${itemId}_BLO/update_position/`, {
@@ -153,13 +108,13 @@ const PrintSchedule = () => {
       destItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...sourceColumn, items: sourceItems };
       newColumns[source.droppableId].items.forEach((item, index) => {
-        updatePositions(item.parts[0].printing[0].order_part, index, source.droppableId); 
+        updatePositions(item.order_part, index, source.droppableId); 
       });
 
       newColumns[destination.droppableId] = { ...destColumn, items: destItems };
 
       newColumns[destination.droppableId].items.forEach((item, index) => {
-        updatePositions(item.parts[0].printing[0].order_part, index, destination.droppableId);
+        updatePositions(item.order_part, index, destination.droppableId);
       });
 
     } else {
@@ -170,7 +125,7 @@ const PrintSchedule = () => {
       newColumns[source.droppableId] = { ...column, items: copiedItems };
 
       newColumns[source.droppableId].items.forEach((item, index) => {
-        updatePositions(item.parts[0].printing[0].order_part, index, source.droppableId);
+        updatePositions(item.order_part, index, source.droppableId);
       });
     }
   
@@ -215,7 +170,7 @@ const PrintSchedule = () => {
                     
                     <div>
                     {column.items.map((item, index) => (
-                      <OrderCard key={index} item={item} index={index} />   // was key={item} !!
+                      <OrderCard key={item.pk} item={item} index={index} />   // was key={item} !!
                     ))}
                     {provided.placeholder}
                     </div>

@@ -35,7 +35,7 @@ class PrintScheduleSerializer(serializers.ModelSerializer):
     part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
     class Meta:
         model = PrintSchedule
-        fields = ['order_part', 'part_name', 'parent_day', 'position']
+        fields = ['pk', 'order_part', 'part_name', 'parent_day', 'position', 'order_part_id']
 
 class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
@@ -74,7 +74,6 @@ class OrderSerializer(serializers.ModelSerializer):
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
         order.owner.set(owners)
-        print("order_", order)
         for part_data in parts_data:
             Part.objects.create(order=order, **part_data)
         return order
