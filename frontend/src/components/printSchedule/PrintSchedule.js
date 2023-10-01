@@ -94,7 +94,6 @@ const PrintSchedule = () => {
       console.error(error);
     }
   };
-
   const onDragEnd = (result, columns, setState) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -110,9 +109,7 @@ const PrintSchedule = () => {
       newColumns[source.droppableId].items.forEach((item, index) => {
         updatePositions(item.order_part, index, source.droppableId); 
       });
-
       newColumns[destination.droppableId] = { ...destColumn, items: destItems };
-
       newColumns[destination.droppableId].items.forEach((item, index) => {
         updatePositions(item.order_part, index, destination.droppableId);
       });
@@ -123,32 +120,23 @@ const PrintSchedule = () => {
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...column, items: copiedItems };
-
       newColumns[source.droppableId].items.forEach((item, index) => {
         updatePositions(item.order_part, index, source.droppableId);
       });
     }
-  
     setState(prevState => ({
       ...prevState,
       columns: newColumns
     }));
-
   };
   return (
-
     <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, state.columns, setState)}
-    >
+      onDragEnd={(result) => onDragEnd(result, state.columns, setState)}>
       <Container>
         <OrderColumnStyles> 
-          
-          {/* <Droppable key={0} droppableId={0}></Droppable>
-          <div>!!!!</div> */}
           {Object.entries(state.columns).map(([columnId, column], index) => {
             return (
               <Droppable key={columnId} droppableId={columnId}>
-               
                 {(provided, snapshot) => (
                   <Day>
                     {(column.date === new window.Date().toLocaleDateString('Ru', {  
@@ -167,7 +155,6 @@ const PrintSchedule = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    
                     <div>
                     {column.items.map((item, index) => (
                       <OrderCard key={item.pk} item={item} index={index} />   // was key={item} !!
