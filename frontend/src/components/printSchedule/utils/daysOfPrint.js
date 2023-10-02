@@ -23,7 +23,7 @@ const daysOfPrint = (items) => {
                 'position': part.printing[0].position,
             }
           );
-        //   console.log("1__" , part)
+          console.log("1__" , part)
           console.log("2___", itemsOfday)
           }        
         })
