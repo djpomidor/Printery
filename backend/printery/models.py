@@ -194,9 +194,10 @@ class Order(models.Model):
 class Part(models.Model):
     order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
-        ('BLO', 'Block'),
-        ('COV', 'Cover'),
-        ('INS', 'Insert'),
+        ('BLO', 'блок'),
+        ('COV', 'обложка'),
+        ('INS', 'вклейка'),
+        ('FRZ', 'форзаци'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
@@ -241,7 +242,8 @@ class PrintSchedule(models.Model):
     sm1 = models.BooleanField(default=True)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
-    paper_print_run = models.IntegerField(null=True, blank=True)
+    printed_sheets = models.IntegerField(null=True, blank=True)
+    circulation_sheets = models.IntegerField(null=True, blank=True)
     plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)

@@ -4,7 +4,7 @@ const daysOfPrint = (items) => {
     // Pass fetchedOrders (items) as an argument
     const obj = {};
     const days = daysGenerator();
-    const currendDay = new window.Date();
+    // const currendDay = new window.Date();
     for (const [index, key] of days.entries()) {
       const timeofday = index % 2 === 0 ? "day" : "night"; 
       let itemsOfday = [];
@@ -17,14 +17,15 @@ const daysOfPrint = (items) => {
                 'pk': part.printing[0].pk,
                 'number': item.number,
                 'nameOfOrder': item.nameOfOrder,
-                'circulation': item.circulation,
-                'partName': part.part_name,
+                'printed_sheets': part.printing[0].printed_sheets,
+                'circulation_sheets': part.printing[0].circulation_sheets,
+                'partName': part.part_name_display,
                 'order_part': part.printing[0].order_part,
                 'position': part.printing[0].position,
             }
           );
-          console.log("1__" , part)
-          console.log("2___", itemsOfday)
+          console.log("1_part_" , part)
+          console.log("2_itemsOfday__", itemsOfday)
           }        
         })
       })

@@ -37,8 +37,8 @@ const OrderInformation = styled.div`
 
 const OrderItem = styled.div`
   padding-right: 10px;
-  padding-left: 10px;
-  width: 100px;
+  padding-left: 5px;
+  // min-width: 60px;
 `;
 
 // const Inputt = styled.input`
@@ -46,7 +46,6 @@ const OrderItem = styled.div`
 // `;
 
 const OrderCard = ({ item, index }) => {
-  // console.log("7777777", item)
   return (
     <Draggable key={item.pk} draggableId={String(item.pk)} index={index}>
       {(provided) => (
@@ -59,9 +58,10 @@ const OrderCard = ({ item, index }) => {
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             {/* <OrderItem>{item.pk}</OrderItem> */}
             <OrderItem>{item.number}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.partName}</OrderItem>
-            <OrderItem>{item.circulation}</OrderItem>
+            <OrderItem>{item.nameOfOrder + ","}</OrderItem>
+            <OrderItem>{item.partName + ","}</OrderItem>
+            <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
+            <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
             
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
