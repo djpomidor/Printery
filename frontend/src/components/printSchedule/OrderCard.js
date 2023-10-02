@@ -60,7 +60,9 @@ const OrderCard = ({ item, index }) => {
             {/* <OrderItem>{item.pk}</OrderItem> */}
             <OrderItem>{item.number}</OrderItem>
             <OrderItem>{item.nameOfOrder}</OrderItem>
+            <OrderItem>{item.partName}</OrderItem>
             <OrderItem>{item.circulation}</OrderItem>
+            
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',

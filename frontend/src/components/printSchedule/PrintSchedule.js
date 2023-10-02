@@ -94,6 +94,7 @@ const PrintSchedule = () => {
       console.error(error);
     }
   };
+  
   const onDragEnd = (result, columns, setState) => {
     if (!result.destination) return;
     const { source, destination } = result;
