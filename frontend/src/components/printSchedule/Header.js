@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav'
 
 const Header = ({ setSelectedTab }) => {
   return (
-    <header className="position-lg-sticky top-lg-0 d-none d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
+    <header className="sticky-top top-lg-0 d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
     <div className="container-fluid ">
         {/* <div className="border-bottom pt-6"> */}
           <div className="row align-items-center py-3">
@@ -20,7 +20,7 @@ const Header = ({ setSelectedTab }) => {
                      <span className="pe-2"><i className="bi bi-plus-square-dotted"></i> </span><span>Create</span>
                  </a> */}
                   {/* <button className="btn btn-sm btn-primary" onClick={() => setComponent("OrdersTable")}>Редактировать</button> */}
-                  <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Сохранить изменения</button>
+                  {/* <button className="btn btn-sm btn-primary" onClick={() => setComponent("CreateOrder")}>Сохранить изменения</button> */}
                   
              </div>
              {/* <p>Последнее изменение было в <br/> 13.10,  23 окт.</p> */}

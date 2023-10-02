@@ -6,7 +6,7 @@ from django.db.models import Max
 import locale
 import datetime
 
-locale.setlocale(locale.LC_TIME, "ru_RU")  # Установить русскую локализацию
+locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU
 
 def parent_day():
     today = datetime.datetime.now()
@@ -236,7 +236,7 @@ class Part(models.Model):
 ###############################################################################################
 
 class PrintSchedule(models.Model):
-    order = models.ForeignKey(Order, related_name='printing', on_delete = models.CASCADE)
+    order_part = models.ForeignKey(Part, related_name='printing', on_delete = models.CASCADE)
     print_date = models.DateField(null=True, blank=True)
     sm1 = models.BooleanField(default=True)
     sm2 = models.BooleanField(default=False)
@@ -246,8 +246,8 @@ class PrintSchedule(models.Model):
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)
 
-    def __str__(self):
-        if self.day:
-            return f"{self.print_date} (Day): №{self.order.number}"
-        else:
-            return f"{self.print_date} (Night): №{self.order.number}"
+    # def __str__(self):
+    #     if self.day:
+    #         return f"{self.print_date} (Day): №{self.order.number}"
+    #     else:
+    #         return f"{self.print_date} (Night): №{self.order.number}"

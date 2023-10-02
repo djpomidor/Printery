@@ -6,6 +6,7 @@ import OrderCard from './OrderCard';
 import useAxios from "../../utils/useAxios";
 // import updatePositions from "./updatePositions.js";
 import { v4 as uuidv4 } from 'uuid';
+import daysOfPrint from './utils/daysOfPrint';
 
 const Container = styled.div`
   display: flex;
@@ -34,7 +35,8 @@ const OrderColumnStyles = styled.div`
   // display: flex;
   // width: 100%;
   min-height: 80vh;
-  ${Day}:nth-child(even) {
+  ${Day}:nth-of-type(even) { 
+    // was nth-child
     margin-bottom: 20px;
   }
 `;
@@ -65,7 +67,6 @@ const PrintSchedule = () => {
      
     useEffect(() => {
       const fetchData = async () => {
-        // const d = new window.Date().toISOString();
         try {
           const response = await api.get("/orders/printShedule/" + new window.Date().toISOString());
           const fetchedOrders = response.data;
@@ -80,93 +81,23 @@ const PrintSchedule = () => {
       fetchData();
     }, []);
  
-  const daysGenerator = () => {
-    let dates = [];
-    [...Array(8).keys()].map(index => {
-    const d = new window.Date();
-    d.setDate((d.getDate() - 2) + index);
-    let day = d.toLocaleDateString('Ru', {  
-      day: "numeric", 
-      month:"numeric", 
-      weekday:"short",
-    });
-    dates.push(day);
-    return dates.push(day);
-  });
-  return dates;
-  };
-////////////////////////////////////////////////////////
-
-  // const 
-///////////////////////////////////////////////////////
-
-  const daysOfPrint = (items) => {
-    // Pass fetchedOrders (items) as an argument
-    const obj = {};
-    const days = daysGenerator();
-    const currendDay = new window.Date();
-    for (const [index, key] of days.entries()) {
-      const timeofday = index % 2 === 0 ? "day" : "night"; 
-      let itemsOfday = [];
-      items.forEach((item)=>{
-        if ((key + '_' + timeofday) === item.printing[0].parent_day ) {
-          itemsOfday.push(item);
-        }        
-        
-      })
-
-      // let temp;
-      // for (const [i, order] of items.entries()){
-      //   const dateStr = order.created;
-      //   const jsDate = new window.Date(order.created.replace(' ', 'T', 'Z'));
-        
-      //   // console.log("!@#$%2222", jsDate)
-        
-      //   temp = jsDate.toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
-      //   // console.log("!@#$%", temp)
-      // }
-      // console.log("!__temp", temp)
-
-      const today = new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
-      obj[key + '_' + timeofday] = {
-        date: key,
-        timeofday: timeofday,
-        // items: key === today && index % 2 === 0 ? items : [],
-        items: itemsOfday.sort((a, b)=>{
-          return a.printing[0].position - b.printing[0].position;
-        }),
-      };
-    
-  }
-    return obj;
-  };
-
   const updatePositions = async (itemId, newPosition, newColumnId) => {
     try {
-      const response = await api.put(`/orders/printShedule/${itemId}/update_position/`, {
+      const response = await api.put(`/orders/printShedule/${itemId}_BLO/update_position/`, {
         position: newPosition,
         parent_day: newColumnId,
       });
-  
-      // Do anything with the updated item data if necessary
+        // Do anything with the updated item data if necessary
       // console.log(response.data);
-  
-    } catch (error) {
+      } catch (error) {
       // Handle errors
       console.error(error);
     }
   };
-
-
-
-
   const onDragEnd = (result, columns, setState) => {
-
     if (!result.destination) return;
     const { source, destination } = result;
-  
     const newColumns = { ...columns };
-  
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = newColumns[source.droppableId];
       const destColumn = newColumns[destination.droppableId];
@@ -176,13 +107,11 @@ const PrintSchedule = () => {
       destItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...sourceColumn, items: sourceItems };
       newColumns[source.droppableId].items.forEach((item, index) => {
-        updatePositions(item.pk, index, source.droppableId); 
+        updatePositions(item.order_part, index, source.droppableId); 
       });
-
       newColumns[destination.droppableId] = { ...destColumn, items: destItems };
-
       newColumns[destination.droppableId].items.forEach((item, index) => {
-        updatePositions(item.pk, index, destination.droppableId);
+        updatePositions(item.order_part, index, destination.droppableId);
       });
 
     } else {
@@ -191,32 +120,23 @@ const PrintSchedule = () => {
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
       newColumns[source.droppableId] = { ...column, items: copiedItems };
-
       newColumns[source.droppableId].items.forEach((item, index) => {
-        updatePositions(item.pk, index, source.droppableId);
+        updatePositions(item.order_part, index, source.droppableId);
       });
     }
-  
     setState(prevState => ({
       ...prevState,
       columns: newColumns
     }));
-
   };
   return (
-
     <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, state.columns, setState)}
-    >
+      onDragEnd={(result) => onDragEnd(result, state.columns, setState)}>
       <Container>
         <OrderColumnStyles> 
-          
-          {/* <Droppable key={0} droppableId={0}></Droppable>
-          <div>!!!!</div> */}
           {Object.entries(state.columns).map(([columnId, column], index) => {
             return (
               <Droppable key={columnId} droppableId={columnId}>
-               
                 {(provided, snapshot) => (
                   <Day>
                     {(column.date === new window.Date().toLocaleDateString('Ru', {  
@@ -235,10 +155,9 @@ const PrintSchedule = () => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    
                     <div>
                     {column.items.map((item, index) => (
-                      <OrderCard key={index} item={item} index={index} />   // was key={item} !!
+                      <OrderCard key={item.pk} item={item} index={index} />   // was key={item} !!
                     ))}
                     {provided.placeholder}
                     </div>

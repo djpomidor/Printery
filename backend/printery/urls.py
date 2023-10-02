@@ -19,7 +19,7 @@ urlpatterns = [
     path('orders/', views.OrderList.as_view()),
     path('orders/<int:pk>/', views.OrderDetail.as_view()),
     path('orders/printShedule/<str:created>', views.OrdersByDate.as_view()),
-    path('orders/printShedule/<int:pk>/update_position/', views.Update_position.as_view()),
+    path('orders/printShedule/<int:pk>_<str:part>/update_position/', views.Update_position.as_view()),
 ]
 
 # urlpatterns = [

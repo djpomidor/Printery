@@ -2,7 +2,7 @@ import React  from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
-import OrdersList from '../orders/OrdersList';
+import OrdersList from './OrdersList';
 
 function GetFilteredOrders() {
   const [orders, setOrders] = useState([]);
@@ -29,7 +29,6 @@ function GetFilteredOrders() {
       }
     };
     fetchData();
-    ///// eslint-disable-next-line react-hooks/exhaustive-deps
 
   }, []);
  
