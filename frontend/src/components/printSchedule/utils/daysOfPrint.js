@@ -22,10 +22,12 @@ const daysOfPrint = (items) => {
                 'partName': part.part_name_display,
                 'order_part': part.printing[0].order_part,
                 'position': part.printing[0].position,
+                'paper': part.paper.type_display,
             }
           );
-          console.log("1_part_" , part)
-          console.log("2_itemsOfday__", itemsOfday)
+          console.log("1_item_" , item)
+          console.log("2_part_" , part)
+          console.log("3_itemsOfday__", itemsOfday)
           }        
         })
       })
