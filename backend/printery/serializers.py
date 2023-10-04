@@ -14,16 +14,37 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class PaperSerializer(serializers.ModelSerializer):
+    type_display = serializers.CharField(source='get_type_display', read_only=True)
+    
     class Meta:
         model=Paper
-        fields = ["name", "type","density","width","height", "manufacturer"]
+        fields = ["name", "type","type_display", "density","width","height", "manufacturer"]
 
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     type_human_readable = dict(instance.TYPE_CHOICES).get(representation['type'])
+
+    #     if type_human_readable:
+    #         representation['type'] = type_human_readable
+
+    #     return representation
+
+
+class PrintScheduleSerializer(serializers.ModelSerializer):
+    order_part = serializers.PrimaryKeyRelatedField(read_only=True) 
+    part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
+    class Meta:
+        model = PrintSchedule
+        fields = ['pk', 'order_part', 'part_name', 'parent_day', 'position']
 
 class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
-    paper = serializers.StringRelatedField(read_only=True)
-    # paper = PaperSerializer(many=True, read_only=True)  # paper object
+    # paper = serializers.StringRelatedField(read_only=True)
+    paper = PaperSerializer(read_only=True)  # paper object
+    color_display = serializers.CharField(source='get_color_display', read_only=True)
+    printing = PrintScheduleSerializer(many=True, read_only=True)
+
     def validate_pages(self, value):
         if not value:
             return 0
@@ -34,8 +55,8 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        # fields = ['order', 'part_name', 'pages', 'paper', 'color', 'laminate', 'uflak']
-        fields = '__all__'
+        fields = ['order', 'part_name', 'pages', 'paper', 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        # fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -49,7 +70,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
 
     def create(self, validated_data):
-        print("!!!_validated_data_", validated_data)
         owners = validated_data.pop('owner')
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
@@ -58,7 +78,6 @@ class OrderSerializer(serializers.ModelSerializer):
         for part_data in parts_data:
             Part.objects.create(order=order, **part_data)
         return order
-        
         
 
 class UserSerializer(serializers.ModelSerializer):
@@ -118,16 +137,7 @@ class CreatOrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ('name', 'type', 'circulation', 'binding', 'width', 'height', 'due_date', 'delivery_date')       
 
-    # def create(self, validated_data):
-    #     order = Order.objects.create(        
-    #         name
-    #         owner
-    #         type
-    #         circulation
-    #         binding
-    #         width
-    #         height
-    #         created
-    #         due_date
-    #         delivery_date
-    #     )    
+
+
+
+  

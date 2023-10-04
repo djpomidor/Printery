@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
@@ -24,7 +25,6 @@ const Getdata = () => {
       }
     };
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
  
   return orders;

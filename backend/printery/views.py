@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django import forms
 import json
+import datetime
 
 from printery.models import *
 from printery.forms import *
@@ -276,11 +277,13 @@ class OrderList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = OrderSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer_order = OrderSerializer(data=request.data)
+        serializer_printSheduler = PrintScheduleSerializer(data={})
+        if serializer_order.is_valid() and serializer_printSheduler.is_valid() :
+            serializer_order.save()
+            return Response(serializer_order.data, status=status.HTTP_201_CREATED)
+        print("____", serializer_printSheduler.errors)
+        return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class OrderDetail(APIView):
@@ -311,11 +314,59 @@ class OrderDetail(APIView):
         order.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-class OrdersByDate(APIView):
 
+class OrdersByDate(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, created):
-        orders = Order.objects.filter(created__range=["2023-04-01", created]).order_by("-created").all()
+        x = datetime.datetime.now()
+        print("!!!!!", x)
+        orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+
+class PrintScheduleView(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request, created):
+        x = datetime.datetime.now()
+        print("!!!!!", x)
+        orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
+        serializer = PrintScheduleSerializer(orders, many=True)
+        return Response(serializer.data)
+
+
+class Update_position(APIView):
+    permission_classes = (AllowAny,)
+    def get_object(self, pk, part):
+        try:
+            print("!!pk__", pk)
+            return PrintSchedule.objects.get(order_part=pk)
+        except Order.DoesNotExist: 
+            raise Http404    
+        
+    def put(self, request, pk, part, format=None):
+        item = self.get_object(pk, part)
+        position = request.data.get('position')
+        print("position____", position)
+        parent_day = request.data.get('parent_day')
+        print("parent_day____", parent_day)
+        serializer = PrintScheduleSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print("serializer.errors____",serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+        
+
+        # if position and parent_day is not None:
+        #     item.position = position
+        #     item.parent_day = position
+        #     item.save()
+            
+        #     return Response(serializer.data)
+        # else:
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)        

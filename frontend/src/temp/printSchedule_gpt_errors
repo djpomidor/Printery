@@ -1,0 +1,29 @@
+The onDragEnd function is used in the DragDropContext component to handle the end of a drag event. It takes in the result object, columns state, and setColumns function as parameters. 
+
+If result.destination is not defined, the function returns early. Otherwise, it extracts the source and destination properties from the result object. 
+
+If the source and destination droppable IDs are different, it means that the item is being dragged from one column to another. In this case, it creates copies of the source and destination column items arrays using spread syntax, removes the item from the source column items array, and inserts it at the destination index in the destination column items array. 
+
+Finally, it updates the columns state by spreading the previous state and updating the source and destination columns with the new items arrays. 
+
+If the source and destination droppable IDs are the same, it means the item is being reordered within the same column. In this case, it creates a copy of the column items array, removes the item from the source index, and inserts it at the destination index. 
+
+Again, it updates the columns state by spreading the previous state and updating the source column with the new items array. 
+
+The onDragEnd function is passed to the onDragEnd prop of the DragDropContext component.
+
+The PrintSchedule component contains the main logic and structure of the draggable schedule. It uses the DragDropContext component from the react-beautiful-dnd library to enable drag and drop functionality. 
+
+Inside the DragDropContext, it renders a Container component which contains the columns of the schedule. The columns are rendered using the OrderColumnStyles component. 
+
+Each column is rendered using the Droppable component. The droppableId for each column is set to the column ID. 
+
+Inside the Droppable component, the provided and snapshot props are destructured. These props are provided by the Droppable component to handle the rendering of draggable items. 
+
+The Day component is rendered inside the Droppable component. It renders the date and day/night label for each column. 
+
+The OrderList component is rendered inside the Droppable component. It is the container for the draggable items in each column. The ref prop is set to provided.innerRef and the ...provided.droppableProps spread is used to pass the necessary props for handling the dragging and dropping of items. 
+
+Inside the OrderList, the column.items array is mapped over to render each item as an OrderCard component. The key prop is set to the index of each item in the array. 
+
+Finally, the provided.placeholder is rendered to provide the necessary space for the dragged item when it is being dragged over the OrderList component.

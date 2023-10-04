@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
@@ -40,13 +41,13 @@ const OrderItem = styled.div`
   width: 100px;
 `;
 
-const Inputt = styled.input`
+// const Inputt = styled.input`
       
-`;
+// `;
 
 const OrderCard = ({ item, index }) => {
   return (
-    <Draggable key={item.pk} draggableId={item.pk} index={index}>
+    <Draggable key={item.pk} draggableId={String(item.pk)} index={index}>
       {(provided) => (
         <div
           ref={provided.innerRef}
@@ -55,22 +56,17 @@ const OrderCard = ({ item, index }) => {
         >
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
-            <OrderItem>{item.pk}</OrderItem>
+            {/* <OrderItem>{item.pk}</OrderItem> */}
+            <OrderItem>{item.number}</OrderItem>
             <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            {/* <div className="secondary-details">
-              <p>
-                <span>
-                  {new Date(item.due_date).toLocaleDateString('en-us', {
+            <OrderItem>{item.circulation}</OrderItem>
+            <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',
                   })}
-                </span>
-              </p>
-            </div> */}
+            </OrderItem>
+            {/* {console.log("printing!!", item.parts[0].printing[0])} */}
+            <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem>
           </OrderInformation>
         </div>
       )}

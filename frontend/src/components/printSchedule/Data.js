@@ -111,22 +111,22 @@ return dates;
 // https://stackoverflow.com/questions/42974735/create-object-from-array
 
 
-  // const items = [{
-  //       pk: '1',
-  //       nameOfOrder: 'Книга',
+  const items = [{
+        pk: '1',
+        nameOfOrder: 'Книга',
     
-  //     },
-  //     {
-  //       pk: '2',
-  //       nameOfOrder: 'Книга2',
+      },
+      {
+        pk: '2',
+        nameOfOrder: 'Книга2',
     
-  //     },]
+      },]
 
-  export const daysOfPrint = orders => {
-  console.log("orders1111111", orders);
+  export const daysOfPrint = (data)=> {
+  console.log("111", data);
   // const items = data;
 
-  // console.log("222  items", items);
+  console.log("222", items);
   const obj = {};
   const days = daysGenerator();
   const curentDate = new Date();
@@ -135,7 +135,7 @@ return dates;
         date: key,
         timeofday: (index % 2 === 0)? "day":"night",
         // items: (key === "вт, 25.07" && index % 2 === 0)?<Getdata draggableId={index} />:[],
-        items: (key === "чт, 27.07" && index % 2 === 0)?orders:[],
+        items: (key === "вт, 25.07" && index % 2 === 0)?items:[],
         // items: items,
       };
   };
