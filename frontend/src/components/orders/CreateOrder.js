@@ -5,30 +5,26 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-
 import { useHistory } from "react-router-dom";
-
-
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import OrderParts from './OrderParts';
-
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  nameOfOrder: yup.string(),
+  nameOfOrder: yup.string().required(),
   typeOfOrder: yup.string().required(),
   circulation: yup.string().required(),
   binding: yup.string().required(),
-  width: yup.string(),
-  height: yup.string(),
+  width: yup.string().required(),
+  height: yup.string().required(),
   parts: yup.array().of(
     yup.object().shape({
       part_name: yup.string(),
-      pages: yup.string(),
-      color: yup.string(),
-      paper: yup.number(),
+      pages: yup.string().required(),
+      color: yup.string().required(),
+      paper_id: yup.number(),
     })
   ),
   terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
@@ -36,29 +32,16 @@ const schema = yup.object().shape({
 
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
-  // console.log("user.pk---", user.user_id);
   const [validated, setValidated] = useState(false);
   const [errororder, setErrorOrder] = useState();
   const [errors, setErrors] = useState();
 
   const addOrder = async (values, user) => {
-    console.log("!!!!!!!__", values)
-    // const { number, nameOfOrder, typeOfOrder, circulation, binding, width, height, order, part_name, pages, paper, color, laminate, uflak, created, due_date, delivery_date} = props;
     values.owner = [user.user_id]
-    
-
-    //   values.parts.map((part, index) => {
-    //     // console.log("values--!", part);
-    //     // if (part.pages==0) {
-    //     //   values.parts.splice(index);
-    //     //   // console.log("values--!", part.part_name);
-    //     // }
-    // })
-    values.parts = values.parts.filter(function (part) {
-      part.paper = parseInt(part.paper)
+    values.parts = values.parts.filter((part) => {
+      // part.paper = parseInt(part.paper)
       return part.pages != 0;
     });
-
 
     try {
       const response = await fetch("http://127.0.0.1:8000/api/orders/", {
@@ -66,19 +49,7 @@ const CreateOrder = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(values, null, 2
-          // nameOfOrder,
-          // typeOfOrder,
-          // circulation,
-          // binding,
-          // width,
-          // height,
-          // owner,
-          // parts:[{order, part_name, pages, paper, color, laminate, uflak }],
-          // created,
-          // due_date,
-          // delivery_date
-        )
+        body: JSON.stringify(values, null, 2)
       });
       const data = await response.json();
       if (response.status === 201) {
@@ -100,16 +71,11 @@ const CreateOrder = () => {
     setErrors(newOrder)
   };
 
-  // const parts = ['Block','Cover','Insert']
   const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
 
   return (
     <Formik
       validationSchema={schema}
-      // onSubmit={async (values) => {
-      //   await new Promise((r) => setTimeout(r, 500));
-      //   alert(JSON.stringify(values, null, 2));
-      // }}
       onSubmit={onSubmit}
       initialValues={{
         nameOfOrder: '',
@@ -118,7 +84,6 @@ const CreateOrder = () => {
         binding: '',
         width: '',
         height: '',
-        // parts: ['Block', 'Cover', 'Insert'],
         parts: [
           {
             part_name: 'BLO',
@@ -140,8 +105,6 @@ const CreateOrder = () => {
           },
         ],
         created: '',
-        // due_date: '',
-        // delivery_date: '',
         terms: false,
       }}
     >
@@ -164,10 +127,11 @@ const CreateOrder = () => {
                 placeholder="Short name of the product"
                 value={values.nameOfOrder}
                 onChange={handleChange}
+                isInvalid={!!errors.nameOfOrder}
                 isValid={touched.nameOfOrder && !errors.nameOfOrder}
-                isInvalid={errors.nameOfOrder}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.nameOfOrder}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} md="4" controlId="validationFormik02">
@@ -188,10 +152,9 @@ const CreateOrder = () => {
                 <option value="FL">Флаер</option>
                 <option value="POS">Плакат</option>
                 <option value="INS">Инструкция</option>
-
               </Form.Select>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.typeOfOrder}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} md="4" controlId="validationFormik03">
@@ -204,9 +167,7 @@ const CreateOrder = () => {
                 onChange={handleChange}
                 isInvalid={!!errors.circulation}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.circulation}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
             </Form.Group>
           </Row>
 
@@ -275,22 +236,34 @@ const CreateOrder = () => {
                 {values.parts.length > 0 &&
                   values.parts.map((part, index) => (
                     <div className="mb-3 row" key={index}>
+                      <hr></hr>
                       <div className="collapse">
                         <Field
                           name={`parts.${index}.part_name`}
                           type="text"
                         />
                       </div>
+                      <div className="d-flex align-items-center">
                       <h6>
                         {(part.part_name === 'BLO') ? ('Block') : ''}
                         {(part.part_name === 'COV') ? ('Cover') : ''}
                         {(part.part_name === 'INS') ? ('Insert') : ''}
                       </h6>
+                      
+                        <button
+                          type="button"
+                          className="ms-auto"
+                          onClick={() => remove(index)}
+                        >
+                          <i className="bi-x"></i>
+                        </button>
+                      </div>
                       <div className="col-md-3">
                         <label className="form-label" htmlFor={`parts.${index}.pages`}>Pages</label>
                         <Field
                           className="form-control"
                           name={`parts.${index}.pages`}
+                          id={`parts.${index}.pages`}
                           placeholder="100"
                           type="number"
                         />
@@ -302,6 +275,7 @@ const CreateOrder = () => {
                           as="select"
                           className="form-control"
                           name={`parts.${index}.color`}
+                          id={`parts.${index}.color`}
                           type="text"
                         >
                           <option value="">Select...</option>
@@ -312,11 +286,11 @@ const CreateOrder = () => {
                       </div>
 
                       <div className="col-md-4">
-                        <label className="form-label" htmlFor={`parts.${index}.paper`}>Paper</label>
+                        <label className="form-label" htmlFor={`parts.${index}.paper_id`}>Paper</label>
                         <Field
                           as="select"
                           className="form-control"
-                          name={`parts.${index}.paper`}
+                          name={`parts.${index}.paper_id`}
                           type="number"
                         >
                           <option value="">Select...</option>
@@ -326,44 +300,26 @@ const CreateOrder = () => {
                           <option value="4">Картон</option>
                         </Field>
                       </div>
-
                       <ErrorMessage
                         name={`parts.${index}.name`}
                         component="div"
                         className="field-error"
                       />
-
-
-                      {/* <div className="col">
-                        <button
-                          type="button"
-                          className="secondary"
-                          onClick={() => remove(index)}
-                        >
-                          X
-                        </button>
-                      </div> */}
+                      
+                      
                     </div>
                   ))}
-                {/* <button
+                <button
                   type="button"
                   className="secondary"
                   onClick={() => push({ part_name: '', pages: '' })}
                 >
-                  Add Friend
-                </button> */}
+                  Add Part
+                </button>
               </>
             )}
           </FieldArray>
-
-
-
-          {/* {  values.parts.map((part, i) => (
-              <OrderParts index={i} part_name={['BLO', 'COV', 'INS']} key={i} title={part} errors={errors} values={values} handleChange={handleChange}></OrderParts>
-          ))} */}
-
-
-
+          <hr></hr>          
           <Form.Group className="mb-3">
             <Form.Check
               required

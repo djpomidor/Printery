@@ -4,7 +4,6 @@ import styled from "@emotion/styled/macro";
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import OrderCard from './OrderCard';
 import useAxios from "../../utils/useAxios";
-// import updatePositions from "./updatePositions.js";
 import { v4 as uuidv4 } from 'uuid';
 import daysOfPrint from './utils/daysOfPrint';
 
