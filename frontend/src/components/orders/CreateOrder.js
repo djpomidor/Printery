@@ -3,14 +3,13 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import { useHistory } from "react-router-dom";
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import OrderParts from './OrderParts';
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { addOrder } from '../../api/orders';
+import SelectField from './SelectField';
 
 const schema = yup.object().shape({
   nameOfOrder: yup.string().required(),
@@ -25,45 +24,35 @@ const schema = yup.object().shape({
       pages: yup.string().required(),
       color: yup.string().required(),
       paper_id: yup.number(),
+      paper_density: yup.string(),
     })
   ),
   terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
 
+const densityOptions = [
+  { value: '', label: 'Select...' },
+  { value: '80', label: '80' },
+  { value: '100', label: '100' },
+  { value: '105', label: '105' },
+  { value: '115', label: '115' },
+  { value: '120', label: '120' },
+  { value: '130', label: '130' },
+  { value: '150', label: '150' },
+  { value: '170', label: '170' },
+  { value: '200', label: '200' },
+  { value: '250', label: '250' },
+  { value: '300', label: '300' },
+  { value: '350', label: '350' },
+
+];
+
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
-  const [errororder, setErrorOrder] = useState();
   const [errors, setErrors] = useState();
 
-  const addOrder = async (values, user) => {
-    values.owner = [user.user_id]
-    values.parts = values.parts.filter((part) => {
-      // part.paper = parseInt(part.paper)
-      return part.pages != 0;
-    });
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/orders/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(values, null, 2)
-      });
-      const data = await response.json();
-      if (response.status === 201) {
-        alert("All good! status: 201");
-        console.log("___--", data);
-        // window.location.reload();
-      } else {
-        alert("Something went wrong, response.status:!", response.status);
-        return data;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const onSubmit = async (values) => {
     const newOrder = await addOrder(values, user);
@@ -90,18 +79,21 @@ const CreateOrder = () => {
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
           {
             part_name: 'COV',
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
           {
             part_name: 'INS',
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
         ],
         created: '',
@@ -244,12 +236,12 @@ const CreateOrder = () => {
                         />
                       </div>
                       <div className="d-flex align-items-center">
-                      <h6>
-                        {(part.part_name === 'BLO') ? ('Block') : ''}
-                        {(part.part_name === 'COV') ? ('Cover') : ''}
-                        {(part.part_name === 'INS') ? ('Insert') : ''}
-                      </h6>
-                      
+                        <h6>
+                          {(part.part_name === 'BLO') ? ('Block') : ''}
+                          {(part.part_name === 'COV') ? ('Cover') : ''}
+                          {(part.part_name === 'INS') ? ('Insert') : ''}
+                        </h6>
+
                         <button
                           type="button"
                           className="ms-auto"
@@ -305,8 +297,39 @@ const CreateOrder = () => {
                         component="div"
                         className="field-error"
                       />
-                      
-                      
+                      <div>
+                        <label className="form-label" htmlFor={'parts.${index}.paper_density'}>Плотность</label>
+                        <Field
+                          component={SelectField}
+                          options={densityOptions}
+                          name={`parts.${index}.density`}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-label" htmlFor={'parts.${index}.paper_density'} >
+                          <Field
+                            className="form-control"
+                            name={'parts.${index}.paper_density'}
+                            type="text"
+                            id={'parts.${index}.paper_density'}
+                            list="paper_density" />
+                        </label>
+
+                        <datalist id="paper_density">
+                          <option value='80'>80</option>
+                          <option value='100'></option>
+                          <option value='105'></option>
+                          <option value='115'></option>
+                          <option value='120'></option>
+                          <option value='130'></option>
+                          <option value='150'></option>
+                          <option value='170'></option>
+                          <option value='200'></option>
+                          <option value='250'></option>
+                          <option value='300'></option>
+
+                        </datalist>
+                      </div>
                     </div>
                   ))}
                 <button
@@ -319,7 +342,7 @@ const CreateOrder = () => {
               </>
             )}
           </FieldArray>
-          <hr></hr>          
+          <hr></hr>
           <Form.Group className="mb-3">
             <Form.Check
               required
