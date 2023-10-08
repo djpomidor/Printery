@@ -44,15 +44,12 @@ const densityOptions = [
   { value: '250', label: '250' },
   { value: '300', label: '300' },
   { value: '350', label: '350' },
-
 ];
 
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
-
-
 
   const onSubmit = async (values) => {
     const newOrder = await addOrder(values, user);
@@ -302,7 +299,7 @@ const CreateOrder = () => {
                         <Field
                           component={SelectField}
                           options={densityOptions}
-                          name={`parts.${index}.density`}
+                          name={`parts.${index}.paper_density`}
                         />
                       </div>
                       <div>
