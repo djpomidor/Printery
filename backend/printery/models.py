@@ -210,7 +210,7 @@ class Part(models.Model):
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
     paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
-    paper = models.ManyToManyField(Paper,)
+    # paper = models.ManyToManyField(Paper,)
     COLOR_CHOICES = [
         (None, 'Select...'),
         ('4_4', '4+4'),
