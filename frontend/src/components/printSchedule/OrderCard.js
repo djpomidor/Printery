@@ -12,7 +12,9 @@ const OrderInformation = styled.div`
   /* background: ${({ isDragging }) =>
     isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'}; */
   background: white;
-  margin-top: 15px;
+  margin-top: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 
   .secondary-details {
     display: flex;
@@ -37,8 +39,8 @@ const OrderInformation = styled.div`
 
 const OrderItem = styled.div`
   padding-right: 10px;
-  padding-left: 10px;
-  width: 100px;
+  padding-left: 5px;
+  min-width: 100px;
 `;
 
 // const Inputt = styled.input`
@@ -57,16 +59,20 @@ const OrderCard = ({ item, index }) => {
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             {/* <OrderItem>{item.pk}</OrderItem> */}
-            <OrderItem>{item.number}</OrderItem>
-            <OrderItem>{item.nameOfOrder}</OrderItem>
-            <OrderItem>{item.circulation}</OrderItem>
-            <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
+            <OrderItem>{"с/з " + item.number}</OrderItem>
+            <OrderItem>{item.nameOfOrder + ","}</OrderItem>
+            <OrderItem>{item.partName + ","}</OrderItem>
+            <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
+            <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
+            <OrderItem>{item.paper}</OrderItem>
+            
+            {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',
                   })}
-            </OrderItem>
+            </OrderItem> */}
             {/* {console.log("printing!!", item.parts[0].printing[0])} */}
-            <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem>
+            {/* <OrderItem>{item.parts[0].printing[0].part_name}</OrderItem> */}
           </OrderInformation>
         </div>
       )}
@@ -75,8 +81,3 @@ const OrderCard = ({ item, index }) => {
 };
 
 export default OrderCard;
-
-// <span className="priority">
-// {item.Priority === 'High' ? (<RedArrow />) : item.Priority === 'Medium' ? (<YellowArrow />) : (<BlueArrow />)}
-// </span>
-// <div><CustomAvatar name={item.Assignee} isTable={false} size={16} /></div>

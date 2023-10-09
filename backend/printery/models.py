@@ -86,15 +86,15 @@ class Paper(models.Model):
     def __str__(self):
         return f"{self.name} {self.get_type_display()} {self.density} gr/m2"
 
-    def serialize(self):
-        return {
-            "name": self.name,
-            "type": self.type,
-            "density": self.density,
-            "width": self.width,
-            "height": self.height,
-            # "manufacturer": self.manufacturer
-        }
+    # def serialize(self):
+    #     return {
+    #         "name": self.name,
+    #         "type": self.type,
+    #         "density": self.density,
+    #         "width": self.width,
+    #         "height": self.height,
+    #         # "manufacturer": self.manufacturer
+    #     }
 
 ###########################################################################
 
@@ -115,15 +115,20 @@ class Order(models.Model):
     MAGAZINE = 'MZ'
     NEWSPAPER = 'NP'
     FLYERS = 'FL'
+    POSTER = 'POS'
+    INSTRUCTION = 'INS'
     TYPE_CHOICES = [
         (None, "Select..."),
-        (BOOK, 'Book'),
-        (CALENDAR, 'Calendar'),
-        (MAGAZINE, 'Magazine'),
-        (NEWSPAPER, 'Newspaper'),
-        (FLYERS, 'Flyers')
+        (BOOK, 'Книга'),
+        (CALENDAR, 'Календарь'),
+        (MAGAZINE, 'Журнал'),
+        (NEWSPAPER, 'Газета'),
+        (FLYERS, 'Флаер'),
+        (POSTER, 'Плакат'),
+        (INSTRUCTION, 'Инструкция')
+
     ]
-    type = models.CharField(max_length=2, choices=TYPE_CHOICES, blank=True)
+    type = models.CharField(max_length=3, choices=TYPE_CHOICES, blank=True)
     circulation = models.IntegerField(null=True, blank=True)
 
     BINDING_CHOICES = [
@@ -147,13 +152,13 @@ class Order(models.Model):
     #     return formatted_date
 
 
-    def save(self, *args, **kwargs):
-        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
-        super().save(*args, **kwargs)  # Call the superclass's save method
+    # def save(self, *args, **kwargs):
+    #     is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+    #     super().save(*args, **kwargs)  # Call the superclass's save method
 
-        if is_new:  # If the instance was newly created
-            print("!print(locale.getlocale())  ", locale.getlocale())  
-            PrintSchedule.objects.create(order=self, parent_day=parent_day())
+    #     if is_new:  # If the instance was newly created
+    #         print("!print(locale.getlocale())  ", locale.getlocale())  
+    #         PrintSchedule.objects.create(order=self, parent_day=parent_day())
 
 #    def __str__(self):
 #        return f"{self.number} {self.name}"
@@ -194,9 +199,10 @@ class Order(models.Model):
 class Part(models.Model):
     order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
-        ('BLO', 'Block'),
-        ('COV', 'Cover'),
-        ('INS', 'Insert'),
+        ('BLO', 'блок'),
+        ('COV', 'обложка'),
+        ('INS', 'вклейка'),
+        ('FRZ', 'форзаци'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
@@ -221,16 +227,24 @@ class Part(models.Model):
 
     def __str__(self):
         return f"{self.part_name}"
+    
+    def save(self, *args, **kwargs):
+        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+        super().save(*args, **kwargs)  # Call the superclass's save method
 
-    def serialize(self):
-        return {
-            "part_name": self.part_name,
-            "color": self.color,
-            "uflak": self.uflak,
-            "order": self.order.id,
-            "pages": self.pages,
-            "paper": self.paper.serialize()
-        }
+        if is_new:  # If the instance was newly created
+            print("!print(locale.getlocale())  ", locale.getlocale())  
+            PrintSchedule.objects.create(order_part=self)
+
+    # def serialize(self):
+    #     return {
+    #         "part_name": self.part_name,
+    #         "color": self.color,
+    #         "uflak": self.uflak,
+    #         "order": self.order.id,
+    #         "pages": self.pages,
+    #         "paper": self.paper.serialize()
+    #     }
 
 
 ###############################################################################################
@@ -241,7 +255,8 @@ class PrintSchedule(models.Model):
     sm1 = models.BooleanField(default=True)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
-    paper_print_run = models.IntegerField(null=True, blank=True)
+    printed_sheets = models.IntegerField(null=True, blank=True)
+    circulation_sheets = models.IntegerField(null=True, blank=True)
     plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)

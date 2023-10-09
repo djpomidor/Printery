@@ -32,18 +32,22 @@ class PaperSerializer(serializers.ModelSerializer):
 
 class PrintScheduleSerializer(serializers.ModelSerializer):
     order_part = serializers.PrimaryKeyRelatedField(read_only=True) 
-    part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
+    # part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
+    # part_name = serializers.PrimaryKeyRelatedField(source='get_part_name_display', read_only=True) 
+
     class Meta:
         model = PrintSchedule
-        fields = ['pk', 'order_part', 'part_name', 'parent_day', 'position']
+        fields = ['pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id']
 
 class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
     # paper = serializers.StringRelatedField(read_only=True)
     paper = PaperSerializer(read_only=True)  # paper object
+    paper_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     color_display = serializers.CharField(source='get_color_display', read_only=True)
     printing = PrintScheduleSerializer(many=True, read_only=True)
+    part_name_display = serializers.CharField(source='get_part_name_display', read_only=True)
 
     def validate_pages(self, value):
         if not value:
@@ -55,7 +59,7 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        fields = ['order', 'part_name', 'pages', 'paper', 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', "paper_id", 'color', 'color_display', 'laminate', 'uflak', 'printing']
         # fields = '__all__'
 
 
@@ -64,17 +68,17 @@ class OrderSerializer(serializers.ModelSerializer):
     nameOfOrder = serializers.CharField(source='name')
     typeOfOrder = serializers.CharField(source='type')
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    printing = PrintScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order 
-        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
+        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts', 'printing']
 
     def create(self, validated_data):
         owners = validated_data.pop('owner')
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
         order.owner.set(owners)
-        print("order_", order)
         for part_data in parts_data:
             Part.objects.create(order=order, **part_data)
         return order

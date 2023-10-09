@@ -8,7 +8,7 @@ import '../orders/css/style.css';
 
 const OrdersList = ({orders, title}) => {
   const [searchTerm, setSearchTerm] = useState("");
-  console.log("!__", orders);
+  // console.log("!__", orders);
   const filteredOrders = orders.filter((order) =>
     order.number.toString().includes(searchTerm)
   );
