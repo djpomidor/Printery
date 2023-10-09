@@ -59,7 +59,7 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', "paper_id", 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', "paper_id", 'color', 'color_display', 'laminate', 'uflak', 'printing']
         # fields = '__all__'
 
 

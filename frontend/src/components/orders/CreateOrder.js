@@ -3,96 +3,53 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-
-import { useHistory } from "react-router-dom";
-
-
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import OrderParts from './OrderParts';
-
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import * as yup from 'yup';
+import { addOrder } from '../../api/orders';
+import SelectField from './SelectField';
 
 const schema = yup.object().shape({
-  nameOfOrder: yup.string(),
+  nameOfOrder: yup.string().required(),
   typeOfOrder: yup.string().required(),
   circulation: yup.string().required(),
   binding: yup.string().required(),
-  width: yup.string(),
-  height: yup.string(),
+  width: yup.string().required(),
+  height: yup.string().required(),
   parts: yup.array().of(
     yup.object().shape({
       part_name: yup.string(),
-      pages: yup.string(),
-      color: yup.string(),
-      paper: yup.number(),
+      pages: yup.string().required(),
+      color: yup.string().required(),
+      paper_id: yup.number(),
+      paper_density: yup.string(),
     })
   ),
   terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
 
+const densityOptions = [
+  { value: '', label: 'Select...' },
+  { value: '80', label: '80' },
+  { value: '100', label: '100' },
+  { value: '105', label: '105' },
+  { value: '115', label: '115' },
+  { value: '120', label: '120' },
+  { value: '130', label: '130' },
+  { value: '150', label: '150' },
+  { value: '170', label: '170' },
+  { value: '200', label: '200' },
+  { value: '250', label: '250' },
+  { value: '300', label: '300' },
+  { value: '350', label: '350' },
+];
+
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
-  // console.log("user.pk---", user.user_id);
   const [validated, setValidated] = useState(false);
-  const [errororder, setErrorOrder] = useState();
   const [errors, setErrors] = useState();
-
-  const addOrder = async (values, user) => {
-    console.log("!!!!!!!__", values)
-    // const { number, nameOfOrder, typeOfOrder, circulation, binding, width, height, order, part_name, pages, paper, color, laminate, uflak, created, due_date, delivery_date} = props;
-    values.owner = [user.user_id]
-    
-
-    //   values.parts.map((part, index) => {
-    //     // console.log("values--!", part);
-    //     // if (part.pages==0) {
-    //     //   values.parts.splice(index);
-    //     //   // console.log("values--!", part.part_name);
-    //     // }
-    // })
-    values.parts = values.parts.filter(function (part) {
-      part.paper_id = parseInt(part.paper_id)
-      return part.pages != 0;
-    });
-
-
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/orders/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(values, null, 2
-          // nameOfOrder,
-          // typeOfOrder,
-          // circulation,
-          // binding,
-          // width,
-          // height,
-          // owner,
-          // parts:[{order, part_name, pages, paper, color, laminate, uflak }],
-          // created,
-          // due_date,
-          // delivery_date
-        )
-      });
-      const data = await response.json();
-      if (response.status === 201) {
-        alert("All good! status: 201");
-        console.log("___--", data);
-        // window.location.reload();
-      } else {
-        alert("Something went wrong, response.status:!", response.status);
-        return data;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const onSubmit = async (values) => {
     const newOrder = await addOrder(values, user);
@@ -100,16 +57,11 @@ const CreateOrder = () => {
     setErrors(newOrder)
   };
 
-  // const parts = ['Block','Cover','Insert']
   const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
 
   return (
     <Formik
       validationSchema={schema}
-      // onSubmit={async (values) => {
-      //   await new Promise((r) => setTimeout(r, 500));
-      //   alert(JSON.stringify(values, null, 2));
-      // }}
       onSubmit={onSubmit}
       initialValues={{
         nameOfOrder: '',
@@ -118,30 +70,30 @@ const CreateOrder = () => {
         binding: '',
         width: '',
         height: '',
-        // parts: ['Block', 'Cover', 'Insert'],
         parts: [
           {
             part_name: 'BLO',
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
           {
             part_name: 'COV',
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
           {
             part_name: 'INS',
             pages: '',
             color: '',
             paper: '',
+            paper_density: '',
           },
         ],
         created: '',
-        // due_date: '',
-        // delivery_date: '',
         terms: false,
       }}
     >
@@ -164,10 +116,11 @@ const CreateOrder = () => {
                 placeholder="Short name of the product"
                 value={values.nameOfOrder}
                 onChange={handleChange}
+                isInvalid={!!errors.nameOfOrder}
                 isValid={touched.nameOfOrder && !errors.nameOfOrder}
-                isInvalid={errors.nameOfOrder}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.nameOfOrder}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} md="4" controlId="validationFormik02">
@@ -188,10 +141,9 @@ const CreateOrder = () => {
                 <option value="FL">Флаер</option>
                 <option value="POS">Плакат</option>
                 <option value="INS">Инструкция</option>
-
               </Form.Select>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.typeOfOrder}</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} md="4" controlId="validationFormik03">
@@ -204,9 +156,7 @@ const CreateOrder = () => {
                 onChange={handleChange}
                 isInvalid={!!errors.circulation}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.circulation}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.circulation}</Form.Control.Feedback>
             </Form.Group>
           </Row>
 
@@ -275,22 +225,34 @@ const CreateOrder = () => {
                 {values.parts.length > 0 &&
                   values.parts.map((part, index) => (
                     <div className="mb-3 row" key={index}>
+                      <hr></hr>
                       <div className="collapse">
                         <Field
                           name={`parts.${index}.part_name`}
                           type="text"
                         />
                       </div>
-                      <h6>
-                        {(part.part_name === 'BLO') ? ('Block') : ''}
-                        {(part.part_name === 'COV') ? ('Cover') : ''}
-                        {(part.part_name === 'INS') ? ('Insert') : ''}
-                      </h6>
+                      <div className="d-flex align-items-center">
+                        <h6>
+                          {(part.part_name === 'BLO') ? ('Block') : ''}
+                          {(part.part_name === 'COV') ? ('Cover') : ''}
+                          {(part.part_name === 'INS') ? ('Insert') : ''}
+                        </h6>
+
+                        <button
+                          type="button"
+                          className="ms-auto"
+                          onClick={() => remove(index)}
+                        >
+                          <i className="bi-x"></i>
+                        </button>
+                      </div>
                       <div className="col-md-3">
                         <label className="form-label" htmlFor={`parts.${index}.pages`}>Pages</label>
                         <Field
                           className="form-control"
                           name={`parts.${index}.pages`}
+                          id={`parts.${index}.pages`}
                           placeholder="100"
                           type="number"
                         />
@@ -302,6 +264,7 @@ const CreateOrder = () => {
                           as="select"
                           className="form-control"
                           name={`parts.${index}.color`}
+                          id={`parts.${index}.color`}
                           type="text"
                         >
                           <option value="">Select...</option>
@@ -326,44 +289,57 @@ const CreateOrder = () => {
                           <option value="4">Картон</option>
                         </Field>
                       </div>
-
                       <ErrorMessage
                         name={`parts.${index}.name`}
                         component="div"
                         className="field-error"
                       />
+                      <div>
+                        <label className="form-label" htmlFor={'parts.${index}.paper_density'}>Плотность</label>
+                        <Field
+                          component={SelectField}
+                          options={densityOptions}
+                          name={`parts.${index}.paper_density`}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-label" htmlFor={'parts.${index}.paper_density'} >
+                          <Field
+                            className="form-control"
+                            name={'parts.${index}.paper_density'}
+                            type="text"
+                            id={'parts.${index}.paper_density'}
+                            list="paper_density" />
+                        </label>
 
+                        <datalist id="paper_density">
+                          <option value='80'>80</option>
+                          <option value='100'></option>
+                          <option value='105'></option>
+                          <option value='115'></option>
+                          <option value='120'></option>
+                          <option value='130'></option>
+                          <option value='150'></option>
+                          <option value='170'></option>
+                          <option value='200'></option>
+                          <option value='250'></option>
+                          <option value='300'></option>
 
-                      {/* <div className="col">
-                        <button
-                          type="button"
-                          className="secondary"
-                          onClick={() => remove(index)}
-                        >
-                          X
-                        </button>
-                      </div> */}
+                        </datalist>
+                      </div>
                     </div>
                   ))}
-                {/* <button
+                <button
                   type="button"
                   className="secondary"
                   onClick={() => push({ part_name: '', pages: '' })}
                 >
-                  Add Friend
-                </button> */}
+                  Add Part
+                </button>
               </>
             )}
           </FieldArray>
-
-
-
-          {/* {  values.parts.map((part, i) => (
-              <OrderParts index={i} part_name={['BLO', 'COV', 'INS']} key={i} title={part} errors={errors} values={values} handleChange={handleChange}></OrderParts>
-          ))} */}
-
-
-
+          <hr></hr>
           <Form.Group className="mb-3">
             <Form.Check
               required

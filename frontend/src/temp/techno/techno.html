@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<title>Тех. задание</title>
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+<meta charset="utf-8">
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<script src="scripts/jquery-1.12.4.js"></script>
+<script src="scripts/jspdf.min.js"></script>
+<script src="scripts/html2canvas.js"></script>
+
+<script type="text/javascript">
+function redrawvkld() {
+}
+</script>
+
+<script type="text/javascript">
+function redrawsvg() {
+	var ptToMm = 2.83465;
+	var bookWidth = document.getElementById("book_width").value*ptToMm;
+	var bookHeight = document.getElementById("book_height").value*ptToMm;
+	// var ykoreshok = document.getElementById("margin_top_bot").value*ptToMm;
+	var width_koreshok = document.getElementById("koreshok_width").value*ptToMm;
+	var rasstav1 = document.getElementById("rasstav").value*ptToMm;
+		if (rasstav1<=0)
+			rasstav1 = 22.677168;
+	//var rasstav2 = rasstav1;
+	
+	if (bookWidth <=150 || bookHeight <=150 || width_koreshok <=0){
+		alert("Хьюстон, у нас проблема! Кажется с такими размерами книг не бывает.");
+		return false;
+		}
+	var ykoreshok = 48.19;
+	var height_koreshok = bookHeight + 19.84255;
+	var koreshok = document.getElementsByTagName("rect")[0];
+		//rect1
+	var xrect1 = 48.19;
+	// var xrect1 = document.getElementById("margin_left_rigth").value*ptToMm;
+	var yrect1 = ykoreshok;
+	var width_rect1 = bookWidth - 5.6693;
+	var height_rect1 = bookHeight + 19.84255 ;
+	var rect1 = document.getElementsByTagName("rect")[1];
+	
+		// doc size
+	var docWidth = width_rect1*2 + xrect1*2 + width_koreshok + rasstav1*2;
+	var docHeight = ykoreshok*2 + height_koreshok;
+	var docsize = document.getElementsByTagName("svg")[0];
+	
+	var xkoreshok = docWidth / 2 - width_koreshok / 2;
+		//rect2
+	var xrect2 = xkoreshok + width_koreshok/1 + rasstav1;
+	var rect2 = document.getElementsByTagName("rect")[2];
+		
+	koreshok.setAttribute("y", ykoreshok);
+	koreshok.setAttribute("width", width_koreshok);
+	koreshok.setAttribute("height", height_koreshok);
+	rect1.setAttribute("x", xrect1);
+	rect1.setAttribute("y", ykoreshok);
+	rect1.setAttribute("width", width_rect1);
+	rect1.setAttribute("height", height_rect1);
+	koreshok.setAttribute("x", xkoreshok);
+	rect2.setAttribute("x", xrect2);
+	rect2.setAttribute("y", ykoreshok);
+	rect2.setAttribute("width", width_rect1);
+	rect2.setAttribute("height", height_rect1);
+	docsize.setAttribute("width", docWidth);
+	docsize.setAttribute("height", docHeight);
+
+	function changeText(textid, newtext){
+		document.getElementById(textid).textContent = newtext + " мм";}
+	
+		changeText("text_doc_width", Math.round(docWidth/ptToMm));
+			var TextDocWidth = document.getElementsByTagName("text")[0];
+			TextDocWidth.setAttribute("x", docWidth / 2 - 35);
+		
+		changeText("text_doc_height", Math.round(docHeight/ptToMm));
+			var TextDocHeight = document.getElementsByTagName("text")[1];
+			TextDocHeight.setAttribute("x",  - docHeight / 2 - 35);
+		
+		changeText("text_koreshok", Math.round(width_koreshok/ptToMm));
+			var TextKor = document.getElementsByTagName("text")[2];
+			TextKor.setAttribute("x", docWidth / 2 - 26);
+		
+		document.getElementById("text_rasstav1").textContent = Math.round(rasstav1/ptToMm);
+			var TextRasstav1 = document.getElementsByTagName("text")[3];
+			TextRasstav1.setAttribute("x", xkoreshok-17);
+		document.getElementById("text_rasstav2").textContent = Math.round(rasstav1/ptToMm);	
+			var TextRasstav2 = document.getElementsByTagName("text")[4];
+			TextRasstav2.setAttribute("x", xrect2-16);
+			
+			var rasstav1Mm = document.getElementsByTagName("text")[11];
+			rasstav1Mm.setAttribute("x", xkoreshok-22);
+			var rasstav2Mm = document.getElementsByTagName("text")[12];
+			rasstav2Mm.setAttribute("x", xrect2-21);
+			
+			
+		changeText("text_storonka1_w", Math.round(width_rect1/ptToMm));
+			var TextStoronka1W = document.getElementsByTagName("text")[5];
+			TextStoronka1W.setAttribute("x", xrect1 + width_rect1/2 - 30);
+			
+		changeText("text_storonka2_w", Math.round(width_rect1/ptToMm));
+			var TextStoronka2W = document.getElementsByTagName("text")[6];
+			TextStoronka2W.setAttribute("x", xrect2 + width_rect1/2 - 30);
+			
+		changeText("text_storonka1_h", Math.round(height_rect1/ptToMm));
+			var TextStoronka1H = document.getElementsByTagName("text")[7];
+			TextStoronka1H.setAttribute("x", - docHeight / 2 - 35);
+			
+		changeText("text_storonka2_h", Math.round(height_rect1/ptToMm));
+			var TextStoronka2H = document.getElementsByTagName("text")[8];
+			TextStoronka2H.setAttribute("x", - docHeight / 2 - 35);
+			TextStoronka2H.setAttribute("y", xrect2 + 25);
+			
+			document.getElementById("text_nazagib_LR").textContent = Math.round(xrect1/ptToMm) + " мм";
+			document.getElementById("text_nazagib_TB").textContent = Math.round(ykoreshok/ptToMm) + " мм";
+			var naZagib_LR = document.getElementsByTagName("text")[10];
+			naZagib_LR.setAttribute("x", -45);	
+			
+			var scaleFactor = 500/docWidth;
+		
+		var transX = -((docWidth-(docWidth*scaleFactor))/2)+20 +"px";
+		var transY = -((docHeight-(docHeight*scaleFactor))/2-50) +"px";
+		document.getElementById("div_svg").style.transform = "scale("+scaleFactor+","+scaleFactor+")";
+		document.getElementById("div_svg").style.marginLeft = transX;
+		document.getElementById("div_svg").style.marginTop = transY;
+		
+var nomerZakaza = document.getElementById("nomer_zakaza").value;		
+document.getElementById("nomzak").innerHTML = "№ "+nomerZakaza;
+document.getElementById("obrezn_blocka").innerHTML = Math.round(bookWidth/ptToMm)+" x "+Math.round(bookHeight/ptToMm) + " (мм)";
+document.getElementById("razm_storonok").innerHTML = Math.round(width_rect1/ptToMm)+" x "+Math.round(height_rect1/ptToMm) + " (мм)";
+document.getElementById("razmer_kor").innerHTML = Math.round(width_koreshok/ptToMm) + " мм";
+document.getElementById("rassta").innerHTML = Math.round(rasstav1/ptToMm) + " мм";
+document.getElementById("razmer_obl").innerHTML = Math.round(docWidth/ptToMm)+" x "+Math.round(docHeight/ptToMm) + " (мм)";
+
+	//Date
+var d = new Date();
+var month = d.getMonth()+1;
+if (month<10) month="0"+month;
+var day =d.getDate();
+if (day<10) day="0"+day;
+document.getElementById("date").innerHTML = day + "."+ month + "."+ d.getFullYear();
+	
+	console.log(docWidth+" x "+docHeight);
+}
+</script>
+
+<script type="text/javascript">
+	function getPDFpreview(){
+		var HTML_Width = $(".content").width();
+		var HTML_Height = $(".content").height();
+		var canvas_image_width = HTML_Width/1.2;
+		var canvas_image_height = HTML_Height/1.2;
+		
+		html2canvas($(".content")[0], {scale: 3}, {allowTaint:true}).then(function(canvas) {
+			canvas.getContext('2d');
+			// console.log(canvas.height+"  "+canvas.width);
+			var imgData = canvas.toDataURL("image/jpg");
+			var pdf = new jsPDF('l', 'pt', 'A4');
+		    pdf.addImage(imgData, 'JPG', 0, 0,canvas_image_width,canvas_image_height,'','FAST');
+				var nomerZakaza = document.getElementById("nomer_zakaza").value;
+				document.getElementById("nomzak").innerHTML = "№ "+nomerZakaza;
+				pdf.save(nomerZakaza + "_Cover7BC_preview.pdf");
+        });
+	};
+	</script>
+
+<script type="text/javascript">
+	function getPDF(){
+
+		var docsize = document.getElementsByTagName("svg")[0];
+		var docWidth = docsize.getAttribute("width");
+		var docHeight = docsize.getAttribute("height");
+
+		var koreshok = document.getElementsByTagName("rect")[0];
+		var xkoreshok = koreshok.getAttribute("x");
+		var ykoreshok = koreshok.getAttribute("y");
+		var width_koreshok = koreshok.getAttribute("width");
+		var height_koreshok = koreshok.getAttribute("height");
+
+		var rect1 = document.getElementsByTagName("rect")[1];
+		var xrect1 = rect1.getAttribute("x");
+		var yrect1 = rect1.getAttribute("y");
+		var width_rect1 = rect1.getAttribute("width");
+		var height_rect1 = rect1.getAttribute("height");
+
+		var rect2 = document.getElementsByTagName("rect")[2];
+		var xrect2 = rect2.getAttribute("x");
+		var yrect2 = rect2.getAttribute("y");
+		var width_rect2 = rect2.getAttribute("width");
+		var height_rect2 = rect2.getAttribute("height");
+		
+		if (docWidth >= 1000 && docHeight <=1000)
+			var orient = 'p';
+			else 
+			var orient = 'l';
+
+		var pdf = new jsPDF(orient, 'pt',  [docWidth, docHeight]);
+		    pdf.setLineWidth(0.5);
+			pdf.rect(xkoreshok, ykoreshok, width_koreshok, height_koreshok);
+			pdf.rect(xrect1, yrect1, width_rect1, height_rect1);
+			pdf.rect(xrect2, yrect2, width_rect2, height_rect2);
+
+			var nomerZakaza = document.getElementById("nomer_zakaza").value;
+			document.getElementById("nomzak").innerHTML = "№ "+nomerZakaza;
+		    pdf.save(nomerZakaza + "_Cover7BC_Template.pdf");	
+
+	};
+	</script>
+<link href="style/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="sidenav">
+<div class="tabl_in">
+<form action="javascript:redrawsvg()"autocomplete="on">
+
+<h2>Тех. задание</h2>
+<table class="vkladka" style="width:100%">
+	<tr>
+		<td><label for="nomzak_in">Номер заказа:</label></td>
+		<td colspan="3"><input type="number" name="nomzak_in" id="nomzak_in" required></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><label for="namezak_in">Название:</label></td>
+		<td colspan="3"><input type="text" name="namezak_in" id="namezak_in" required></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><label for="format_in">Формат:</label></td>
+		<td colspan="3"><input type="text" name="format_in" id="format_in" list="format_ls" required></td>
+			<datalist id="format_ls">
+				<option value="105x148"/>
+				<option value="148x210"/>
+				<option value="210x297"/>
+				<option value="297x420"/>
+				<option value="420x594"/>
+				<option value="594x840"/>
+			</datalist></td>
+			<td></td>
+			<td></td>
+	</tr>
+	<tr style="height: 4px"><td></td></tr>
+	<tr>		
+		<td><label for="bl_kolvo_p_in">Кол-во полос:</label></td>
+		<td style="text-align: center">в блоке:</td><td style="text-align: center">вклейки:</td><td style="text-align: center">обложка:</td>
+	</tr>
+	<tr>
+	<td></td>
+	<td><input class="kolvopolos" type="number" name="bl_kolvo_p_in" id="bl_kolvo_p_in" required></td>
+	<td><input class="kolvopolos" type="number" name="bl_kolvo_p_in" id="bl_kolvo_p_in" required></td>
+	<td><input class="kolvopolos" type="number" name="bl_kolvo_p_in" id="bl_kolvo_p_in" required></td>
+	</tr>
+	<tr>	
+		<td><label for="skreplenie_in">Скрепление:</label></td>
+		<td colspan="3"><input type="text" name="skreplenie_in" id="skreplenie_in" list="skreplenie_ls" required>
+				<datalist id="skreplenie_ls">
+					<option value="Термоклей"/>
+					<option value="Скрепка"/>
+					<option value="Шитьё"/>
+					<option value="Пружина"/>
+				</datalist>		</td>
+				<td></td>
+				<td></td>
+				
+	</tr>			
+</table>
+<div class="vkladka_h"> Блок </div>
+	<div class="vkladka_div">	
+		<table class="vkladka" style="width:100%">
+		  <tr>
+			<th style="width:35%"></th>
+			<th>Рапида</th> 
+			<th>SM</th>
+		  </tr>
+		  <tr>
+			<td><label for="bl_form_bum_in">Ф-т бумаги:</label></td>
+			<td><input type="text" name="bl_form_bum_in" class="table_in" id="bl_form_bum_in" list="ra_form_bum_ls" required>
+				<datalist id="ra_form_bum_ls">
+					<option value="62x88"/>
+					<option value="62x89,5"/>
+					<option value="62x90"/>
+					<option value="62x92"/>
+					<option value="62x94"/>
+					<option value="62x104"/>
+					<option value="64x90"/>
+					<option value="64x92"/>
+					<option value="64x94"/>
+					<option value="64x100"/>
+					<option value="64x102"/>
+					<option value="64x104"/>
+					<option value="70x100"/>
+					<option value="72x104"/>
+				</datalist></td>
+			<td><input type="text" name="bl_form_bum_in" class="table_in" id="bl_form_bum_in" list="sm_form_bum_ls" required>
+				<datalist id="sm_form_bum_ls">
+					<option value="Нет"/>
+					<option value="62x47"/>
+					<option value="62x47"/>
+					<option value="64x45"/>
+					<option value="65x47"/>
+					<option value="70x50"/>
+					<option value="72x34"/>
+					<option value="72x52"/>
+				</datalist></td>
+		  </tr>
+
+		  <tr>
+			<td><label for="ra_bl_nom_pl_in">П. листы №:</label></td>
+			<td><input type="text" name="ra_bl_nom_pl_in" class="table_in" id="ra_bl_nom_pl_in" required></td>
+			<td><input type="text" name="sm_bl_nom_pl_in" class="table_in" id="sm_bl_nom_pl_in" required></td>
+		  </tr>
+
+		  <tr>
+			<td><label for="ra_bl_kolvo_pl_in">Кол-во п.листов:</label></td>
+			<td><input type="text" name="ra_bl_kolvo_pl_in" class="table_in" id="ra_bl_kolvo_pl_in" required></td>
+			<td><input type="text" name="sm_bl_kolvo_pl_in" class="table_in" id="sm_bl_kolvo_pl_in" required></td>
+		  </tr>
+			<tr>
+			<td><label for="ra_bl_krasochn_in">Красочность:</label></td>
+			<td><input type="text" name="ra_bl_krasochn_in" class="table_in" id="ra_bl_krasochn_in" required></td>
+			<td><input type="text" name="sm_bl_krasochn_in" class="table_in" id="sm_bl_krasochn_in" required></td>
+		  </tr>
+		  <tr>
+			<td><label for="bl_bum_in">Бумага:</label></td>
+			<td colspan="2"><input type="text" name="bl_bum_in" class="table_in" id="bl_bum_in" required></td>
+			
+		  </tr>  
+		</table>	
+	</div>
+	
+<div id = "vkladka_h" style="" class="vkladka_h" onclick="return hideVkladka('vkleiki_div')">Вклейки</div>
+	<div  id = "vkleiki_div" class="vkladka_div" style="">	
+		<table id="vkleiki" class="vkladka" style="width:100%">
+		  <tr>
+			<th style="width:35%"></th>
+			<th>Рапида</th> 
+			<th>SM</th>
+		  </tr>
+		  <tr>
+			<td><label for="vkl_form_bum_in">Ф-т бумаги:</label></td>
+			<td><input type="text" name="vkl_form_bum_in" class="table_in" id="vkl_form_bum_in" list="ra_form_bum_ls" required>
+				</td>
+			<td><input type="text" name="vkl_form_bum_in" class="table_in" id="vkl_form_bum_in" list="sm_form_bum_ls" required>
+				</td>
+		  </tr>
+
+		  <tr>
+			<td><label for="vkl_kolvo_pl_in">Кол-во п.листов:</label></td>
+			<td><input type="text" name="ra_vkl_kolvo_pl_in" class="table_in" id="vkl_kolvo_pl_in" required></td>
+			<td><input type="text" name="sm_vkl_kolvo_pl_in" class="table_in" id="vkl_kolvo_pl_in" required></td>
+		  </tr>
+			<tr>
+			<td><label for="vkl_krasochn_in">Красочность:</label></td>
+			<td><input type="text" name="vkl_krasochn_in" class="table_in" id="vkl_krasochn_in" required></td>
+			<td><input type="text" name="vkl_krasochn_in" class="table_in" id="vkl_krasochn_in" required></td>
+		  </tr>
+		  <tr>
+			<td><label for="vkl_bum_in">Бумага:</label></td>
+			<td colspan="2"><input type="text" name="vkl_bum_in" class="table_in" id="vkl_bum_in" required></td>
+			
+		  </tr>  
+		</table>	
+	</div>
+	
+<div id = "obl_vkld_h" class="vkladka_h" onclick="return hideOblVkld('obl_div')">Обложка</div>
+	<div id = "obl_div" class="vkladka_div" style="">	
+		<table class="vkladka" style="width:100%">
+		  <tr>
+			<th style="width:35%"></th>
+			<th>Рапида</th> 
+			<th>SM</th>
+		  </tr>
+		  <tr>
+			<td><label for="sm_obl_form_bum_in">Ф-т бумаги:</label></td>
+			<td><input type="text" name="ra_obl_form_bum_in" class="table_in" id="ra_obl_form_bum_in" list="ra_form_bum_ls" required>
+				</td>
+			<td><input type="text" name="sm_obl_form_bum_in" class="table_in" id="sm_obl_form_bum_in" list="sm_form_bum_ls" required>
+				</td>
+		  </tr>
+		  <tr>
+			<td><label for="sm_obl_kolvo_pl_in">Кол-во п.листов:</label></td>
+			<td><input type="text" name="ra_obl_kolvo_pl_in" class="table_in" id="ra_obl_kolvo_pl_in" required></td>
+			<td><input type="text" name="sm_obl_kolvo_pl_in" class="table_in" id="sm_obl_kolvo_pl_in" required></td>
+		  </tr>
+		  
+		  <tr>
+			<td><label for="obl_kor_in">Корешок:</label></td>
+			<td colspan="2"><input type="text" name="ra_obl_kor_in" class="table_in" id="obl_kor_in" required></td>
+			
+		  </tr>
+		  
+			<tr>
+			<td><label for="obl_krasochn_in">Красочность:</label></td>
+			<td colspan="2"><input type="text" name="obl_krasochn_in" class="table_in" id="obl_krasochn_in" required></td>
+			</tr>
+		  <tr>
+			<td><label for="obl_bum_in">Бумага:</label></td>
+			<td colspan="2"><input type="text" name="obl_bum_in" class="table_in" id="obl_bum_in" required></td>
+			</tr>  
+		<tr>
+			<td><label for="obl_uflak_in">Уф лак:</label></td>
+			<td colspan="2"><input type="text" name="obl_uflak_in" class="table_in" id="obl_uflak_in" required></td>
+		</tr>
+		<tr>
+			<td><label for="obl_tisnenie_in">Тиснение:</label></td>
+			<td colspan="2"><input type="text" name="obl_tisnenie_in" class="table_in" id="obl_tisnenie_in" required></td>
+		</tr>	
+		</table>	
+	</div>
+<script>
+function hideVkladka(id) {
+  var x = document.getElementById(id);
+  var y = document.getElementById("vkladka_h");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	y.style.borderBottom = "1px solid #f2f2f2";
+  } else {
+    x.style.display = "none";
+	y.style.borderBottom = "1px solid #555";
+  }
+}
+function hideOblVkld(id) {
+  var x = document.getElementById(id);
+  var y = document.getElementById("obl_vkld_h");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+	y.style.borderBottom = "1px solid #f2f2f2";
+  } else {
+    x.style.display = "none";
+	y.style.borderBottom = "1px solid #555";
+  }
+}
+</script>
+<br><br>
+<label for="jpg_path_in">Jpg на проверку:</label>
+<input style="width:100%" type="text" name="jpg_path_in" id="jpg_path_in" required><br><br><br>
+	
+	<input class="button" type="submit" value="Применить" /><br><br>
+</div>
+</form>	
+<input class="button" type="submit" value="Сохранить как PDF" onclick="getPDFpreview()"/><br><br>
+
+</div>
+
+<div id="content" class="content">
+<div id="div_svg" class="div_svg">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1026.14" height="711.5">
+<rect x="564.1" y="48.19" fill="#d0e9d3" stroke="#000000" stroke-width="1" stroke-miterlimit="10" width="413.86" height="615.12"/>
+<rect x="48.19" y="48.19" fill="#d0e9d3" stroke="#000000" stroke-width="1" stroke-miterlimit="10" width="413.86" height="615.12"/>
+<rect x="484.73" y="48.19" fill="#d0e9d3" stroke="#000000" stroke-width="1" stroke-miterlimit="10" width="56.69" height="615.12"/>
+<text id="text_doc_width" x="470" y="20" fill="#444444" font-family="Arial" font-weight = "bold"font-size="25"></text>
+<text id="text_doc_height" x="-374" y="23" transform="rotate(-90, 0, 0)" fill="#444444" font-family="Arial" font-weight = "bold" font-size="25"></text>
+<text id="text_koreshok" x="490" y="80" fill="#555555" font-family="Arial" font-weight = "bold" font-size="18"></text>
+<text id="text_rasstav1" x="468" y="100" fill="#444444" font-family="Arial" font-weight = "bold" font-size="20">8</text>
+<text id="text_rasstav2" x="548" y="100" fill="#444444" font-family="Arial" font-weight = "bold" font-size="20">8</text>
+<text id="text_storonka1_w" x="225" y="80" fill="#555555" font-family="Arial" font-weight = "bold" font-size="25"></text>
+<text id="text_storonka2_w" x="735" y="80" fill="#555555" font-family="Arial" font-weight = "bold" font-size="25"></text>
+<text id="text_storonka1_h" x="-374" y="75" transform="rotate(-90, 0, 0)" fill="#555555" font-family="Arial" font-weight = "bold" font-size="25"></text>
+<text id="text_storonka2_h" x="-374" y="590" transform="rotate(-90, 0, 0)" fill="#555555" font-family="Arial" font-weight = "bold" font-size="25"></text>
+<text id="text_nazagib_LR" x="4" y="80" fill="#444444"  font-family="Arial" font-weight = "bold" font-size="15">17мм</text>
+<text id="text_nazagib_TB" x="-45" y="80" transform="rotate(-90, 0, 0)" fill="#444444"  font-family="Arial" font-weight = "bold" font-size="15">17мм</text>
+<text id="text_rasstav1mm" x="463" y="120" fill="#444444" font-size="14">мм</text>
+<text id="text_rasstav2mm" x="542" y="120" fill="#444444" font-size="14">мм</text>
+</svg>
+
+</div>
+<div id="spec" class="spec">
+<table class="">
+  <tr>
+    <td style="width:50%">Заказ:</td>
+    <td id="nomzak"></td>
+  </tr>
+    <tr>
+    <td style="width:50%">Название:</td>
+    <td id="namezak"></td>
+  </tr>
+    <tr>
+    <td>Обрезной ф-т издания:</td>
+    <td id="format_izdania" style = "font-weight: bold"></td>
+  </tr>
+  <tr>
+    <td>Ф-т бумаги:</td>
+    <td id="format_boomagi" style = "font-weight: bold"></td>
+  </tr>
+    <tr>
+    <td>Кол-во листов:</td>
+    <td id="kol_vo_listov" style = "font-weight: bold"></td>
+  </tr>
+    <tr>
+    <td>Красочность блока:</td>
+    <td id="razm_storonok" style = "font-weight: bold"></td>
+  </tr>
+    <tr>
+    <td>Кол-во полос:</td>
+    <td id="kol_vo_polos" style = "font-weight: bold"></td>
+  </tr>
+    <tr>
+    <td>Скрепление:</td>
+    <td id="skreplenie" style = "font-weight: bold"></td>
+  </tr>
+    <tr>
+    <td>Jpg на проверку:</td>
+    <td id="jpg_na_proverku" style = "font-weight: bold"></td>
+  </tr>
+  <tr>
+    <td>Ширина корешка:</td>
+    <td id="razmer_kor" style = "font-weight: bold"></td>
+  </tr>
+  <tr>
+    <td>Дата:</td>
+    <td id="date"></td>
+  </tr>
+
+
+</table>  
+</div>
+</div>
+</body>
+</html>

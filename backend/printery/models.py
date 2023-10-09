@@ -66,6 +66,9 @@ class Paper(models.Model):
     type = models.CharField(max_length=3,
         choices=TYPE_CHOICES,
         )
+    matte = models.BooleanField(default=False)
+    glossy = models.BooleanField(default=False)
+    
     class Density(models.IntegerChoices):
         D80 = 80, '80'
         D100 = 100, '100'
@@ -79,8 +82,8 @@ class Paper(models.Model):
         D250 = 250, '250'
         D300 = 300, '300'
     density = models.IntegerField(choices=Density.choices)
-    width = models.IntegerField()
-    height = models.IntegerField()
+    width = models.IntegerField(null=True, blank=True)
+    height = models.IntegerField(null=True, blank=True)
     manufacturer = models.ManyToManyField(Company, blank=True, related_name="made_by")
 
     def __str__(self):
@@ -207,6 +210,7 @@ class Part(models.Model):
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
     paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
+    # paper = models.ManyToManyField(Paper,)
     COLOR_CHOICES = [
         (None, 'Select...'),
         ('4_4', '4+4'),

@@ -44,7 +44,7 @@ const OrderItem = styled.div`
 `;
 
 // const Inputt = styled.input`
-      
+
 // `;
 
 const OrderCard = ({ item, index }) => {
@@ -58,14 +58,13 @@ const OrderCard = ({ item, index }) => {
         >
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
-            {/* <OrderItem>{item.pk}</OrderItem> */}
             <OrderItem>{"с/з " + item.number}</OrderItem>
             <OrderItem>{item.nameOfOrder + ","}</OrderItem>
             <OrderItem>{item.partName + ","}</OrderItem>
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
             <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
             <OrderItem>{item.paper}</OrderItem>
-            
+
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',

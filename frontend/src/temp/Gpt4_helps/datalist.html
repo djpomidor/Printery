@@ -1,0 +1,38 @@
+<label htmlFor="favoriteFruit">
+          Choose your favorite fruit:
+          <Field name="favoriteFruit" list="fruit" />
+        </label>
+
+        <datalist id="fruit">
+          <option>Apple</option>
+          <option>Banana</option>
+          <option>Cherry</option>
+          {/* Add other fruit options as needed */}
+        </datalist>
+
+       
+      <label htmlFor={'parts.${index}.paper_density'} >
+        <Field 
+        className="form-control" 
+        name={'parts.${index}.paper_density'} 
+        type="text" 
+        id={'parts.${index}.paper_density'}
+        list="paper_density" />
+      </label>
+        
+          <datalist id="paper_density"> 
+            <option value='80'>80</option>
+            <option value='100'></option>
+            <option value='105'></option>
+            <option value='115'></option>
+            <option value='120'></option>
+            <option value='130'></option>
+            <option value='150'></option>
+            <option value='170'></option>
+            <option value='200'></option>
+            <option value='250'></option>
+            <option value='300'></option>
+          
+          </datalist>
+        
+        
