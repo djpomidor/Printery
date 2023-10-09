@@ -1,5 +1,6 @@
 import React from 'react';
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 
 const SelectField = ({ options, field, form }) => {
   const handleChange = (value) => {
@@ -11,7 +12,8 @@ const SelectField = ({ options, field, form }) => {
   };
 
   return (
-    <Select
+    <CreatableSelect
+      isClearable
       options={options}
       name={field.name}
       value={options ? options.find(option => option.value === field.value) : ''}

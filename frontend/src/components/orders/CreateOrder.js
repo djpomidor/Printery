@@ -302,7 +302,7 @@ const CreateOrder = () => {
                           name={`parts.${index}.paper_density`}
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <label className="form-label" htmlFor={'parts.${index}.paper_density'} >
                           <Field
                             className="form-control"
@@ -326,7 +326,7 @@ const CreateOrder = () => {
                           <option value='300'></option>
 
                         </datalist>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 <button
