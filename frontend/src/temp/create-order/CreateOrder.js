@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import {Button, Col, Row, Form } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
@@ -299,7 +302,7 @@ const CreateOrder = () => {
                           name={`parts.${index}.paper_density`}
                         />
                       </div>
-                      <div>
+                      {/* <div>
                         <label className="form-label" htmlFor={'parts.${index}.paper_density'} >
                           <Field
                             className="form-control"
@@ -323,7 +326,7 @@ const CreateOrder = () => {
                           <option value='300'></option>
 
                         </datalist>
-                      </div>
+                      </div> */}
                     </div>
                   ))}
                 <button
