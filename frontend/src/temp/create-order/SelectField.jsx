@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
 const SelectField = ({ options, field, form }) => {
