@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import {Button, Col, Row, Form} from 'react-bootstrap';
+import {Button, Col, Row, Form } from 'react-bootstrap';
 import { useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
@@ -21,31 +21,15 @@ const schema = yup.object().shape({
   height: yup.string().required(),
   parts: yup.array().of(
     yup.object().shape({
-      part_name: yup.string(),
-      pages: yup.string().required(),
-      color: yup.string().required(),
+      part_name: yup.string().required(),
+      pages: yup.number(),
+      color: yup.string(),
       paper_id: yup.number(),
       paper_density: yup.string(),
     })
   ),
   terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
-
-const densityOptions = [
-  { value: '', label: 'Select...' },
-  { value: '80', label: '80' },
-  { value: '100', label: '100' },
-  { value: '105', label: '105' },
-  { value: '115', label: '115' },
-  { value: '120', label: '120' },
-  { value: '130', label: '130' },
-  { value: '150', label: '150' },
-  { value: '170', label: '170' },
-  { value: '200', label: '200' },
-  { value: '250', label: '250' },
-  { value: '300', label: '300' },
-  { value: '350', label: '350' },
-];
 
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
@@ -74,7 +58,7 @@ const CreateOrder = () => {
         parts: [
           {
             part_name: 'BLO',
-            pages: '',
+            pages: 1,
             color: '',
             paper: '',
             paper_density: '',
@@ -111,7 +95,7 @@ const CreateOrder = () => {
         <Form noValidate onSubmit={handleSubmit}>
           <FormSection1 />
           <FormSection2 />
-          <FormSectionParts parts={values.parts}/>
+          <FormSectionParts parts={values.parts} errors={errors}/>
           <hr></hr>
           <Form.Group className="mb-3">
             <Form.Check

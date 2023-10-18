@@ -3,7 +3,7 @@ import { Form, InputGroup } from "react-bootstrap";
 import { Field } from "formik";
 import { ErrorMessage } from 'formik';
 
-const FormTextField = ({
+const FormNumberPartField = ({
   as,
   md,
   controlId,
@@ -11,7 +11,8 @@ const FormTextField = ({
   name,
   type,
   placeholder,
-  error,
+  errors,
+  index,
   inputGroupPrepend
 }) => {
   return (
@@ -33,15 +34,12 @@ const FormTextField = ({
                 feedback={form.errors[field.name]}
               />
 
-              <Form.Control.Feedback type="invalid">
-                {form.errors[field.name]}
-                {/* {form.touched[field.name] && form.errors[field.name] ? form.errors[field.name] : null} */}
-              </Form.Control.Feedback>
-              
-{/* {console.log("LLL",form.errors.parts[field])} */}
-              {/* <Form.Control.Feedback type="invalid">
-              {error}
-              </Form.Control.Feedback> */}
+               
+{/* {console.log("LLL",form.errors.parts[field])}  */}
+
+<Form.Control.Feedback type="invalid">
+  {errors.parts && errors.parts[index] && errors.parts[index].pages}
+</Form.Control.Feedback>
 
             </InputGroup>
           </Form.Group>
@@ -51,9 +49,9 @@ const FormTextField = ({
   );
 };
 
-FormTextField.defaultProps = {
-  type: "text",
+FormNumberPartField.defaultProps = {
+  type: "number",
   inputGroupPrepend: null
 };
 
-export default FormTextField;
+export default FormNumberPartField;

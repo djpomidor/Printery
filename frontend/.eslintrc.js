@@ -28,9 +28,8 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "react/prop-types": "off",
         "no-unused-vars": "off",
-        "react/jsx-filename-extension": "off",
-        "react/prop-types" : "off",
-        
+        "react/react-in-jsx-scope": "off",
     }
 }

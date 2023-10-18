@@ -3,15 +3,16 @@ import { Button, Card, Col, Row, Form } from "react-bootstrap";
 import { FieldArray, Field } from "formik";
 import FormTextField from "./form-field";
 import FormSelectField from "./form-select-field"
+import FormNumberPartField from "./form-parts-number-field"
 
-function FormSectionParts({ parts }) {
+function FormSectionParts({ parts, errors }) {
   return (
     <FieldArray name="parts">
     {({ insert, remove, push }) => (
       <>
         {parts.length > 0 &&
           parts.map((part, index) => (
-            <div className="mb-3 row" key={index}>
+            <div className="mb-3 pb-3 row" key={index} style={{backgroundColor: "beige"}}>
               <hr></hr>
               <div className="collapse">
                 <Field
@@ -35,23 +36,27 @@ function FormSectionParts({ parts }) {
                 </button>
               </div>
               {/* <Row className="mb-3"> */}
-                <FormTextField
+                <FormNumberPartField
                   as={Col}
                   sm="4"
                   label="Кол-во страниц"
                   name={`parts.${index}.pages`}
                   controlId={`parts.${index}.pages`}
                   type="number"
-                  error={console.log("AAAAAAAAAAAAA", parts)}
+                  index={index}
+                  // error={console.log("!!!sdf", errors.parts[index].pages)}
+                  errors={errors}
+                  // error2={console.log("!!!sdf", errors.friends && errors.parts[index] && errors.parts[index].pages)}
                 />
-
+                
                 <FormSelectField
                   as={Col}
                   sm="4"
-                  label="Цветность"
+                  label="Красочность"
                   name={`parts.${index}.color`}
                   controlId={`parts.${index}.color`}
                   type="text"
+                  // error={console.log("!!!sdf", errors.parts[index].color)}
                 >
                   <option value="">Select...</option>
                   <option value='4_4'>4(CMYK)+4(CMYK)</option>
@@ -83,18 +88,19 @@ function FormSectionParts({ parts }) {
                 />
               </div> */}
 
-              {/* <div>
-                <label className="form-label" htmlFor={'parts.${index}.paper_density'} >
+              <div className="col">
+                <label className="form-label" htmlFor={'parts.${index}.paper_density'} >Плотность (гр/м<sup>2</sup>)</label>
                   <Field
                     className="form-control"
-                    name={'parts.${index}.paper_density'}
+                    name={`parts.${index}.paper_density`}
                     type="text"
-                    id={'parts.${index}.paper_density'}
+                    id={`parts.${index}.paper_density`}
                     list="paper_density" />
-                </label>
+                
 
                 <datalist id="paper_density">
-                  <option value='80'>80</option>
+                  <option value="">Select...</option>
+                  <option value='80'></option>
                   <option value='100'></option>
                   <option value='105'></option>
                   <option value='115'></option>
@@ -107,15 +113,16 @@ function FormSectionParts({ parts }) {
                   <option value='300'></option>
 
                 </datalist>
-              </div> */}
+              </div>
             </div>
           ))}
         <Button
-          type="button"
+          variant="secondary"
+          size="sm"
           onClick={() => push({ part_name: '', pages: '' })}
-        >
-          Add Part
-        </Button>
+        >Add Part</Button>
+          
+        
       </>
     )}
   </FieldArray>
