@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
@@ -32,7 +33,7 @@ function Register() {
     setErrorUser(regUser.username)
     setErrorPassword(regUser.password)
     console.log("!!!!########!!!!!", regUser)
-    };
+    }
   };
 
   return (
