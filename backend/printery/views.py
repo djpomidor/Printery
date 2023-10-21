@@ -148,22 +148,25 @@ class OrdersByDate(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, created):
-        x = datetime.datetime.now()
-        orders = Order.objects.filter(created__range=["2023-07-15", x]).order_by("-created").all()
+        today = datetime.datetime.now()
+        field_name = "sm1"
+        orders = Order.objects.filter(created__range=[created, today]).order_by("-created").all()
+        # orders = orders.filter(**{f'parts__printing__{field_name}': True})
+        print("_________", orders)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
 
 class Update_position(APIView):
     permission_classes = (AllowAny,)
-    def get_object(self, pk, part):
+    def get_object(self, pk):
         try:
             return PrintSchedule.objects.get(order_part=pk)
         except Order.DoesNotExist: 
             raise Http404    
         
-    def put(self, request, pk, part, format=None):
-        item = self.get_object(pk, part)
+    def put(self, request, pk, format=None):
+        item = self.get_object(pk)
         position = request.data.get('position')
         parent_day = request.data.get('parent_day')
         serializer = PrintScheduleSerializer(item, data=request.data)

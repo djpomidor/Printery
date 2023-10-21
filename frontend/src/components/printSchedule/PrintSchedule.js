@@ -14,22 +14,30 @@ const OrderList = styled.div`
   min-height: 50px;
   display: flex;
   flex-direction: column;
-  background: #f3f3f3;
+  background: #fff;
   min-width: 800px;
-  border-radius: 5px;
+  // border-radius: 5px;
   padding: 15px 15px;
-  margin-right: 45px;
+  // margin-right: 45px;
   height: fit-content;
 `;
 const Day = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: baseline;
-  border-radius: 5px;
-  background: #f3f3f3d1;
+  // border-radius: 5px;
+  background-color: #fff;
   
 `;
 const OrderColumnStyles = styled.div`
+  ${Day}:nth-of-type(odd) {
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    padding-left: 1.5rem;
+    padding-top: 1.25rem;
+    padding-right: 1.5rem;
+    border-bottom-width: 3px;
+  }
   margin: 8px;
   // display: flex;
   // width: 100%;
@@ -37,29 +45,41 @@ const OrderColumnStyles = styled.div`
   ${Day}:nth-of-type(even) { 
     // was nth-child
     margin-bottom: 20px;
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+    border: 0 solid #eceef3;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;    
+    box-shadow: 0 3px 3px -1px rgba(10, 22, 70, 0.1), 0 0 1px 0 rgba(10, 22, 70, 0.06);
+
   }
 `;
 const Date = styled.div`
   // color: #10957d;
   // background: rgba(16, 149, 125, 0.15);
-  padding: 2px 10px;
+  // padding: 2px 10px;
   // border-radius: 5px;
   // align-self: flex-start;
   // min-width: 20vh;
   // max-width: 100px;
-  width:23vh;
+  width:20vh;
 `;
 const DateToday = styled.div`
   font-weight: 800 !important;
-  color: red;
-  padding: 2px 10px;
-  width:23vh;
+  color: #ff4e4e;
+  padding: 2px 0px;
+  width:20vh;
 `;
  const DayNight = styled.div`
-  margin-right: 10px
+  margin-right: 10px;
+  font-weight: 700;
 `;
 
-const PrintSchedule = () => {
+// const machine = "sm1";
+
+
+const PrintSchedule = ({machine}) => {
   const [state, setState] = useState({ orders: [], columns: {} });
   const api = useAxios();
   const [res, setRes] = useState("");
@@ -67,9 +87,12 @@ const PrintSchedule = () => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await api.get("/orders/printShedule/" + new window.Date().toISOString());
+          var today = new window.Date();
+          var beforeYesterday = new window.Date(today);
+          beforeYesterday.setDate(today.getDate() - 7);
+          const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
           const fetchedOrders = response.data;
-          const fetchedColumns = daysOfPrint(fetchedOrders); // Pass fetchedOrders to the daysOfPrint function
+          const fetchedColumns = daysOfPrint(fetchedOrders, machine); // Pass fetchedOrders to the daysOfPrint function
           setState({ orders: fetchedOrders, columns: fetchedColumns });
         } catch (error) {
           setRes("Something went wrong: ", error);
@@ -78,11 +101,11 @@ const PrintSchedule = () => {
         }
       };
       fetchData();
-    }, []);
+    }, [machine]);  // Добавление machine в список зависимостей
  
   const updatePositions = async (itemId, newPosition, newColumnId) => {
     try {
-      const response = await api.put(`/orders/printShedule/${itemId}_BLO/update_position/`, {
+      const response = await api.put(`/orders/print-shedule/${itemId}-update_position/`, {
         position: newPosition,
         parent_day: newColumnId,
       });
@@ -131,7 +154,7 @@ const PrintSchedule = () => {
   };
   return (
     <DragDropContext
-      onDragEnd={(result) => onDragEnd(result, state.columns, setState)}>
+      onDragEnd={(result) => onDragEnd(result, state.columns, setState)} direction="vertical">
       <Container>
         <OrderColumnStyles> 
           {Object.entries(state.columns).map(([columnId, column], index) => {

@@ -15,7 +15,7 @@ function GetFilteredOrders() {
     const fetchData = async () => {
       const currentDate = "2023-07-27 15:33:28.146113";
       try {
-        const response = await api.get("/orders/printShedule/" + currentDate);
+        const response = await api.get("/orders/print-shedule/" + currentDate);
         // console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);

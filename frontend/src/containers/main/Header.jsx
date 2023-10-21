@@ -7,7 +7,7 @@ const Header = ({ setComponent }) => {
         <div className="border-bottom pt-6">
           <div className="row align-items-center">
            <div className="col-sm col-12">
-              <h1 className="h2 ls-tight"><span className="d-inline-block me-3"></span>Hi, baz!</h1>
+              <h1 className="h2 ls-tight"><span className="d-inline-block me-3"></span>Заказы</h1>
            </div>
            <div className="col-sm-auto col-12 mt-4 mt-sm-0">
              <div className="hstack gap-2 justify-content-sm-end">
