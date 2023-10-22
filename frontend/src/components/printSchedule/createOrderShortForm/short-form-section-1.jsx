@@ -8,11 +8,11 @@ export default () => {
   return (
     <>
       <Row className="mt-3 mb-3">
-        <Col xs={5}>
+        <Col xs={5} className="my-custom-col">
           <FormTextField
             // as={Col}
             sm="4"
-            controlId=""
+            controlId="validationFormik01"
             label="№ заказа"
             type="number"
             name="orderId"

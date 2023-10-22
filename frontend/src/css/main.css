@@ -12104,4 +12104,17 @@ span.flatpickr-weekday {
 .scrollbar:hover::-webkit-scrollbar-thumb {
     background-color: #c5cbd4;
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+
+
 /*# sourceMappingURL=main.css.map */
