@@ -7,17 +7,30 @@ import FormSelectField from "../../orders/form-select-field"
 export default () => {
   return (
     <>
-    <Row className="mb-3">
-      <FormTextField
-        as={Col}
-        sm="4"
-        controlId="validationFormik01"
-        label="Наименование"
-        type="text"
-        name="nameOfOrder"
-        placeholder=""
-      />
-      
+      <Row className="mt-3 mb-3">
+        <Col xs={5}>
+          <FormTextField
+            // as={Col}
+            sm="4"
+            controlId=""
+            label="№ заказа"
+            type="number"
+            name="orderId"
+            placeholder=""
+          />
+        </Col>
+        <Col >
+        <FormTextField
+          // as={Col}
+          sm="4"
+          controlId="validationFormik02"
+          label="Наименование"
+          type="text"
+          name="nameOfOrder"
+          placeholder=""
+        />
+        </Col>
+      </Row>
       <FormTextField
         as={Col}
         sm="4"
@@ -26,8 +39,8 @@ export default () => {
         type="number"
         name="circulation"
         placeholder="Кол-во бумаги"
-      />  
-    </Row>
+      />
+
 
     </>
   );

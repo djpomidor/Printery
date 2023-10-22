@@ -33,12 +33,12 @@ const OrderColumnStyles = styled.div`
   ${Day}:nth-of-type(odd) {
     border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
-    padding-left: 1.5rem;
-    padding-top: 1.25rem;
-    padding-right: 1.5rem;
+    padding-left: 1.25rem;
+    // padding-top: 1.25rem;
+    padding-right: 1.25rem;
     border-bottom-width: 3px;
   }
-  margin: 8px;
+  // margin: 8px;
   // display: flex;
   // width: 100%;
   min-height: 80vh;
@@ -48,8 +48,8 @@ const OrderColumnStyles = styled.div`
     border-bottom-left-radius: 0.75rem;
     border-bottom-right-radius: 0.75rem;
     border: 0 solid #eceef3;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
     padding-bottom: 1.5rem;    
     box-shadow: 0 3px 3px -1px rgba(10, 22, 70, 0.1), 0 0 1px 0 rgba(10, 22, 70, 0.06);
 
@@ -63,13 +63,13 @@ const Date = styled.div`
   // align-self: flex-start;
   // min-width: 20vh;
   // max-width: 100px;
-  width:20vh;
+  width:21vh;
 `;
 const DateToday = styled.div`
   font-weight: 800 !important;
   color: #ff4e4e;
   padding: 2px 0px;
-  width:20vh;
+  width:21vh;
 `;
  const DayNight = styled.div`
   margin-right: 10px;
