@@ -1,0 +1,12 @@
+.nav-link {
+    color: #525f7f;
+    display: block;
+    font-size: 1.075rem;
+    font-weight: 500;
+}
+.nav-link.active {
+    color: #0d6efd !important;
+    font-weight: 700 !important;
+    background-color: #f5f9fc !important;
+    /* font-size: large !important; */
+}

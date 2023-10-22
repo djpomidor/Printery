@@ -6,7 +6,7 @@ import OrdersList from './OrdersList';
 
 function GetOrders() {
   const [orders, setOrders] = useState([]);
-  // const [error, setError] = useState();
+  const [error, setError] = useState();
 
   const [res, setRes] = useState("");
   const api = useAxios();  
@@ -20,8 +20,10 @@ function GetOrders() {
         setOrders(response.data);
         
       } catch {
-        console.log('Aaalarmee!!!')
-        setRes("Something went wrong");
+        setError("error");
+        console.log('Aaalarmee!!!',error)
+        setRes("Something went wrong, try refreshing the page");
+        console.error(error);
       }
     };
     fetchData();

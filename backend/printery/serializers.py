@@ -37,7 +37,7 @@ class PrintScheduleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PrintSchedule
-        fields = ['pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id']
+        fields = ['pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida']
 
 class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)

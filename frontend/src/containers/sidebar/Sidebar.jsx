@@ -44,6 +44,23 @@ const Sidebar = () => {
                         </ul>
                     </div>
                 </li>
+
+                <li className="nav-item">
+                    <a className="nav-link" href="/print-schedule" role="button" ><i className="bi bi-people"></i> График печати</a>
+
+                </li>   
+
+                {/* <li className="nav-item">
+                    <a className="nav-link" href="#sidebar-printschedule" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-printschedule"><i className="bi bi-people"></i> График печати</a>
+                    <div className="collapse" id="sidebar-printschedule">
+                        <ul className="nav nav-sm flex-column">
+                            <li className="nav-item"><a href="/print-schedule" className="nav-link">Profile</a></li>
+                            <li className="nav-item"><a href="/pages/user/table-view.html" className="nav-link">Table View</a></li>
+                            <li className="nav-item"><a href="/pages/user/permissions.html" className="nav-link">Permissions</a></li>
+                        </ul>
+                    </div>
+                </li> */}
+
                 <li className="nav-item">
                     <a className="nav-link" href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-user"><i className="bi bi-people"></i> User</a>
                     <div className="collapse" id="sidebar-user">
@@ -54,6 +71,7 @@ const Sidebar = () => {
                         </ul>
                     </div>
                 </li>
+
                 <li className="nav-item">
                     <a className="nav-link" href="#sidebar-settings" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-settings"><i className="bi bi-gear"></i> Settings</a>
                     <div className="collapse" id="sidebar-settings">

@@ -1,16 +1,17 @@
 import daysGenerator from "./daysGenerator";
+let machine = "sm1";
 
-const daysOfPrint = (items) => {
+const daysOfPrint = (items, machine) => {
   // Pass fetchedOrders (items) as an argument
   const obj = {};
   const days = daysGenerator();
-  // const currendDay = new window.Date();
+
   for (const [index, key] of days.entries()) {
     const timeofday = index % 2 === 0 ? "day" : "night";
     let itemsOfday = [];
     items.forEach((item) => {
       item.parts.forEach((part) => {
-        if ((key + '_' + timeofday) === part.printing[0].parent_day) {
+        if ((key + '_' + timeofday) === part.printing[0].parent_day && part.printing[0][machine] === true ) {
           itemsOfday.push(
             {
               'pk': part.printing[0].pk,
@@ -22,15 +23,12 @@ const daysOfPrint = (items) => {
               'order_part': part.printing[0].order_part,
               'position': part.printing[0].position,
               'paper': part.paper.type_display,
+
             }
           );
-          console.log("1_item_", item)
-          console.log("2_part_", part)
-          console.log("3_itemsOfday__", itemsOfday)
         }
       })
     })
-    // const today = new window.Date().toLocaleDateString('Ru', {day: "numeric",month:"numeric",weekday:"short",   })
     obj[key + '_' + timeofday] = {
       date: key,
       timeofday: timeofday,

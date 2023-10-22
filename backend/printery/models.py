@@ -103,11 +103,12 @@ class Paper(models.Model):
 
 class Order(models.Model):
     def counter():
-        no = Order.objects.aggregate(Max('number'))
-        if no == None:
+        no = Order.objects.aggregate(max_number=Max('number'))
+        max_number = no['max_number']
+        if max_number is None:
             return 1
         else:
-            return no['number__max'] + 1
+            return max_number + 1
 
     number = models.IntegerField(unique=True, default=counter)
     name = models.CharField(blank=True, max_length=16)

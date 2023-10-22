@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const OrderInformation = styled.div`
+  border-bottom-width: 2px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0 15px;
   border-radius: 1px;
-  /* background: ${({ isDragging }) =>
-    isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'}; */
-  background: white;
+  background: ${({ isDragging }) =>
+    isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'};
+  // background: white;
   margin-top: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -59,8 +60,8 @@ const OrderCard = ({ item, index }) => {
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             <OrderItem>{"с/з " + item.number}</OrderItem>
-            <OrderItem>{item.nameOfOrder + ","}</OrderItem>
-            <OrderItem>{item.partName + ","}</OrderItem>
+            <OrderItem>{item.nameOfOrder}</OrderItem>
+            <OrderItem>{item.partName}</OrderItem>
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
             <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
             <OrderItem>{item.paper}</OrderItem>
