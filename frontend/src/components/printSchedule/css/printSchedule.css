@@ -10,3 +10,7 @@
     background-color: #f5f9fc !important;
     /* font-size: large !important; */
 }
+
+.my-custom-col {
+    min-width: 8rem;
+  }

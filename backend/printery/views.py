@@ -102,7 +102,6 @@ class OrderList(APIView):
 
     def get(self, request, format=None):
         orders = Order.objects.filter(owner=request.user.pk).order_by("-created").all()
-        print("____", )
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
@@ -112,6 +111,7 @@ class OrderList(APIView):
         if serializer_order.is_valid() and serializer_printSheduler.is_valid() :
             serializer_order.save()
             return Response(serializer_order.data, status=status.HTTP_201_CREATED)
+        print("__!!__", serializer_order.errors )
         return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

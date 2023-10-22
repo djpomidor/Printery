@@ -64,15 +64,18 @@ class PartSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    orderId = serializers.IntegerField(source='number')
     parts = PartSerializer(many=True)
     nameOfOrder = serializers.CharField(source='name')
-    typeOfOrder = serializers.CharField(source='type')
+    typeOfOrder = serializers.CharField(source='type', allow_blank=True, required=False)
+    width = serializers.IntegerField(default=0, allow_null=True, required=False)
+    height = serializers.IntegerField(allow_null=True, required=False)
     owner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
     printing = PrintScheduleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order 
-        fields = ['pk','number', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts', 'printing']
+        fields = ['pk','number', 'orderId', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts', 'printing']
 
     def create(self, validated_data):
         owners = validated_data.pop('owner')

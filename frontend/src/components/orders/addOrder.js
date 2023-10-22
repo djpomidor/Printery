@@ -19,7 +19,8 @@ export const addOrder = async (values, user) => {
             console.log("___--", data);
             // window.location.reload();
         } else {
-            alert("Something went wrong, response.status:!", response.status);
+            alert("Something went wrong:!");
+            console.log("___--", data);
             return data;
         }
     } catch (error) {

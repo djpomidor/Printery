@@ -13,12 +13,13 @@ import FormSectionParts from '../../orders/form-section-parts';
 
 
 const schema = yup.object().shape({
+  orderId: yup.string().required(),
   nameOfOrder: yup.string().required(),
-  typeOfOrder: yup.string().required(),
-  circulation: yup.string().required(),
-  binding: yup.string().required(),
-  width: yup.string().required(),
-  height: yup.string().required(),
+  typeOfOrder: yup.string(),
+  circulation: yup.string(),
+  binding: yup.string(),
+  width: yup.number(),
+  height: yup.number(),
   parts: yup.array().of(
     yup.object().shape({
       part_name: yup.string().required(),
@@ -49,12 +50,13 @@ const CreateOrderShortForm = () => {
       validationSchema={schema}
       onSubmit={onSubmit}
       initialValues={{
+        orderId: '',
         nameOfOrder: '',
-        typeOfOrder: '',
+        // typeOfOrder: '',
         circulation: '',
         binding: '',
-        width: '',
-        height: '',
+        width: 0,
+        height: 0,
         parts: [
           {
             part_name: 'BLO',
