@@ -25,12 +25,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
-
-from rest_framework.views import APIView
-
 from .serializers import *
-
-
 from printery.serializers import MyTokenObtainPairSerializer, RegisterSerializer
 
 from django.contrib.auth.models import User
@@ -107,11 +102,14 @@ class OrderList(APIView):
 
     def post(self, request, format=None):
         serializer_order = OrderSerializer(data=request.data)
-        serializer_printSheduler = PrintScheduleSerializer(data={})
-        if serializer_order.is_valid() and serializer_printSheduler.is_valid() :
-            serializer_order.save()
+        if serializer_order.is_valid():
+            order = serializer_order.save()  # Save the Order model
+            # Iterate over the parts data and create the associated PrintSchedule models
+            for part_data in request.data.get('parts'):
+                serializer_printSheduler = PrintScheduleSerializer(data=part_data.get('printing'))
+                if serializer_printSheduler.is_valid():
+                    serializer_printSheduler.save(order_part=part_data.get('pk'))  # Associate the PrintSchedule with the Order and Part
             return Response(serializer_order.data, status=status.HTTP_201_CREATED)
-        print("__!!__", serializer_order.errors )
         return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -152,7 +150,7 @@ class OrdersByDate(APIView):
         field_name = "sm1"
         orders = Order.objects.filter(created__range=[created, today]).order_by("-created").all()
         # orders = orders.filter(**{f'parts__printing__{field_name}': True})
-        print("_________", orders)
+        # print("_________", orders)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
@@ -167,12 +165,11 @@ class Update_position(APIView):
         
     def put(self, request, pk, format=None):
         item = self.get_object(pk)
-        position = request.data.get('position')
-        parent_day = request.data.get('parent_day')
+        # position = request.data.get('position')
+        # parent_day = request.data.get('parent_day')
         serializer = PrintScheduleSerializer(item, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        print("serializer.errors____",serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
