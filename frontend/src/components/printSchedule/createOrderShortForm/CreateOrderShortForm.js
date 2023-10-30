@@ -4,85 +4,30 @@ import {Button, Col, Row, Form } from 'react-bootstrap';
 import { useState, useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
-import * as yup from 'yup';
 import { addOrder } from '../../orders/addOrder';
 import SelectField from '../../orders/SelectField';
-import FormSection1 from './short-form-section-1';
-import FormSection2 from '../../orders/form-section-2';
-import FormSectionParts from '../../orders/form-section-parts';
+import FormSection from './short-form-section';
+import FormSectionParts from './short-form-section-parts';
+import { schema, initialValues } from './initialValues';
 
-
-const schema = yup.object().shape({
-  orderId: yup.string().required(),
-  nameOfOrder: yup.string().required(),
-  typeOfOrder: yup.string(),
-  circulation: yup.string(),
-  binding: yup.string(),
-  width: yup.number(),
-  height: yup.number(),
-  parts: yup.array().of(
-    yup.object().shape({
-      part_name: yup.string().required(),
-      pages: yup.number(),
-      color: yup.string(),
-      paper_id: yup.number(),
-      paper_density: yup.string(),
-    })
-  ),
-  terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
-});
-
-const CreateOrderShortForm = () => {
+const CreateOrderShortForm = (props) => {
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
 
   const onSubmit = async (values) => {
-    const newOrder = await addOrder(values, user);
+    const newOrder = await addOrder(values, user, props);
     setValidated(true);
-    setErrors(newOrder)
+    setErrors(newOrder);
   };
 
-  const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
-
+  // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
+  
   return (
     <Formik
       validationSchema={schema}
       onSubmit={onSubmit}
-      initialValues={{
-        orderId: '',
-        nameOfOrder: '',
-        // typeOfOrder: '',
-        circulation: '',
-        binding: '',
-        width: 0,
-        height: 0,
-        parts: [
-          {
-            part_name: 'BLO',
-            pages: 1,
-            color: '',
-            paper: '',
-            paper_density: '',
-          },
-          {
-            part_name: 'COV',
-            pages: '',
-            color: '',
-            paper: '',
-            paper_density: '',
-          },
-          {
-            part_name: 'INS',
-            pages: '',
-            color: '',
-            paper: '',
-            paper_density: '',
-          },
-        ],
-        created: '',
-        terms: false,
-      }}
+      initialValues={initialValues}
     >
       {({
         handleSubmit,
@@ -95,7 +40,7 @@ const CreateOrderShortForm = () => {
         isSubmitting,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <FormSection1 />
+          <FormSection />
           <FormSectionParts parts={values.parts} errors={errors}/>
           <hr></hr>
           <Form.Group className="mb-3">
@@ -120,13 +65,13 @@ const CreateOrderShortForm = () => {
                 />
   
           <Col>
-                <pre style={{ margin: "0 auto" }}>
+                {/* <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
                     null,
                     2
                   )}
-                </pre>
+                </pre> */}
               </Col>           
 
         </Form>

@@ -7,7 +7,8 @@ import Collapse from 'react-bootstrap/Collapse';
 import CreateOrderShortForm from './createOrderShortForm/CreateOrderShortForm';
 import GetFilteredOrders from './GetFilteredOrders'
 
-const RightPanel = () => {
+const RightPanel = (props) => {
+  
   const [open, setOpen] = useState(false)
   return (
     <div className="col-lg-4">
@@ -15,7 +16,6 @@ const RightPanel = () => {
         <div className="card-body pb-0">
           <h6 className="mb-4">Заказы</h6>
           <hr className="mt-4 mb-0"></hr>
-          <Container>
             <Row>
 
               <Button
@@ -27,16 +27,15 @@ const RightPanel = () => {
               </Button>
               <Collapse in={open}>
                 <div id="example-collapse-text">
-                <CreateOrderShortForm>
+                <CreateOrderShortForm setUpdateTrigger={props.setUpdateTrigger} />
 
-                </CreateOrderShortForm>
+
                 </div>
               </Collapse>
             </Row>
-          </Container>
           <hr className="mt-4 mb-0" />
           <Row>
-            <GetFilteredOrders />
+          <GetFilteredOrders updateTrigger={props.updateTrigger} setUpdateTrigger={props.setUpdateTrigger}/>
           </Row>
 
 

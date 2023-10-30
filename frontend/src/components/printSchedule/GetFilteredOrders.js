@@ -4,7 +4,8 @@ import useAxios from "../../utils/useAxios";
 
 import OrdersList from './OrdersList';
 
-function GetFilteredOrders() {
+function GetFilteredOrders(props) {
+  // const [updateTrigger, setUpdateTrigger] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
 
@@ -16,30 +17,22 @@ function GetFilteredOrders() {
       const currentDate = "2023-07-27 15:33:28.146113";
       try {
         const response = await api.get("/orders/print-shedule/" + currentDate);
-        // console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
         
-      } catch {
-        setError("error");
-        setRes("Something went wrong: ");
-        console.log('Error:', error);
-        console.log('Aaalarmee!!!', res);
+      } catch (error) {
+        setError('Something went wrong: ' + error.message);
         console.error(error);
       }
     };
     fetchData();
 
-  }, []);
+  }, [props.updateTrigger]);
+
+  // props.setUpdateTrigger(false);
  
   return (
-    // <>
-    // <div>
-    //   {orders.map((order, i)=> (
-    //     <Order key={i} {...order} />
-    //   ))}
-    // </div>
-    // </>
+
       <>
       {res?
        <p>{res}</p>

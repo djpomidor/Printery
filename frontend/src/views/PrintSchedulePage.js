@@ -15,28 +15,11 @@ import RightPanel from "../components/printSchedule/RightPanel.jsx";
 
 
 function PrintSchedulePage() {
-  // const [res, setRes] = useState("");
-  // const api = useAxios();
-  
-
+  const [updateTrigger, setUpdateTrigger] = useState(false);
   const [machine, setMachine] = useState("sm1"); // состояние для хранения текущего значения machine
-
   const handleTabChange = (selectedTab) => {
     setMachine(selectedTab); // обновление текущего значения machine при изменении вкладки
   };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await api.get("/test/");
-  //       setRes(response.data.response);
-  //     } catch {
-  //       setRes("Something went wrong");
-  //     }
-  //   };
-  //   fetchData();
-    
-  // }, []);
 
   return (
     <div className="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
@@ -48,9 +31,9 @@ function PrintSchedulePage() {
         <div className="container-fluid overflow-x: auto;">
         <div className="row">
           <div className='col-lg-8 table-responsive'>
-          <PrintSchedule machine={machine} className="py-6 bg-surface-secondary"/>
+          <PrintSchedule machine={machine} updateTrigger={updateTrigger}  className="py-6 bg-surface-secondary"/>
         </div>
-       <RightPanel/>
+       <RightPanel updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger}/>
        </div>
        </div>
        </main>

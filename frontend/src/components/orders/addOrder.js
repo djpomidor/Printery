@@ -1,4 +1,4 @@
-export const addOrder = async (values, user) => {
+export const addOrder = async (values, user, props) => {
     values.owner = [user.user_id]
     values.parts = values.parts.filter((part) => {
         // part.paper = parseInt(part.paper)
@@ -17,6 +17,8 @@ export const addOrder = async (values, user) => {
         if (response.status === 201) {
             alert("All good! status: 201");
             console.log("___--", data);
+            props.setUpdateTrigger(prevState => !prevState); // Toggle between false and true
+            
             // window.location.reload();
         } else {
             alert("Something went wrong:!");

@@ -76,10 +76,7 @@ const DateToday = styled.div`
   font-weight: 700;
 `;
 
-// const machine = "sm1";
-
-
-const PrintSchedule = ({machine}) => {
+const PrintSchedule = (props) => {
   const [state, setState] = useState({ orders: [], columns: {} });
   const api = useAxios();
   const [res, setRes] = useState("");
@@ -92,7 +89,7 @@ const PrintSchedule = ({machine}) => {
           beforeYesterday.setDate(today.getDate() - 7);
           const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
           const fetchedOrders = response.data;
-          const fetchedColumns = daysOfPrint(fetchedOrders, machine); // Pass fetchedOrders to the daysOfPrint function
+          const fetchedColumns = daysOfPrint(fetchedOrders, props.machine); // Pass fetchedOrders to the daysOfPrint function
           setState({ orders: fetchedOrders, columns: fetchedColumns });
         } catch (error) {
           setRes("Something went wrong: ", error);
@@ -101,7 +98,7 @@ const PrintSchedule = ({machine}) => {
         }
       };
       fetchData();
-    }, [machine]);  // Добавление machine в список зависимостей
+    }, [props.machine, props.updateTrigger]);  // Добавление machine в список зависимостей
  
   const updatePositions = async (itemId, newPosition, newColumnId) => {
     try {
