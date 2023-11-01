@@ -67,14 +67,14 @@ function FormSectionParts({ parts, errors }) {
                   sm="4"
                   label="Бумага"
                   className="form-control"
-                  name={`parts.${index}.paper_id`}
-                  type="number"
+                  name={`parts.${index}.paper.type`}
+                  type="text"
                 >
                   <option value="">Select...</option>
-                  <option value="1">Глянцевая</option>
-                  <option value="2">Матовая</option>
-                  <option value="3">Офсетная</option>
-                  <option value="4">Картон</option>
+                  <option value="GL">Глянцевая</option>
+                  <option value="MAT">Матовая</option>
+                  <option value="OFF">Офсетная</option>
+                  <option value="CAR">Картон</option>
                 </FormSelectField>
 
               {/* <div>

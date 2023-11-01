@@ -66,8 +66,8 @@ class Paper(models.Model):
     type = models.CharField(max_length=3,
         choices=TYPE_CHOICES,
         )
-    matte = models.BooleanField(default=False)
-    glossy = models.BooleanField(default=False)
+    # matte = models.BooleanField(default=False)
+    # glossy = models.BooleanField(default=False)
     
     class Density(models.IntegerChoices):
         D80 = 80, '80'
@@ -196,8 +196,8 @@ class Part(models.Model):
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
-    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
-    paper_density = models.IntegerField(blank=True, null=True)
+    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="part_paper", blank=True)
+    # paper_density = models.IntegerField(blank=True, null=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
         ('4_4', '4+4'),

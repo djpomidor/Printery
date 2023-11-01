@@ -1,8 +1,7 @@
 /* eslint-disable react/display-name */
 import React from "react";
 import { Col, Row, InputGroup, Form } from "react-bootstrap";
-import FormTextField from "../../orders/form-field";
-import FormSelectField from "../../orders/form-select-field"
+import FormTextField from "../../orders/createOrder/form-field";
 
 export default () => {
   return (
@@ -31,7 +30,7 @@ export default () => {
         />
         </Col>
       </Row>
-      <FormTextField
+      {/* <FormTextField
         as={Col}
         sm="4"
         controlId="validationFormik03"
@@ -39,7 +38,7 @@ export default () => {
         type="number"
         name="circulation"
         placeholder="Кол-во бумаги"
-      />
+      /> */}
 
 
     </>

@@ -48,7 +48,7 @@ class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
     # paper = serializers.StringRelatedField(read_only=True)
-    paper = PaperSerializer(read_only=True)  # paper object
+    paper = PaperSerializer()  # paper object
     paper_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     color_display = serializers.CharField(source='get_color_display', read_only=True)
     printing = PrintScheduleSerializer(many=True)
@@ -64,7 +64,7 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'paper_density', 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'color', 'color_display', 'laminate', 'uflak', 'printing']
 
 
 class OrderSerializer(serializers.ModelSerializer):
