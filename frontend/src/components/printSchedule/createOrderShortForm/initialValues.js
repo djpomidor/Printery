@@ -34,9 +34,9 @@ export const initialValues={
     orderId: '',
     nameOfOrder: '',
     // typeOfOrder: '',
-    circulation: '',
-    circulation_sheets: '',
-    printed_sheets: '',
+    circulation: 0,
+    // circulation_sheets: '',
+    // printed_sheets: '',
     binding: '',
     width: 0,
     height: 0,
@@ -45,29 +45,34 @@ export const initialValues={
         part_name: 'BLO',
         pages: 1,
         color: '',
-        paper: '',
-        paper_density: 0,
+        paper: 
+          {
+            type: '',
+            density: 100,
+          }
+        ,
         printing: [
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: 'сб, 28.10_night',
+            parent_day: 'вт, 31.10_night',
             machine: '',
           }
-          
-
         ]
       },
       {
         part_name: 'COV',
         pages: '',
         color: '',
-        paper: '',
-        paper_density: '',
+        paper: 
+          {
+            type: '',
+            density: 100,
+          },
         printing: [
           {
-            printed_sheets: 20,
-            circulation_sheets: 30,
+            printed_sheets: 0,
+            circulation_sheets: 0,
             parent_day: 'сб, 28.10_night',
             machine: '',
           }
@@ -77,8 +82,19 @@ export const initialValues={
         part_name: 'INS',
         pages: '',
         color: '',
-        paper: '',
-        paper_density: '',
+        paper: 
+          {
+            type: '',
+            density: 100,
+          },
+        printing: [
+          {
+            printed_sheets: 0,
+            circulation_sheets: 0,
+            parent_day: 'сб, 28.10_night',
+            machine: '',
+          }
+        ]            
       },
     ],
     created: '',

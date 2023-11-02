@@ -48,7 +48,7 @@ class PartSerializer(serializers.ModelSerializer):
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
     # paper = serializers.StringRelatedField(read_only=True)
-    paper = PaperSerializer(read_only=True)  # paper object
+    paper = PaperSerializer()  # paper object
     paper_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     color_display = serializers.CharField(source='get_color_display', read_only=True)
     printing = PrintScheduleSerializer(many=True)
@@ -64,7 +64,7 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'paper_density', 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'color', 'color_display', 'laminate', 'uflak', 'printing']
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -86,8 +86,13 @@ class OrderSerializer(serializers.ModelSerializer):
         order = Order.objects.create(**validated_data)
         order.owner.set(owners)
         for part_data in parts_data:
+            print("!@#$%__", part_data)
+            paper_data = part_data.pop('paper')
+            paper = Paper.objects.create(**paper_data)
+            print("!@#$%)KJHGG&%^__", paper.id)
             printing_data = part_data.pop('printing')
-            part = Part.objects.create(order=order, **part_data)
+            part = Part.objects.create(order=order, paper=paper, **part_data)
+            # part.paper.set(paper.id)
             for printing in printing_data:
                 PrintSchedule.objects.create(order_part=part, **printing)
         return order

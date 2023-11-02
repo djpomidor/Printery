@@ -2,7 +2,7 @@
 import React from 'react';
 import {Button, Col, Row, Form } from 'react-bootstrap';
 import { useState, useContext } from "react";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { addOrder } from './addOrder';
@@ -62,6 +62,14 @@ const CreateOrder = () => {
             color: '',
             paper: '',
             paper_density: '',
+            printing: [
+              {
+                printed_sheets: 0,
+                circulation_sheets: 0,
+                parent_day: '',
+                machine: '',
+              }
+            ]
           },
           {
             part_name: 'COV',
@@ -69,6 +77,15 @@ const CreateOrder = () => {
             color: '',
             paper: '',
             paper_density: '',
+            printing: [
+              {
+                printed_sheets: 0,
+                circulation_sheets: 0,
+                parent_day: '',
+                machine: '',
+              }
+            ]
+            
           },
           {
             part_name: 'INS',
@@ -76,6 +93,14 @@ const CreateOrder = () => {
             color: '',
             paper: '',
             paper_density: '',
+            printing: [
+              {
+                printed_sheets: 0,
+                circulation_sheets: 0,
+                parent_day: '',
+                machine: '',
+              }
+            ]
           },
         ],
         created: '',

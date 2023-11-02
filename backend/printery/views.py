@@ -106,8 +106,10 @@ class OrderList(APIView):
             order = serializer_order.save()  # Save the Order model
             # Iterate over the parts data and create the associated PrintSchedule models
             for part_data in request.data.get('parts'):
+                serializer_paper = PaperSerializer(data=part_data.get('paper'))
                 serializer_printSheduler = PrintScheduleSerializer(data=part_data.get('printing'))
-                if serializer_printSheduler.is_valid():
+                if serializer_printSheduler.is_valid() and serializer_paper.is_valid():
+                    serializer_paper.save()
                     serializer_printSheduler.save(order_part=part_data.get('pk'))  # Associate the PrintSchedule with the Order and Part
             return Response(serializer_order.data, status=status.HTTP_201_CREATED)
         return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)

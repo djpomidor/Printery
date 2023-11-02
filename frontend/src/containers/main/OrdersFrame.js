@@ -1,6 +1,6 @@
 import React from "react";
 import GetOrders from '../../components/orders/GetOrders'
-import CreateOrder from '../../components/orders/CreateOrder'
+import CreateOrder from '../../components/orders/createOrder/CreateOrder'
 import { AuthProvider } from "../../context/AuthContext";
 
 const OrdersFrame = ({ currentComponent }) => {

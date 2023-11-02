@@ -15,7 +15,7 @@ const OrderList = styled.div`
   display: flex;
   flex-direction: column;
   background: #fff;
-  min-width: 800px;
+  // min-width: 800px;
   // border-radius: 5px;
   padding: 15px 15px;
   // margin-right: 45px;
@@ -40,7 +40,7 @@ const OrderColumnStyles = styled.div`
   }
   // margin: 8px;
   // display: flex;
-  // width: 100%;
+  width: 100%;
   min-height: 80vh;
   ${Day}:nth-of-type(even) { 
     // was nth-child
