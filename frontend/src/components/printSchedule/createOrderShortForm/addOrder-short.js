@@ -2,7 +2,7 @@ export const addOrder = async (values, user, props) => {
     values.owner = [user.user_id]
     values.parts = values.parts.filter((part) => {
         // part.paper = parseInt(part.paper)
-        return  part.paper != 0 ;
+        return  part.printing[0].printed_sheets != 0 ;
     });
 
     try {

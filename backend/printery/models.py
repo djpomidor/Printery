@@ -51,7 +51,7 @@ class Company(models.Model):
 class Paper(models.Model):
     name = models.CharField(blank=True, max_length=64)
     TYPE_CHOICES = [
-        (None, 'Select...'),
+        ('', 'Select...'),
         ('OFF', 'Офсетная'),
         ('GL', 'Глянцевая'),
         ('MAT', 'Матовая'),

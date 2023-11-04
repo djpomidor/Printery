@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
+import ru from 'date-fns/locale/ru';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -13,6 +14,7 @@ const Calendar = () => {
     className="form-control form-control-flush text-sm text-muted font-semibold flatpickr-input"
     // showIcon 
     dateFormat="dd/MM/yyyy"
+    locale={ru}
     selected={startDate} 
     onChange={(date) => setStartDate(date)} 
     icon="bi bi-calendar-event"

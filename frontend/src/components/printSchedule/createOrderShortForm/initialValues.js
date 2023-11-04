@@ -20,7 +20,7 @@ export const schema = yup.object().shape({
           yup.object().shape({
             printed_sheets: yup.number(),
             circulation_sheets: yup.number(),
-            parent_day: yup.string(),
+            parent_day: yup.date(),
             machine: yup.number(),
   
           })
@@ -55,7 +55,7 @@ export const initialValues={
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: 'вт, 31.10_night',
+            parent_day: '',
             machine: '',
           }
         ]
@@ -73,7 +73,7 @@ export const initialValues={
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: 'сб, 28.10_night',
+            parent_day: '',
             machine: '',
           }
         ]            
@@ -91,7 +91,7 @@ export const initialValues={
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: 'сб, 28.10_night',
+            parent_day: '',
             machine: '',
           }
         ]            

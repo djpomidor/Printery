@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, Col, Row, Form } from "react-bootstrap";
 import { FieldArray, Field } from "formik";
 import FormTextField from "./short-form-field";
 import FormSelectField from "./short-form-select-field"
 import FormNumberPartField from "./short-form-parts-number-field"
+import Calendar from "../../../containers/rightpanel/calendar";
+import DatePicker from "react-datepicker";
+import ru from 'date-fns/locale/ru';
 
 function FormSectionParts({ parts, errors }) {
+  const [parent_day, setParent_day] = useState(new Date());
   return (
     <FieldArray name="parts">
     {({ insert, remove, push }) => (
@@ -36,36 +40,65 @@ function FormSectionParts({ parts, errors }) {
                 </button>
               </div>
               <hr></hr>
-                {/* <FormNumberPartField
-                  as={Col}
-                  sm="4"
-                  label="Печ. листы"
-                  name={`parts.${index}.pages`}
-                  controlId={`parts.${index}.pages`}
-                  type="number"
-                  index={index}
-                  errors={errors}
-                /> */}
-                
+              <Row className="mb-4">
+                <Col>
+                <label htmlFor={`date_of_print_${index}`} className="form-label">Дата печати:</label>
+                <div className="form-control d-flex gap-2">
+                <i className="bi bi-calendar-event"></i>
+                <DatePicker 
+                  dateFormat="dd/MM/yyyy"
+                  locale={ru}
+                  selected={parent_day} 
+                  onChange={(date) => setParent_day(date)} 
+                  icon="bi bi-calendar-event"
+                  placeholderText="Select date"
+                  name={`parts.${index}.printing.[0].parent_day`}
+                  controlId={`parts.${index}.printing.[0].parent_day`}/>
+
+                </div>
+              </Col>
+              </Row>
+              <Row className="mb-4">
                 <FormSelectField
                   as={Col}
-                  sm="4"
-                  label="Красочность"
+                  sm="6"
+                  label="Красочность:"
                   name={`parts.${index}.color`}
                   controlId={`parts.${index}.color`}
                   type="text"
-                  // error={console.log("!!!sdf", errors.parts[index].color)}
                 >
                   <option value="">Select...</option>
                   <option value='4_4'>4(CMYK)+4(CMYK)</option>
                   <option value='4_0'>4(CMYK)+0</option>
                   <option value='1_1'>1(Black)+1(Black)</option>
                 </FormSelectField>
-  
+
+                <FormNumberPartField
+                  as={Col}
+                  sm="6"
+                  label="Печ. листы:"
+                  name={`parts.${index}.printing.[0].printed_sheets`}
+                  controlId={`parts.${index}.printing.[0].printed_sheets`}
+                  type="number"
+                  index={index}
+                  errors={errors}
+                />
+                </Row>
+                <FormNumberPartField
+                  as={Col}
+                  sm="6"
+                  label="Тираж:"
+                  name={`parts.${index}.printing.[0].circulation_sheets`}
+                  controlId={`parts.${index}.printing.[0].circulation_sheets`}
+                  type="number"
+                  index={index}
+                  errors={errors}
+                />
+
                 <FormSelectField
                   as={Col}
-                  sm="4"
-                  label="Бумага"
+                  sm="6"
+                  label="Бумага:"
                   className="form-control"
                   name={`parts.${index}.paper.type`}
                   type="text"
@@ -77,41 +110,7 @@ function FormSectionParts({ parts, errors }) {
                   <option value="CAR">Картон</option>
                 </FormSelectField>
 
-              {/* <div>
-                <label className="form-label" htmlFor={'parts.${index}.paper_density'}>Плотность</label>
-                <Field
-                  component={SelectField}
-                  options={densityOptions}
-                  name={`parts.${index}.paper_density`}
-                />
-              </div> */}
-
-              {/* <div className="col">
-                <label className="form-label" htmlFor={'parts.${index}.paper_density'} >Плотность (гр/м<sup>2</sup>)</label>
-                  <Field
-                    className="form-control"
-                    name={`parts.${index}.paper_density`}
-                    type="text"
-                    id={`parts.${index}.paper_density`}
-                    list="paper_density" />
-                
-
-                <datalist id="paper_density">
-                  <option value="">Select...</option>
-                  <option value='80'></option>
-                  <option value='100'></option>
-                  <option value='105'></option>
-                  <option value='115'></option>
-                  <option value='120'></option>
-                  <option value='130'></option>
-                  <option value='150'></option>
-                  <option value='170'></option>
-                  <option value='200'></option>
-                  <option value='250'></option>
-                  <option value='300'></option>
-
-                </datalist>
-              </div> */}
+             
             </div>
           ))}
         <Button
