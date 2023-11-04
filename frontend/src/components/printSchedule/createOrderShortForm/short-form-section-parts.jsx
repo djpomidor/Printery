@@ -6,7 +6,7 @@ import FormSelectField from "./short-form-select-field"
 import FormNumberPartField from "./short-form-parts-number-field"
 import Calendar from "../../../containers/rightpanel/calendar";
 import DatePicker from "react-datepicker";
-import ru from 'date-fns/locale/ru';
+import DatePickerField from "./DatePickerField";
 
 function FormSectionParts({ parts, errors }) {
   const [parent_day, setParent_day] = useState(new Date());
@@ -43,8 +43,18 @@ function FormSectionParts({ parts, errors }) {
               <Row className="mb-4">
                 <Col>
                 <label htmlFor={`date_of_print_${index}`} className="form-label">Дата печати:</label>
-                <div className="form-control d-flex gap-2">
-                <i className="bi bi-calendar-event"></i>
+                {/* <i className="bi bi-calendar-event"></i> */}
+                <Field 
+                  as={Col}
+                  sm="6"
+                  id={`date_of_print_${index}`}
+                  // label="Дата печати:"
+                  placeholderText="Выберите дату"
+                  name={`parts.${index}.printing.[0].parent_day`} 
+                  component={DatePickerField} />
+                
+                {/* <div className="form-control d-flex gap-2">
+                
                 <DatePicker 
                   dateFormat="dd/MM/yyyy"
                   locale={ru}
@@ -55,7 +65,7 @@ function FormSectionParts({ parts, errors }) {
                   name={`parts.${index}.printing.[0].parent_day`}
                   controlId={`parts.${index}.printing.[0].parent_day`}/>
 
-                </div>
+                </div>  */}
               </Col>
               </Row>
               <Row className="mb-4">

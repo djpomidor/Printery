@@ -30,7 +30,9 @@ export const schema = yup.object().shape({
     terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
 
-export const initialValues={
+const today = new Date();
+
+  export const initialValues={
     orderId: '',
     nameOfOrder: '',
     // typeOfOrder: '',
