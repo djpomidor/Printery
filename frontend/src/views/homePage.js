@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext } from "react";
 import UserInfo from "../components/UserInfo";
 import AuthContext from "../context/AuthContext";

@@ -14,8 +14,6 @@ const Main = ({title}) => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-lg-8 table-responsive">
-
-        {/* // <!-- Latest orders table --> */}
         <div className="card">
         <div className="card-header border-bottom">
           {currentComponent==="OrdersTable"?

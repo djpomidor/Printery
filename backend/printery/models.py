@@ -51,7 +51,7 @@ class Company(models.Model):
 class Paper(models.Model):
     name = models.CharField(blank=True, max_length=64)
     TYPE_CHOICES = [
-        (None, 'Select...'),
+        ('', 'Select...'),
         ('OFF', 'Офсетная'),
         ('GL', 'Глянцевая'),
         ('MAT', 'Матовая'),
@@ -66,8 +66,8 @@ class Paper(models.Model):
     type = models.CharField(max_length=3,
         choices=TYPE_CHOICES,
         )
-    matte = models.BooleanField(default=False)
-    glossy = models.BooleanField(default=False)
+    # matte = models.BooleanField(default=False)
+    # glossy = models.BooleanField(default=False)
     
     class Density(models.IntegerChoices):
         D80 = 80, '80'
@@ -103,11 +103,12 @@ class Paper(models.Model):
 
 class Order(models.Model):
     def counter():
-        no = Order.objects.aggregate(Max('number'))
-        if no == None:
+        no = Order.objects.aggregate(max_number=Max('number'))
+        max_number = no['max_number']
+        if max_number is None:
             return 1
         else:
-            return no['number__max'] + 1
+            return max_number + 1
 
     number = models.IntegerField(unique=True, default=counter)
     name = models.CharField(blank=True, max_length=16)
@@ -149,53 +150,39 @@ class Order(models.Model):
     submiting_files = models.DateTimeField(null=True, blank=True)
     due_date = models.DateTimeField(null=True, blank=True)
 
-    # def parent_day():
-    #     today = datetime.now()
-    #     formatted_date = today.strftime("%a, %d.%m") + "_day"
-    #     return formatted_date
-
-
-    # def save(self, *args, **kwargs):
-    #     is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
-    #     super().save(*args, **kwargs)  # Call the superclass's save method
-
-    #     if is_new:  # If the instance was newly created
-    #         print("!print(locale.getlocale())  ", locale.getlocale())  
-    #         PrintSchedule.objects.create(order=self, parent_day=parent_day())
-
 #    def __str__(self):
 #        return f"{self.number} {self.name}"
 
-    def serialize(self):
-        try:
-            block = Part.objects.get(order_id=self.id, part_name='BLO').serialize()
-        except Part.DoesNotExist:
-            block = ""
-        try:
-            cover = Part.objects.get(order_id=self.id, part_name='COV').serialize()
-        except Part.DoesNotExist:
-            cover = ""
-        try:
-            insert = Part.objects.get(order_id=self.id, part_name='INS').serialize()
-        except Part.DoesNotExist:
-            insert = "" 
+    # def serialize(self):
+    #     try:
+    #         block = Part.objects.get(order_id=self.id, part_name='BLO').serialize()
+    #     except Part.DoesNotExist:
+    #         block = ""
+    #     try:
+    #         cover = Part.objects.get(order_id=self.id, part_name='COV').serialize()
+    #     except Part.DoesNotExist:
+    #         cover = ""
+    #     try:
+    #         insert = Part.objects.get(order_id=self.id, part_name='INS').serialize()
+    #     except Part.DoesNotExist:
+    #         insert = "" 
 
-        return {
-            "number": self.number,
-            "name": self.name,
-            "owner": [user.last_name for user in self.owner.all()],
-            "type": self.get_type_display(),
-            "circulation": self.circulation,
-            "binding": self.binding,
-            "width": self.width,
-            "height": self.height,
-            "block": block,
-            "cover": cover,
-            "insert": insert,
-            "created": self.created.strftime("%b %d %Y, %I:%M %p"),
-            "due_date": self.due_date.strftime("%b %d %Y, %I:%M %p"),
-            "delivery_date": self.delivery_date.strftime("%b %d %Y, %I:%M %p")            
-        }
+    #     return {
+    #         "number": self.number,
+    #         "name": self.name,
+    #         "owner": [user.last_name for user in self.owner.all()],
+    #         "type": self.get_type_display(),
+    #         "circulation": self.circulation,
+    #         "binding": self.binding,
+    #         "width": self.width,
+    #         "height": self.height,
+    #         "block": block,
+    #         "cover": cover,
+    #         "insert": insert,
+    #         "created": self.created.strftime("%b %d %Y, %I:%M %p"),
+    #         "due_date": self.due_date.strftime("%b %d %Y, %I:%M %p"),
+    #         "delivery_date": self.delivery_date.strftime("%b %d %Y, %I:%M %p")            
+    #     }
 
 ######################################################################################
 
@@ -209,8 +196,8 @@ class Part(models.Model):
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
-    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="paper", blank=True)
-    # paper = models.ManyToManyField(Paper,)
+    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="part_paper", blank=True)
+    # paper_density = models.IntegerField(blank=True, null=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
         ('4_4', '4+4'),
@@ -232,24 +219,13 @@ class Part(models.Model):
     def __str__(self):
         return f"{self.part_name}"
     
-    def save(self, *args, **kwargs):
-        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
-        super().save(*args, **kwargs)  # Call the superclass's save method
+    # def save(self, *args, **kwargs):
+    #     is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+    #     super().save(*args, **kwargs)  # Call the superclass's save method
 
-        if is_new:  # If the instance was newly created
-            print("!print(locale.getlocale())  ", locale.getlocale())  
-            PrintSchedule.objects.create(order_part=self)
-
-    # def serialize(self):
-    #     return {
-    #         "part_name": self.part_name,
-    #         "color": self.color,
-    #         "uflak": self.uflak,
-    #         "order": self.order.id,
-    #         "pages": self.pages,
-    #         "paper": self.paper.serialize()
-    #     }
-
+    #     if is_new:  # If the instance was newly created
+    #         # print("!print(locale.getlocale())  ", locale.getlocale())  
+    #         PrintSchedule.objects.create(order_part=self)
 
 ###############################################################################################
 

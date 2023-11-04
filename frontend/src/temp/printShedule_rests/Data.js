@@ -138,7 +138,7 @@ return dates;
         items: (key === "вт, 25.07" && index % 2 === 0)?items:[],
         // items: items,
       };
-  };
+  }
   return obj;
 };
 // console.log("!!! daysOfPrint_", daysOfPrint())

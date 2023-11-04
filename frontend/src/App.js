@@ -10,7 +10,7 @@ import Login from "./views/loginPage";
 import Register from "./views/registerPage";
 import ProtectedPage from "./views/ProtectedPage";
 import UserCabinet from "./views/UserCabinet";
-import CreateOrder from "./components/orders/CreateOrder";
+import CreateOrder from "./components/orders/createOrder/CreateOrder";
 import PrintSchedulePage from "./views/PrintSchedulePage"
 
 function App() {

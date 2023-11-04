@@ -17,7 +17,7 @@ const Part = (part) => {
         </td>
         <td>{part.pages}</td>
         <td>{part.color_display}</td>
-        <td>{part.paper.type_display + ", " + part.paper.density}</td>
+        <td>{`${part.paper.type_display}, ${part.paper_density} гр/м`}<sup>2</sup></td>
         <td>{part.laminate}</td>
         <td>{part.uflak}</td>
       </tr>

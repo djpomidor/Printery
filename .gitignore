@@ -5,3 +5,4 @@ backend/env
 backend/_venv
 frontend/node_modules/
 backend/finalproject/static/
+.vscode/settings.json

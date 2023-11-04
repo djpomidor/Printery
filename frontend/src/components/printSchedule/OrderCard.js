@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 
 const OrderInformation = styled.div`
+  border-bottom-width: 2px;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   padding: 0 15px;
   border-radius: 1px;
-  /* background: ${({ isDragging }) =>
-    isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'}; */
-  background: white;
+  background: ${({ isDragging }) =>
+    isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'};
+  // background: white;
   margin-top: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -37,12 +38,16 @@ const OrderInformation = styled.div`
   /* } */
 `;
 
+const OrderIdItem = styled.div`
+  padding-right: 10px;
+  padding-left: 5px;
+  min-width: 95px;
+`;
 const OrderItem = styled.div`
   padding-right: 10px;
   padding-left: 5px;
-  min-width: 100px;
+  // min-width: 100px;
 `;
-
 // const Inputt = styled.input`
 
 // `;
@@ -58,7 +63,7 @@ const OrderCard = ({ item, index }) => {
         >
           <OrderInformation>
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
-            <OrderItem>{"с/з " + item.number}</OrderItem>
+            <OrderIdItem>{"с/з " + item.number + "."}</OrderIdItem>
             <OrderItem>{item.nameOfOrder + ","}</OrderItem>
             <OrderItem>{item.partName + ","}</OrderItem>
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>

@@ -1,4 +1,5 @@
 import React from 'react'
+import Calendar from './calendar'
 
 const RightPanel = () => {
   return (
@@ -96,8 +97,10 @@ const RightPanel = () => {
               <h6 className="text-sm text-muted font-semibold">Due date</h6>
               <div className="mt-3">
                 <div className="datepicker d-flex gap-2 align-items-center">
-                  <input type="text" className="form-control form-control-flush text-sm text-muted font-semibold flatpickr-input" placeholder="Select date" data-input="" />
-                  <a href="#" className="text-muted text-primary-hover" data-toggle=""><i className="bi bi-calendar-event"></i></a>
+                  {/* <input type="text" className="form-control form-control-flush text-sm text-muted font-semibold flatpickr-input" placeholder="Select date" data-input="" /> */}
+                  {/* <a href="#" className="text-muted text-primary-hover" data-toggle=""></a> */}
+                  <i className="bi bi-calendar-event"></i>
+                  <Calendar />
                 </div>
               </div>
             </div>

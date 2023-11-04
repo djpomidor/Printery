@@ -4,6 +4,7 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import useAxios from "../utils/useAxios";
 
+import '.././css/bootstrap.css';
 import '.././css/main.css';
 import '.././css/utilities.css';
 
