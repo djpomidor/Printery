@@ -1,8 +1,28 @@
 export const addOrder = async (values, user, props) => {
     values.owner = [user.user_id]
     values.parts = values.parts.filter((part) => {
-        // part.paper = parseInt(part.paper)
-        return  part.printing[0].printed_sheets != 0 ;
+        if (part.printing[0].printed_sheets != 0 && part.printing[0].printing_day) {
+        let day = part.printing[0].printing_day.toLocaleDateString('Ru', {  
+            day: "numeric", 
+            month:"numeric", 
+            weekday:"short",
+          });
+          part.printing[0].parent_day = day + "_" + part.printing[0].day_or_night;
+          switch(part.printing[0].machine){
+            case '1':
+               part.printing[0].sm1 = true;
+               break;
+            case '2':
+                part.printing[0].sm2 = true;
+                break;
+            case '3':
+                part.printing[0].rapida = true;
+                break;        
+          }
+            
+
+        //   console.log("!@#$%^&*_____", part.printig[0].day_or_night)
+        return  part.printing[0].printed_sheets != 0 ;}   
     });
 
     try {

@@ -20,7 +20,7 @@ export const schema = yup.object().shape({
           yup.object().shape({
             printed_sheets: yup.number(),
             circulation_sheets: yup.number(),
-            parent_day: yup.date(),
+            parent_day: yup.string(),
             machine: yup.number(),
   
           })
@@ -30,7 +30,9 @@ export const schema = yup.object().shape({
     terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
 
-export const initialValues={
+const today = new Date();
+
+  export const initialValues={
     orderId: '',
     nameOfOrder: '',
     // typeOfOrder: '',
@@ -56,6 +58,8 @@ export const initialValues={
             printed_sheets: 0,
             circulation_sheets: 0,
             parent_day: '',
+            printing_day: "",
+            day_or_night: "day",
             machine: '',
           }
         ]

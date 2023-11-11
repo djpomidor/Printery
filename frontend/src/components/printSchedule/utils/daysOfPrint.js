@@ -1,5 +1,4 @@
 import daysGenerator from "./daysGenerator";
-// let machine = "sm1";
 
 const daysOfPrint = (items, machine) => {
   // Pass fetchedOrders (items) as an argument

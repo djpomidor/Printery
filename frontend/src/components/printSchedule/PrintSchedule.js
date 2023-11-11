@@ -34,7 +34,7 @@ const OrderColumnStyles = styled.div`
     border-top-left-radius: 0.75rem;
     border-top-right-radius: 0.75rem;
     padding-left: 1.25rem;
-    // padding-top: 1.25rem;
+    padding-top: 1.25rem;
     padding-right: 1.25rem;
     border-bottom-width: 3px;
   }
@@ -165,10 +165,10 @@ const PrintSchedule = (props) => {
                        weekday:"short",
                      }))?
                     <DateToday>
-                      <h1 style={{fontWeight: 'bold'}}>{(index % 2 === 0)?(column.date):''}</h1>
+                      <h2 style={{fontWeight: 'bold'}}>{(index % 2 === 0)?(column.date):''}</h2>
                       <h5>{(index % 2 === 0 )?'Сегодня':''}</h5>
                     </DateToday>:
-                    <Date><h1>{(index % 2 === 0)?(column.date):''}</h1></Date>
+                    <Date><h2>{(index % 2 === 0)?(column.date):''}</h2></Date>
                 }
                     <DayNight><p>{(index % 2 === 0 )?('День'):('Ночь')}</p></DayNight>
                   <OrderList
