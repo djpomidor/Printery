@@ -3,13 +3,11 @@ import { Button, Card, Col, Row, Form } from "react-bootstrap";
 import { FieldArray, Field } from "formik";
 import FormTextField from "./short-form-field";
 import FormSelectField from "./short-form-select-field"
-import FormNumberPartField from "./short-form-parts-number-field"
-import Calendar from "../../../containers/rightpanel/calendar";
-import DatePicker from "react-datepicker";
-import DatePickerField from "./DatePickerField";
+import FormNumberPartField from "./short-form-field"
+import DatePickerField from "./short-form-date-field";
 
 function FormSectionParts({ parts, errors }) {
-  const [parent_day, setParent_day] = useState(new Date());
+  // const [parent_day, setParent_day] = useState(new Date());
   return (
     <FieldArray name="parts">
     {({ insert, remove, push }) => (
@@ -25,11 +23,11 @@ function FormSectionParts({ parts, errors }) {
                 />
               </div>
               <div className="d-flex align-items-center">
-                <h5>
-                  {(part.part_name === 'BLO') ? ('Block') : ''}
-                  {(part.part_name === 'COV') ? ('Cover') : ''}
-                  {(part.part_name === 'INS') ? ('Insert') : ''}
-                </h5>
+                <h4>
+                  {(part.part_name === 'BLO') ? ('Блок') : ''}
+                  {(part.part_name === 'COV') ? ('Обложка') : ''}
+                  {(part.part_name === 'INS') ? ('Вклейка') : ''}
+                </h4>
 
                 <button
                   type="button"
@@ -41,32 +39,42 @@ function FormSectionParts({ parts, errors }) {
               </div>
               <hr></hr>
               <Row className="mb-4">
+                <FormSelectField
+                  sm="4"
+                  controlId={`parts.${index}.printing.[0].machine`}
+                  label="Печатная машина"
+                  type="text"
+                  name={`parts.${index}.printing.[0].machine`}
+                  placeholder=""
+                >
+                  <option value='1'>SM-1</option>
+                  <option value='2'>SM-2</option>
+                  <option value='3'>Rapida</option>
+                </FormSelectField>
+              </Row>
+              <Row className="mb-4">
                 <Col>
-                <label htmlFor={`date_of_print_${index}`} className="form-label">Дата печати:</label>
-                {/* <i className="bi bi-calendar-event"></i> */}
-                <Field 
-                  as={Col}
-                  sm="6"
-                  id={`date_of_print_${index}`}
-                  // label="Дата печати:"
-                  placeholderText="Выберите дату"
-                  name={`parts.${index}.printing.[0].parent_day`} 
-                  component={DatePickerField} />
-                
-                {/* <div className="form-control d-flex gap-2">
-                
-                <DatePicker 
-                  dateFormat="dd/MM/yyyy"
-                  locale={ru}
-                  selected={parent_day} 
-                  onChange={(date) => setParent_day(date)} 
-                  icon="bi bi-calendar-event"
-                  placeholderText="Select date"
-                  name={`parts.${index}.printing.[0].parent_day`}
-                  controlId={`parts.${index}.printing.[0].parent_day`}/>
-
-                </div>  */}
-              </Col>
+                  <label htmlFor={`parts.${index}.printing.[0].printing_day`} className="form-label">Дата печати:</label><br></br>
+                  <Field
+                    className="form-control"
+                    id={`date_of_print_${index}`}
+                    placeholderText="Выберите дату"
+                    name={`parts.${index}.printing.[0].printing_day`}
+                    component={DatePickerField} />
+                </Col>
+                <Col>
+                  <FormSelectField
+                    sm="6"
+                    controlId={`parts.${index}.printing.[0].day_or_night`}
+                    label="День или ночь?"
+                    type="text"
+                    name={`parts.${index}.printing.[0].day_or_night`}
+                    placeholder=""
+                  >
+                    <option value='day'>День</option>
+                    <option value='night'>Ночь</option>
+                  </FormSelectField>
+                </Col>
               </Row>
               <Row className="mb-4">
                 <FormSelectField
@@ -78,9 +86,9 @@ function FormSectionParts({ parts, errors }) {
                   type="text"
                 >
                   <option value="">Select...</option>
-                  <option value='4_4'>4(CMYK)+4(CMYK)</option>
-                  <option value='4_0'>4(CMYK)+0</option>
-                  <option value='1_1'>1(Black)+1(Black)</option>
+                  <option value='4_4'>4+4</option>
+                  <option value='4_0'>4+0</option>
+                  <option value='1_1'>1+1</option>
                 </FormSelectField>
 
                 <FormNumberPartField
@@ -94,6 +102,7 @@ function FormSectionParts({ parts, errors }) {
                   errors={errors}
                 />
                 </Row>
+                <Row>
                 <FormNumberPartField
                   as={Col}
                   sm="6"
@@ -119,8 +128,7 @@ function FormSectionParts({ parts, errors }) {
                   <option value="OFF">Офсетная</option>
                   <option value="CAR">Картон</option>
                 </FormSelectField>
-
-             
+             </Row>
             </div>
           ))}
         <Button

@@ -62,14 +62,14 @@ const OrderCard = ({ item, index }) => {
           {...provided.dragHandleProps}
         >
           <OrderInformation>
-            {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
+            
             <OrderIdItem>{"с/з " + item.number + "."}</OrderIdItem>
             <OrderItem>{item.nameOfOrder + ","}</OrderItem>
             <OrderItem>{item.partName + ","}</OrderItem>
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
             <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
-            <OrderItem>{item.paper}</OrderItem>
-
+            <OrderItem>{item.paper.substr(0,3)}</OrderItem>
+            <input name="myInput" type = "checkbox" value = {item.nameOfOrder} />
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',

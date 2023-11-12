@@ -20,7 +20,7 @@ export const schema = yup.object().shape({
           yup.object().shape({
             printed_sheets: yup.number(),
             circulation_sheets: yup.number(),
-            parent_day: yup.date(),
+            parent_day: yup.string(),
             machine: yup.number(),
   
           })
@@ -58,6 +58,8 @@ const today = new Date();
             printed_sheets: 0,
             circulation_sheets: 0,
             parent_day: '',
+            printing_day: "",
+            day_or_night: "day",
             machine: '',
           }
         ]

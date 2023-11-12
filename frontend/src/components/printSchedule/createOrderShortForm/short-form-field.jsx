@@ -37,12 +37,6 @@ const FormTextField = ({
                 {form.errors[field.name]}
                 {/* {form.touched[field.name] && form.errors[field.name] ? form.errors[field.name] : null} */}
               </Form.Control.Feedback>
-              
-{/* {console.log("LLL",form.errors.parts[field])} */}
-              {/* <Form.Control.Feedback type="invalid">
-              {error}
-              </Form.Control.Feedback> */}
-
             </InputGroup>
           </Form.Group>
         );
