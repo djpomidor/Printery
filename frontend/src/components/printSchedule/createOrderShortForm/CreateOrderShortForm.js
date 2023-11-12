@@ -14,10 +14,11 @@ const CreateOrderShortForm = (props) => {
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { resetForm }) => {
     const newOrder = await addOrder(values, user, props);
     setValidated(true);
     setErrors(newOrder);
+    resetForm();
   };
 
   // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
