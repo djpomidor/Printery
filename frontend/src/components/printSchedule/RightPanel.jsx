@@ -26,10 +26,8 @@ const RightPanel = (props) => {
                 Добавить
               </Button>
               <Collapse in={open}>
-                <div id="example-collapse-text">
-                <CreateOrderShortForm setUpdateTrigger={props.setUpdateTrigger} />
-
-
+                <div id="collapse-form">
+                  <CreateOrderShortForm setUpdateTrigger={props.setUpdateTrigger} />
                 </div>
               </Collapse>
             </Row>
