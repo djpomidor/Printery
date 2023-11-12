@@ -1,9 +1,10 @@
 .nav-link {
-    color: #525f7f;
+    color: #97999d;
     display: block;
-    font-size: 1.075rem;
+    font-size: x-large;
     font-weight: 500;
 }
+
 .nav-link.active {
     color: #0d6efd !important;
     font-weight: 700 !important;
@@ -13,4 +14,8 @@
 
 .my-custom-col {
     min-width: 8rem;
-  }
+}
+
+.datePicker {
+    width: 100%;
+}

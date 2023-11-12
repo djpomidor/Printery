@@ -232,7 +232,7 @@ class Part(models.Model):
 class PrintSchedule(models.Model):
     order_part = models.ForeignKey(Part, related_name='printing', on_delete = models.CASCADE)
     print_date = models.DateField(null=True, blank=True)
-    sm1 = models.BooleanField(default=True)
+    sm1 = models.BooleanField(default=False)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
     printed_sheets = models.IntegerField(null=True, blank=True)
