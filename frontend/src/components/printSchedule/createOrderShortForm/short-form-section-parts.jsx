@@ -9,18 +9,15 @@ import Accordion from 'react-bootstrap/Accordion';
 import CloseButton from 'react-bootstrap/CloseButton';
 
 function FormSectionParts({ parts, errors }) {
-  // const [parent_day, setParent_day] = useState(new Date());
   return (
     <FieldArray name="parts">
       {({ insert, remove, push }) => (
         <>
           {parts.length > 0 &&
             parts.map((part, index) => (
-              <Accordion defaultActiveKey={['0']} alwaysOpen>
+              <Accordion className="mb-3" key={index} defaultActiveKey={['0']} alwaysOpen>
                 <Accordion.Item eventKey={index}>
-                  <div className="mb-3 pb-3 row" key={index} style={{ backgroundColor: "beige" }}>
-                    {/* <hr></hr> */}
-
+                  <div key={index} >
                     <div className="d-flex align-items-center">
                       <Accordion.Header>
                         <h5>
@@ -29,25 +26,8 @@ function FormSectionParts({ parts, errors }) {
                           {(part.part_name === 'INS') ? ('Вклейка') : ''}
                         </h5>
                       </Accordion.Header>
-                      {/* <button
-                        type="button"
-                        className="ms-auto"
-                        onClick={() => remove(index)}
-                      >
-                        <i className="bi-x"></i>
-                      </button> */}
-
-                      <CloseButton className="ms-auto" onClick={() => remove(index)}/>
-
+                      <CloseButton className="ms-auto" onClick={() => remove(index)} />
                     </div>
-                    <hr></hr>
-                    {/* <div className="collapse">
-                      <Field
-                        name={`parts.${index}.part_name`}
-                        type="text"
-                      />
-                    </div> */}
-
                     <Accordion.Body>
                       <Row className="mb-4">
                         <FormSelectField
@@ -78,7 +58,7 @@ function FormSectionParts({ parts, errors }) {
                           <FormSelectField
                             sm="6"
                             controlId={`parts.${index}.printing.[0].day_or_night`}
-                            label="День или ночь?"
+                            label="День/ночь"
                             type="text"
                             name={`parts.${index}.printing.[0].day_or_night`}
                             placeholder=""
@@ -125,7 +105,6 @@ function FormSectionParts({ parts, errors }) {
                           index={index}
                           errors={errors}
                         />
-
                         <FormSelectField
                           as={Col}
                           sm="6"
@@ -143,7 +122,6 @@ function FormSectionParts({ parts, errors }) {
                       </Row>
                     </Accordion.Body>
                   </div>
-
                 </Accordion.Item>
               </Accordion>
             ))}
@@ -152,8 +130,6 @@ function FormSectionParts({ parts, errors }) {
             size="sm"
             onClick={() => push({ part_name: '', pages: '' })}
           >Add Part</Button>
-
-
         </>
       )}
     </FieldArray>
