@@ -2,6 +2,7 @@ backend/__pycache__/
 printery/__pycache__/
 printery/migrations/__pycache__/
 env/
-_venv/
+venv/
+.venv/
 runserver.bat
 static

@@ -3,6 +3,7 @@ printery/__pycache__/
 printery/migrations/__pycache__/
 backend/env
 backend/_venv
+backend/.venv/
 frontend/node_modules/
 backend/finalproject/static/
 /.vscode/settings.json
