@@ -26,7 +26,7 @@ function FormSectionParts({ parts, errors }) {
                           {(part.part_name === 'INS') ? ('Вклейка') : ''}
                         </h5>
                       </Accordion.Header>
-                      <CloseButton className="ms-auto" onClick={() => remove(index)} />
+                      <CloseButton className="px-4 ms-auto" onClick={() => remove(index)} />
                     </div>
                     <Accordion.Body>
                       <Row className="mb-4">
@@ -63,6 +63,7 @@ function FormSectionParts({ parts, errors }) {
                             name={`parts.${index}.printing.[0].day_or_night`}
                             placeholder=""
                           >
+                            <option value=''>...</option>
                             <option value='day'>День</option>
                             <option value='night'>Ночь</option>
                           </FormSelectField>

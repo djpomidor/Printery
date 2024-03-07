@@ -20,6 +20,7 @@ const OrderList = styled.div`
   padding: 15px 15px;
   // margin-right: 45px;
   height: fit-content;
+  text-overflow: ellipsis;
 `;
 const Day = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const OrderColumnStyles = styled.div`
     padding-left: 1.25rem;
     padding-top: 1.25rem;
     padding-right: 1.25rem;
-    border-bottom-width: 3px;
+    // border-bottom-width: 3px;
   }
   // margin: 8px;
   // display: flex;
@@ -72,8 +73,21 @@ const DateToday = styled.div`
   width:21vh;
 `;
  const DayNight = styled.div`
+  margin-left: 15px;
   margin-right: 10px;
   font-weight: 700;
+`;
+const DayNightList = styled.div`
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  width: 100%;
 `;
 
 const PrintSchedule = (props) => {
@@ -165,12 +179,13 @@ const PrintSchedule = (props) => {
                        weekday:"short",
                      }))?
                     <DateToday>
-                      <h2 style={{fontWeight: 'bold'}}>{(index % 2 === 0)?(column.date):''}</h2>
+                      <h1 style={{fontWeight: 'bold'}}>{(index % 2 === 0)?(column.date):''}</h1>
                       <h5>{(index % 2 === 0 )?'Сегодня':''}</h5>
                     </DateToday>:
-                    <Date><h2>{(index % 2 === 0)?(column.date):''}</h2></Date>
+                    <Date><h1>{(index % 2 === 0)?(column.date):''}</h1></Date>
                 }
-                    <DayNight><p>{(index % 2 === 0 )?('День'):('Ночь')}</p></DayNight>
+                    <DayNightList>
+                    <DayNight><h4>{(index % 2 === 0 )?('День'):('Ночь')}</h4></DayNight>
                   <OrderList
                     ref={provided.innerRef}
                     {...provided.droppableProps}
@@ -182,6 +197,7 @@ const PrintSchedule = (props) => {
                     {provided.placeholder}
                     </div>
                   </OrderList>
+                  </DayNightList>
                   </Day>
                 )}
               </Droppable>

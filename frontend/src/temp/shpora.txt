@@ -8,4 +8,9 @@ Windows: Shift + Alt + F
 Mac: Shift ⇧ + Option ⌥ + F
 Ubuntu: Ctrl + Shift + I
 
-ddd
+
+
+You need to run
+. venv/bin/activate
+or
+source venv/bin/activate
