@@ -81,7 +81,7 @@ class Paper(models.Model):
         D200 = 200, '200'
         D250 = 250, '250'
         D300 = 300, '300'
-    density = models.IntegerField(choices=Density.choices)
+    density = models.IntegerField(choices=Density.choices, null=True, blank=True)
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     manufacturer = models.ManyToManyField(Company, blank=True, related_name="made_by")
