@@ -11,17 +11,25 @@ export const addOrder = async (values, user, props) => {
           switch(part.printing[0].machine){
             case '1':
                part.printing[0].sm1 = true;
+               part.printing[0].sm2 = false;
+               part.printing[0].rapida = false;
                break;
             case '2':
                 part.printing[0].sm2 = true;
+                part.printing[0].sm1 = false;
+                part.printing[0].rapida = false;
                 break;
             case '3':
                 part.printing[0].rapida = true;
-                break;        
+                part.printing[0].sm2 = false;
+                part.printing[0].sm1 = false;
+                break;
+            default:
+                part.printing[0].sm1 = true;
+                part.printing[0].sm2 = false;
+                part.printing[0].rapida = false;             
           }
             
-
-        //   console.log("!@#$%^&*_____", part.printig[0].day_or_night)
         return  part.printing[0].printed_sheets != 0 ;}   
     });
 
@@ -46,6 +54,7 @@ export const addOrder = async (values, user, props) => {
             return data;
         }
     } catch (error) {
-        console.error(error);
+        console.error(")))))))",error);
+        // console.error("((((((())))))))))))))",response);
     }
 };

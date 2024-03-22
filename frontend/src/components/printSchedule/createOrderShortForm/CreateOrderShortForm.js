@@ -14,10 +14,12 @@ const CreateOrderShortForm = (props) => {
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { resetForm }) => {
     const newOrder = await addOrder(values, user, props);
     setValidated(true);
     setErrors(newOrder);
+    console.log("!@#$__", errors)
+    resetForm();
   };
 
   // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
@@ -42,7 +44,7 @@ const CreateOrderShortForm = (props) => {
           <FormSection />
           <FormSectionParts parts={values.parts} errors={errors}/>
           <hr></hr>
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Check
               required
               name="terms"
@@ -53,7 +55,7 @@ const CreateOrderShortForm = (props) => {
               feedbackType="invalid"
               id="validationFormik0"
             />
-          </Form.Group>
+          </Form.Group> */}
           <Button
                   // disabled={!isValid || isSubmitting}
                   variant="primary"

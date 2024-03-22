@@ -18,8 +18,8 @@ export const schema = yup.object().shape({
         paper_density: yup.string(),
         printing: yup.array().of(
           yup.object().shape({
-            printed_sheets: yup.number(),
-            circulation_sheets: yup.number(),
+            printed_sheets: yup.number().required(),
+            circulation_sheets: yup.number().required(),
             parent_day: yup.string(),
             machine: yup.number(),
   
@@ -27,7 +27,7 @@ export const schema = yup.object().shape({
         )
       })
     ),
-    terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
+    // terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
 
 const today = new Date();
@@ -78,6 +78,9 @@ const today = new Date();
             printed_sheets: 0,
             circulation_sheets: 0,
             parent_day: '',
+            parent_day: '',
+            printing_day: "",
+            day_or_night: "day",
             machine: '',
           }
         ]            
@@ -96,11 +99,14 @@ const today = new Date();
             printed_sheets: 0,
             circulation_sheets: 0,
             parent_day: '',
+            parent_day: '',
+            printing_day: "",
+            day_or_night: "day",
             machine: '',
           }
         ]            
       },
     ],
     created: '',
-    terms: false,
+    // terms: false,
   }

@@ -19,3 +19,7 @@
 .datePicker {
     width: 100%;
 }
+
+#add-order {
+    padding: 0;
+}

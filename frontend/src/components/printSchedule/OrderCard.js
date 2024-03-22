@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 const OrderInformation = styled.div`
   border-bottom-width: 2px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: flex-start;
   padding: 0 15px;
   border-radius: 1px;
@@ -14,6 +14,8 @@ const OrderInformation = styled.div`
     isDragging ? 'rgba(255, 59, 59, 0.15)' : 'white'};
   // background: white;
   margin-top: 10px;
+  margin-left: 16px;
+  padding-left:0px;
   padding-top: 5px;
   padding-bottom: 5px;
 
@@ -46,7 +48,8 @@ const OrderIdItem = styled.div`
 const OrderItem = styled.div`
   padding-right: 10px;
   padding-left: 5px;
-  // min-width: 100px;
+  min-width: 100px;
+  white-space: nowrap;
 `;
 // const Inputt = styled.input`
 
@@ -56,20 +59,22 @@ const OrderCard = ({ item, index }) => {
   return (
     <Draggable key={item.pk} draggableId={String(item.pk)} index={index}>
       {(provided) => (
-        <div
+        <div class="fs-5"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
           <OrderInformation>
             
-            <OrderIdItem>{"с/з " + item.number + "."}</OrderIdItem>
-            <OrderItem>{item.nameOfOrder + ","}</OrderItem>
-            <OrderItem>{item.partName + ","}</OrderItem>
+            <OrderIdItem>{"с/з " + item.number}</OrderIdItem>
+            {(item.partName == 'блок')?
+            <OrderItem>{item.nameOfOrder}</OrderItem>:
+            <OrderItem>{item.nameOfOrder + ", " + item.partName}</OrderItem>
+            }
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
             <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
-            <OrderItem>{item.paper.substr(0,3)}</OrderItem>
-            <input name="myInput" type = "checkbox" value = {item.nameOfOrder} />
+            <OrderItem>{item.paper.substr(0,3)+'.'}</OrderItem>
+            {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
                     month: 'short',
                     day: '2-digit',

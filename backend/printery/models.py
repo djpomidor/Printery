@@ -6,7 +6,7 @@ from django.db.models import Max
 import locale
 import datetime
 
-locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU
+locale.setlocale(locale.LC_TIME, "ru_RU.utf8")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia"
 
 def parent_day():
     today = datetime.datetime.now()
@@ -190,9 +190,9 @@ class Part(models.Model):
     order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
         ('BLO', 'блок'),
-        ('COV', 'обложка'),
-        ('INS', 'вклейка'),
-        ('FRZ', 'форзаци'),
+        ('COV', 'обл.'),
+        ('INS', 'вкл.'),
+        ('FRZ', 'форзацы'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
