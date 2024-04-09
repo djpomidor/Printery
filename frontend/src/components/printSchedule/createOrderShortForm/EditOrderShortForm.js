@@ -5,30 +5,30 @@ import { useState, useContext } from "react";
 import AuthContext from "../../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import { addOrder } from './addOrder-short';
-import FormSection from './short-form-section';
-import FormSectionParts from './short-form-section-parts';
-import { schema, initialValues } from './initialValues';
+import ShortEditFormSection from './short-edit-form-section';
+import { schema, } from './initialValues';
+import FormSectionParts from './short-form-section-parts'
+import { UpdateOrder } from './updateOrder-short';
+import GetInitialValues from './GetInitialValues';
 
-const CreateOrderShortForm = (props) => {
+const EditOrderShortForm = (props, machine) => {
+  console.log("---__---", machine)
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
 
-  const onSubmit = async (values, { resetForm }) => {
-    const newOrder = await addOrder(values, user, props);
+  const onSubmit = async (values) => {
+    const newOrder = await UpdateOrder(values, user, props);
     setValidated(true);
     setErrors(newOrder);
     console.log("!@#$__", errors)
-    // resetForm();
   };
 
-  // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
-  
   return (
     <Formik
       validationSchema={schema}
       onSubmit={onSubmit}
-      initialValues={initialValues}
+      initialValues={GetInitialValues}
     >
       {({
         handleSubmit,
@@ -40,22 +40,10 @@ const CreateOrderShortForm = (props) => {
         errors,
         isSubmitting,
       }) => (
-        <Form noValidate onSubmit={handleSubmit}>
-          <FormSection />
-          <FormSectionParts parts={values.parts} errors={errors}/>
+        <Form noValidate onSubmit={handleSubmit} >
+          <ShortEditFormSection props={props}></ShortEditFormSection>
+          {/* <FormSectionParts parts={values.parts} errors={errors}/> */}
           <hr></hr>
-          {/* <Form.Group className="mb-3">
-            <Form.Check
-              required
-              name="terms"
-              label="Agree to terms and conditions"
-              onChange={handleChange}
-              isInvalid={!!errors.terms}
-              feedback={errors.terms}
-              feedbackType="invalid"
-              id="validationFormik0"
-            />
-          </Form.Group> */}
           <Button
                   // disabled={!isValid || isSubmitting}
                   variant="primary"
@@ -81,4 +69,4 @@ const CreateOrderShortForm = (props) => {
   );
 }
 
-export default CreateOrderShortForm;
+export default EditOrderShortForm;

@@ -10,7 +10,8 @@ const FormSelectField = ({
   name,
   type,
   inputGroupPrepend,
-  children
+  children,
+  defaultValue
 }) => {
   return (
     <Field name={name}>
@@ -29,6 +30,7 @@ const FormSelectField = ({
                 isInvalid={isInvalid}
                 feedback={form.errors[field.name]}
                 as="select"
+                defaultValue={defaultValue}
               >
                 {children}
               </Form.Control>

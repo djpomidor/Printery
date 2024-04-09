@@ -24,9 +24,29 @@ function FormSectionParts({ parts, errors }) {
                           {(part.part_name === 'BLO') ? ('Блок') : ''}
                           {(part.part_name === 'COV') ? ('Обложка') : ''}
                           {(part.part_name === 'INS') ? ('Вклейка') : ''}
-                        </h5>
+                          </h5>
+                          {(part.part_name === '') ? 
+                            <FormSelectField
+                              controlId={`parts.${index}.part.[0].part_name`}
+                              name={`parts.${index}.part.[0].part_name`}
+                              type="text"
+                            >
+                              <option value='BLO'>Блок</option>
+                              <option value='OBL'>Обложка</option>
+                              <option value='VKL'>Вклейка</option>
+                              
+
+                            </FormSelectField> : ''}
+                        
                       </Accordion.Header>
-                      <CloseButton className="px-4 ms-auto" onClick={() => remove(index)} />
+                      <Button 
+                        variant="light"
+                        // size="sm"
+                        className="px-4 ms-auto shadow-none" 
+                        onClick={() => remove(index)} >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+
                     </div>
                     <Accordion.Body>
                       <Row className="mb-4">
@@ -130,7 +150,7 @@ function FormSectionParts({ parts, errors }) {
             variant="secondary"
             size="sm"
             onClick={() => push({ part_name: '', pages: '' })}
-          >Add Part</Button>
+          >+ бумага </Button>
         </>
       )}
     </FieldArray>

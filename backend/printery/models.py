@@ -6,7 +6,7 @@ from django.db.models import Max
 import locale
 import datetime
 
-locale.setlocale(locale.LC_TIME, "ru_RU.utf8")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia"
+locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia" убрал "ru_RU.utf8" на win10
 
 def parent_day():
     today = datetime.datetime.now()
@@ -81,7 +81,7 @@ class Paper(models.Model):
         D200 = 200, '200'
         D250 = 250, '250'
         D300 = 300, '300'
-    density = models.IntegerField(choices=Density.choices)
+    density = models.IntegerField(null=True, blank=True, choices=Density.choices)
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     manufacturer = models.ManyToManyField(Company, blank=True, related_name="made_by")
@@ -235,7 +235,7 @@ class PrintSchedule(models.Model):
     sm1 = models.BooleanField(default=False)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
-    printed_sheets = models.IntegerField(null=True, blank=True)
+    printed_sheets = models.FloatField(null=True, blank=True)
     circulation_sheets = models.IntegerField(null=True, blank=True)
     plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)

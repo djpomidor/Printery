@@ -16,6 +16,7 @@ const daysOfPrint = (items, machine) => {
               'pk': part.printing[0].pk,
               'number': item.number,
               'nameOfOrder': item.nameOfOrder,
+              'color': part.color_display,
               'printed_sheets': part.printing[0].printed_sheets,
               'circulation_sheets': part.printing[0].circulation_sheets,
               'partName': part.part_name_display,

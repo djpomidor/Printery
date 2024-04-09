@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+
 export const schema = yup.object().shape({
     orderId: yup.string().required(),
     nameOfOrder: yup.string().required(),
@@ -30,9 +31,8 @@ export const schema = yup.object().shape({
     // terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
   });
 
-const today = new Date();
-
-  export const initialValues={
+export const GetInitialValues=(props)=>{
+    return {
     orderId: '',
     nameOfOrder: '',
     // typeOfOrder: '',
@@ -108,3 +108,6 @@ const today = new Date();
     created: '',
     // terms: false,
   }
+}
+
+export default GetInitialValues;

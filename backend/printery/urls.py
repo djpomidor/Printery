@@ -16,9 +16,11 @@ urlpatterns = [
     path('', views.getRoutes),
     path('orders/', views.OrderList.as_view()),
     path('orders/<int:pk>/', views.OrderDetail.as_view()),
+    path('orders/<int:pk>/edit', views.OrderDetail.as_view()),
     path('orders/print-shedule/<str:created>', views.OrdersByDate.as_view()),
     path('orders/print-shedule/<int:pk>-update_position/', views.Update_position.as_view()),
     path('orders/print-shedule/<str:machine>/', views.OrdersByDate.as_view()),
+    path('orders/print-shedule/<str:pk>-update/', views.OrdersByDate.as_view()),
 ]
 
 

@@ -1,4 +1,7 @@
-export const addOrder = async (values, user, props) => {
+import useAxios from "../../../utils/useAxios";
+
+export const UpdateOrder = async (values, user, props) => {
+    const api = useAxios();
     values.owner = [user.user_id]
     values.parts = values.parts.filter((part) => {
         if (part.printing[0].printed_sheets != 0 && part.printing[0].printing_day) {
@@ -34,8 +37,8 @@ export const addOrder = async (values, user, props) => {
     });
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/orders/", {
-            method: "POST",
+        const response = await api.put(`http://127.0.0.1:8000/api/orders/1-update`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -43,7 +46,7 @@ export const addOrder = async (values, user, props) => {
         });
         const data = await response.json();
         if (response.status === 201) {
-            alert("All good! status: 201");
+            alert("Удачно обновлено! status: 201");
             console.log("___--", data);
             props.setUpdateTrigger(prevState => !prevState); // Toggle between false and true
             

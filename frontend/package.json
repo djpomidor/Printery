@@ -22,7 +22,7 @@
     "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-formal": "^2.7.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
     "reactstrap": "^9.1.6",

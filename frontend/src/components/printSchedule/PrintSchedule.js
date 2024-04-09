@@ -28,6 +28,7 @@ const Day = styled.div`
   align-items: baseline;
   // border-radius: 5px;
   background-color: #fff;
+  min-width: 120px;
   
 `;
 const OrderColumnStyles = styled.div`
@@ -64,13 +65,15 @@ const Date = styled.div`
   // align-self: flex-start;
   // min-width: 20vh;
   // max-width: 100px;
-  width:21vh;
+  // width:21vh;
+  min-width: 18vh;
 `;
 const DateToday = styled.div`
   font-weight: 800 !important;
   color: #ff4e4e;
   padding: 2px 0px;
   width:21vh;
+  min-width: 18vh;
 `;
  const DayNight = styled.div`
   margin-left: 15px;
@@ -192,7 +195,13 @@ const PrintSchedule = (props) => {
                   >
                     <div>
                     {column.items.map((item, index) => (
-                      <OrderCard key={item.pk} item={item} index={index} />   // was key={item} !!
+                      <OrderCard 
+                        key={item.pk} 
+                        item={item} 
+                        index={index} 
+                        machine={props.machine} 
+                        // order={orders[index]}
+                        />   // was key={item} !!
                     ))}
                     {provided.placeholder}
                     </div>
