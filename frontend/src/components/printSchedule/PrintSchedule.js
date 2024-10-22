@@ -94,7 +94,7 @@ const DayNightList = styled.div`
 `;
 
 const PrintSchedule = (props) => {
-  const [state, setState] = useState({ orders: [], columns: {} });
+  const [state, setState] = useState({ orders: [], columns: {}, orders_full: [] });
   const api = useAxios();
   const [res, setRes] = useState("");
      
@@ -105,9 +105,12 @@ const PrintSchedule = (props) => {
           var beforeYesterday = new window.Date(today);
           beforeYesterday.setDate(today.getDate() - 7);
           const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
+          const orders_full = response.data;
           const fetchedOrders = response.data;
+          
           const fetchedColumns = daysOfPrint(fetchedOrders, props.machine); // Pass fetchedOrders to the daysOfPrint function
-          setState({ orders: fetchedOrders, columns: fetchedColumns });
+          setState({ orders: fetchedOrders, columns: fetchedColumns, orders_full: orders_full });
+          
         } catch (error) {
           setRes("Something went wrong: ", error);
           console.log('Aaalarmee!!!', res);
@@ -131,7 +134,7 @@ const PrintSchedule = (props) => {
     }
   };
   
-  const onDragEnd = (result, columns, setState) => {
+  const onDragEnd = (result, columns, setState, orders_full) => {
     if (!result.destination) return;
     const { source, destination } = result;
     const newColumns = { ...columns };
@@ -163,9 +166,12 @@ const PrintSchedule = (props) => {
     }
     setState(prevState => ({
       ...prevState,
-      columns: newColumns
+      columns: newColumns,
+      orders_full: orders_full,
     }));
   };
+
+  // console.log("!!!", orders)
   return (
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, state.columns, setState)} direction="vertical">
@@ -194,13 +200,13 @@ const PrintSchedule = (props) => {
                     {...provided.droppableProps}
                   >
                     <div>
-                    {column.items.map((item, index) => (
+                    {column.items.map((item, index, orders_full) => (
                       <OrderCard 
                         key={item.pk} 
                         item={item} 
                         index={index} 
                         machine={props.machine} 
-                        // order={orders[index]}
+                        orders_full={orders_full}
                         />   // was key={item} !!
                     ))}
                     {provided.placeholder}

@@ -78,8 +78,8 @@ const OrderIcon = styled.div`
 
 // `;
 
-const OrderCard = ({ item, index, machine }) => {
-console.log("___!!__", machine)
+const OrderCard = ({ item, index, machine, orders_full }) => {
+console.log("___!!__order", orders_full)
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -137,16 +137,17 @@ console.log("___!!__", machine)
                 <Modal.Title>Редактирование заказа</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-               
-               <EditOrderShortForm initialValues={item} machine={machine}></EditOrderShortForm>
-
+                   <EditOrderShortForm 
+                        initialValues={item} 
+                        machine={machine} >
+                   </EditOrderShortForm>
               </Modal.Body>
-              <Modal.Footer>
+              {/* <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
                 <Button variant="primary">Understood</Button>
-              </Modal.Footer>
+              </Modal.Footer> */}
             </Modal>
 
           </OrderInformation>

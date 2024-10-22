@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'printery',    
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -172,3 +173,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = "printery.User"
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}

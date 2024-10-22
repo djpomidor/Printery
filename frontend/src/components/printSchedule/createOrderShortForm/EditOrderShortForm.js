@@ -12,11 +12,23 @@ import { UpdateOrder } from './updateOrder-short';
 import GetInitialValues from './GetInitialValues';
 
 const EditOrderShortForm = (props, machine) => {
-  console.log("---__---", machine)
+  console.log("-props-", props)
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
 
+  // Создаем начальные значения из props, чтобы они отобразились в форме
+  const initialValues = {
+    number: props.initialValues.number || '',
+    nameOfOrder: props.initialValues.nameOfOrder || '',  // Если нет значения, будет пустая строка
+    machine: props.machine,
+    color: props.initialValues.color,
+
+    // Добавьте остальные поля, которые вам нужны
+  };
+  
+  console.log("-initialValues-", initialValues)
+  
   const onSubmit = async (values) => {
     const newOrder = await UpdateOrder(values, user, props);
     setValidated(true);
@@ -28,7 +40,7 @@ const EditOrderShortForm = (props, machine) => {
     <Formik
       validationSchema={schema}
       onSubmit={onSubmit}
-      initialValues={GetInitialValues}
+      initialValues={initialValues}
     >
       {({
         handleSubmit,
@@ -41,7 +53,10 @@ const EditOrderShortForm = (props, machine) => {
         isSubmitting,
       }) => (
         <Form noValidate onSubmit={handleSubmit} >
-          <ShortEditFormSection props={props}></ShortEditFormSection>
+          <ShortEditFormSection 
+              props={props}
+              handleChange={handleChange} // Передаем handleChange в дочерний компонент
+          />
           {/* <FormSectionParts parts={values.parts} errors={errors}/> */}
           <hr></hr>
           <Button
@@ -50,7 +65,7 @@ const EditOrderShortForm = (props, machine) => {
                   as="input"
                   // size="lg"
                   type="submit"
-                  value="Добавить заказ"
+                  value="Сохранить"
                 />
   
           {/* <Col>

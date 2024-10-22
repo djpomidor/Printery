@@ -5,53 +5,70 @@ import FormTextField from "./short-form-field";
 import FormNumberField from "./short-form-field";
 import FormSelectField from "./short-form-select-field"
 import FormNumberPartField from "./short-form-field"
+import { useFormikContext } from 'formik';
 
-const ShortEditFormSection = (props) => {
+const ShortEditFormSection = ( {props, handleChange }) => {
   const index = 0;
-  const values = props.props.initialValues;
+  const { values } = useFormikContext(); // Достаем значения и контекст из Formik
   console.log("!!!!1", props);
+  console.log("--values--", values);
   return (
     <>
       <Row className="mt-3 mb-3">
-        <Col xs={5} className="my-custom-col">
-          <FormNumberField
-            // as={Col}
-            sm="4"
+        <Col xs={3}>
+          <FormNumberField  //№ заказа
+            sm="5"
             controlId="validationFormik01"
             label="№ заказа"
             type="number"
             name="orderId"
             placeholder=""
             disabled="disabled"
-            readOnly="readOnly"
             value={values.number}
+            //readOnly={true}
           />
         </Col>
-        <Col >
-          <FormTextField
-            // as={Col}
-            sm="4"
+        
+        <Col xs={6}>
+          <FormTextField  //Наименование
+            sm="5"
             controlId="validationFormik02"
             label="Наименование"
             type="text"
             name="nameOfOrder"
-            placeholder={values.nameOfOrder}
-          // value={props.props.initialValues.nameOfOrder}
+            //placeholder={values.nameOfOrder}
+            value={values.nameOfOrder} // контролируемое значение
+            onChange={handleChange} // добавляем обработчик для изменения значения
           />
         </Col>
+          
+        <Col xs={3} className="mt-2">
+          <FormTextField
+            sm="4"
+            type="text"
+            name = {`parts.${index}.partName`}
+            value= {props.initialValues.partName}
+            disabled="disabled"
+            //readOnly={true}
+            
+          />
+        </Col>
+
       </Row>
+
       <Row className="mb-4">
-        <FormSelectField
+        <FormSelectField  //Печатная машина
           sm="4"
           controlId="validationFormik03"
           label="Печатная машина"
           type="text"
-          // name={`parts.${index}.printing.[0].machine`}
-          name="machine"
-          // placeholder={props.props.machine}
-          defaultValue={props.props.machine}
+          name={`parts.${index}.printing.[0].machine`}
+          //name="machine"
+          //defaultValue={values.machine}
+          //value={values.machine} 
+          onChange={handleChange}
         >
-          <option value={props.props.machine}>{props.props.machine}</option>
+          <option value={values.machine}>{values.machine}</option>
           <option value='1'>SM-1</option>
           <option value='2'>SM-2</option>
           <option value='3'>Rapida</option>
@@ -65,6 +82,8 @@ const ShortEditFormSection = (props) => {
           name={`parts.${index}.color`}
           controlId={`parts.${index}.color`}
           type="text"
+          onChange={handleChange}
+          //defaultValue={props.props.color}
         >
           <option value={values.color}>{values.color}</option>
           <option value='4_4'>4+4</option>
@@ -80,6 +99,8 @@ const ShortEditFormSection = (props) => {
           controlId={`parts.${index}.printing.[0].printed_sheets`}
           type="number"
           index={index}
+          value={values.printed_sheets}
+          onChange={handleChange}
         // errors={errors}
         />
       </Row>
@@ -92,6 +113,8 @@ const ShortEditFormSection = (props) => {
           controlId={`parts.${index}.printing.[0].circulation_sheets`}
           type="number"
           index={index}
+          defaultValue={values.circulation_sheets}
+          onChange={handleChange}
         // errors={errors}
         />
         <FormSelectField
@@ -101,6 +124,8 @@ const ShortEditFormSection = (props) => {
           className="form-control"
           name={`parts.${index}.paper.type`}
           type="text"
+          defaultValue={values.paper}
+          onChange={handleChange}
         >
           <option value="">Select...</option>
           <option value="GL">Глянцевая</option>

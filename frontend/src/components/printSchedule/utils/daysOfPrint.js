@@ -1,6 +1,7 @@
 import daysGenerator from "./daysGenerator";
 
 const daysOfPrint = (items, machine) => {
+  console.log("-------", items)
   // Pass fetchedOrders (items) as an argument
   const obj = {};
   const days = daysGenerator();

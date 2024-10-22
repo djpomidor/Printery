@@ -16,6 +16,9 @@ const FormTextField = ({
   disabled,
   readOnly,
   value,
+  //onChange,
+  //defaultValue,
+
 }) => {
   return (
     <Field name={name} >
@@ -37,6 +40,8 @@ const FormTextField = ({
                 disabled={disabled}
                 readOnly={readOnly}
                 value={value}
+                //onChange={onChange}
+                //defaultValue={defaultValue}
               />
 
               <Form.Control.Feedback type="invalid">
