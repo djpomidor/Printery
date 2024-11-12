@@ -15,11 +15,13 @@ const OrdersList = ({orders, title}) => {
 
   return (
     <>
-    <input
+    <div className="form-outline">
+    <input className="form-control"
           type="text"
           placeholder="Поиск по номеру"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)} />
+    </div>
     <Table striped bordered hover className="custom-table" >
         <thead>
         <tr>

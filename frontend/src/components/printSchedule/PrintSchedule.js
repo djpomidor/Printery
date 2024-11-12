@@ -107,6 +107,7 @@ const PrintSchedule = (props) => {
           const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
           const orders_full = response.data;
           const fetchedOrders = response.data;
+          console.log("!$!$!$!$", response.data)
           
           const fetchedColumns = daysOfPrint(fetchedOrders, props.machine); // Pass fetchedOrders to the daysOfPrint function
           setState({ orders: fetchedOrders, columns: fetchedColumns, orders_full: orders_full });
@@ -207,6 +208,8 @@ const PrintSchedule = (props) => {
                         index={index} 
                         machine={props.machine} 
                         orders_full={orders_full}
+                        updateTrigger={props.updateTrigger}
+                        setUpdateTrigger={props.setUpdateTrigger}
                         />   // was key={item} !!
                     ))}
                     {provided.placeholder}

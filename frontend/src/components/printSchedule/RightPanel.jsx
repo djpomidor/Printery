@@ -8,6 +8,7 @@ import CreateOrderShortForm from './createOrderShortForm/CreateOrderShortForm';
 import GetFilteredOrders from './GetFilteredOrders'
 
 const RightPanel = (props) => {
+  console.log("-!-!-!_props", props)
   
   const [open, setOpen] = useState(false)
   return (

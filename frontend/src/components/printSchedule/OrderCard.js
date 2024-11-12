@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-import EditOrderShortForm from './createOrderShortForm/EditOrderShortForm';
+import EditOrderShortForm from './createOrderShortForm/EditOrderShortForm'; 
 
 const OrderInformation = styled.div`
   // border-bottom-width: 2px;
@@ -78,8 +78,9 @@ const OrderIcon = styled.div`
 
 // `;
 
-const OrderCard = ({ item, index, machine, orders_full }) => {
-console.log("___!!__order", orders_full)
+const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger }) => {
+// console.log("___!!__order", orders_full)
+// console.log("item", item)
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -139,8 +140,11 @@ console.log("___!!__order", orders_full)
               <Modal.Body>
                    <EditOrderShortForm 
                         initialValues={item} 
-                        machine={machine} >
-                   </EditOrderShortForm>
+                        machine={machine} 
+                        updateTrigger={updateTrigger}
+                        setUpdateTrigger={setUpdateTrigger}
+                        handleClose={handleClose}
+                        />
               </Modal.Body>
               {/* <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>

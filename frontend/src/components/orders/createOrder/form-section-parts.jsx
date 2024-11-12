@@ -69,14 +69,14 @@ function FormSectionParts({ parts, errors }) {
                   sm="4"
                   label="Бумага"
                   className="form-control"
-                  name={`parts.${index}.paper_id`}
-                  type="number"
+                  name={`parts.${index}.paper.type`}
+                  type="text"
                 >
                   <option value="">Select...</option>
-                  <option value="1">Глянцевая</option>
-                  <option value="2">Матовая</option>
-                  <option value="3">Офсетная</option>
-                  <option value="4">Картон</option>
+                  <option value="GL">Глянцевая</option>
+                  <option value="MAT">Матовая</option>
+                  <option value="OFF">Офсетная</option>
+                  <option value="CAR">Картон</option>
                 </FormSelectField>
 
               {/* <div>
@@ -92,9 +92,9 @@ function FormSectionParts({ parts, errors }) {
                 <label className="form-label" htmlFor={'parts.${index}.paper_density'} >Плотность (гр/м<sup>2</sup>)</label>
                   <Field
                     className="form-control"
-                    name={`parts.${index}.paper_density`}
+                    name={`parts.${index}.paper.density`}
                     type="text"
-                    id={`parts.${index}.paper_density`}
+                    id={`parts.${index}.paper.density`}
                     list="paper_density" />
                 
 

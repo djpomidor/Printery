@@ -44,17 +44,17 @@ export const addOrder = async (values, user, props) => {
         const data = await response.json();
         if (response.status === 201) {
             alert("All good! status: 201");
-            console.log("___--", data);
             props.setUpdateTrigger(prevState => !prevState); // Toggle between false and true
             
             // window.location.reload();
         } else {
-            alert("Something went wrong:!");
+            
             console.log("Error!:", data);
+            console.log("response!:", response);
             return data;
         }
     } catch (error) {
-        console.error(")))))))",error);
-        // console.error("((((((())))))))))))))",response);
+        alert("Something went wrong:!");
+        console.error("error",error);
     }
 };

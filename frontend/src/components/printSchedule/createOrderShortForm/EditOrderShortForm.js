@@ -6,12 +6,12 @@ import AuthContext from "../../../context/AuthContext";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
 import { addOrder } from './addOrder-short';
 import ShortEditFormSection from './short-edit-form-section';
-import { schema, } from './initialValues';
+import { initialValues, schema, } from './initialValues';
 import FormSectionParts from './short-form-section-parts'
 import { UpdateOrder } from './updateOrder-short';
 import GetInitialValues from './GetInitialValues';
 
-const EditOrderShortForm = (props, machine) => {
+const EditOrderShortForm = (props) => {
   console.log("-props-", props)
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
@@ -19,10 +19,29 @@ const EditOrderShortForm = (props, machine) => {
 
   // Создаем начальные значения из props, чтобы они отобразились в форме
   const initialValues = {
+    orderId: props.initialValues.orderId,
     number: props.initialValues.number || '',
     nameOfOrder: props.initialValues.nameOfOrder || '',  // Если нет значения, будет пустая строка
     machine: props.machine,
-    color: props.initialValues.color,
+    parts: [
+      {
+        id: props.initialValues.order_part,
+        color: props.initialValues.color,
+        paper: 
+          {
+            type: props.initialValues.paper_value,
+            density: props.initialValues.paper_density,
+          },
+        printing: [
+          {
+            pk: props.initialValues.pk,
+            printed_sheets: props.initialValues.printed_sheets,
+            circulation_sheets: props.initialValues.circulation_sheets
+          } 
+        ],
+          
+      }
+  ]
 
     // Добавьте остальные поля, которые вам нужны
   };
@@ -30,10 +49,12 @@ const EditOrderShortForm = (props, machine) => {
   console.log("-initialValues-", initialValues)
   
   const onSubmit = async (values) => {
-    const newOrder = await UpdateOrder(values, user, props);
+    const updateOrder =  UpdateOrder(values, user);
     setValidated(true);
-    setErrors(newOrder);
-    console.log("!@#$__", errors)
+    setErrors(updateOrder);
+    console.log("!update_errors$__", errors)
+    props.handleClose(true)
+    props.setUpdateTrigger(prevState => !prevState)
   };
 
   return (
@@ -68,7 +89,7 @@ const EditOrderShortForm = (props, machine) => {
                   value="Сохранить"
                 />
   
-          {/* <Col>
+          <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -76,7 +97,7 @@ const EditOrderShortForm = (props, machine) => {
                     2
                   )}
                 </pre>
-              </Col>            */}
+              </Col>           
 
         </Form>
       )}

@@ -18,8 +18,8 @@ const CreateOrderShortForm = (props) => {
     const newOrder = await addOrder(values, user, props);
     setValidated(true);
     setErrors(newOrder);
-    console.log("!@#$__", errors)
-    resetForm();
+    console.log("errors__", errors)
+    //resetForm();
   };
 
   // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]

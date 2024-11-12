@@ -47,12 +47,13 @@ const today = new Date();
         part_name: 'BLO',
         pages: 1,
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          }
-        ,
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,
@@ -60,7 +61,7 @@ const today = new Date();
             parent_day: '',
             printing_day: "",
             day_or_night: "day",
-            machine: '3',
+            machine: '1',
           }
         ]
       },
@@ -68,11 +69,13 @@ const today = new Date();
         part_name: 'COV',
         pages: '',
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          },
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,
@@ -88,11 +91,13 @@ const today = new Date();
         part_name: 'INS',
         pages: '',
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          },
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,

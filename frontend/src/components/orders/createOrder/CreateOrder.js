@@ -60,8 +60,13 @@ const CreateOrder = () => {
             part_name: 'BLO',
             pages: 1,
             color: '',
-            paper: '',
-            paper_density: '',
+            paper: {
+              name: "",
+              type: "",
+              density: 0,
+              width: 0,
+              height: 0
+            },
             printing: [
               {
                 printed_sheets: 0,

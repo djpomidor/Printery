@@ -10,8 +10,6 @@ import { useFormikContext } from 'formik';
 const ShortEditFormSection = ( {props, handleChange }) => {
   const index = 0;
   const { values } = useFormikContext(); // Достаем значения и контекст из Formik
-  console.log("!!!!1", props);
-  console.log("--values--", values);
   return (
     <>
       <Row className="mt-3 mb-3">
@@ -23,7 +21,7 @@ const ShortEditFormSection = ( {props, handleChange }) => {
             type="number"
             name="orderId"
             placeholder=""
-            disabled="disabled"
+            disabled={true}
             value={values.number}
             //readOnly={true}
           />
@@ -59,7 +57,7 @@ const ShortEditFormSection = ( {props, handleChange }) => {
       <Row className="mb-4">
         <FormSelectField  //Печатная машина
           sm="4"
-          controlId="validationFormik03"
+          controlId={`parts.${index}.printing.[0].machine`}
           label="Печатная машина"
           type="text"
           name={`parts.${index}.printing.[0].machine`}
@@ -69,9 +67,9 @@ const ShortEditFormSection = ( {props, handleChange }) => {
           onChange={handleChange}
         >
           <option value={values.machine}>{values.machine}</option>
-          <option value='1'>SM-1</option>
-          <option value='2'>SM-2</option>
-          <option value='3'>Rapida</option>
+          <option value='1'>СМ-1</option>
+          <option value='2'>СМ-2</option>
+          <option value='3'>Рапида</option>
         </FormSelectField>
       </Row>
       <Row className="mb-4">
@@ -83,12 +81,14 @@ const ShortEditFormSection = ( {props, handleChange }) => {
           controlId={`parts.${index}.color`}
           type="text"
           onChange={handleChange}
-          //defaultValue={props.props.color}
+          // placeholder={values.parts[index].color}
+          // defaultValue={values.parts[index].color}
         >
-          <option value={values.color}>{values.color}</option>
-          <option value='4_4'>4+4</option>
-          <option value='4_0'>4+0</option>
-          <option value='1_1'>1+1</option>
+          <option value={values.parts[index].color}>{values.parts[index].color}</option>
+          <option value='4+4'>4+4</option>
+          <option value='4+0'>4+0</option>
+          <option value='1+1'>1+1</option>
+          <option value='1+0'>1+0</option>
         </FormSelectField>
 
         <FormNumberPartField
@@ -99,7 +99,8 @@ const ShortEditFormSection = ( {props, handleChange }) => {
           controlId={`parts.${index}.printing.[0].printed_sheets`}
           type="number"
           index={index}
-          value={values.printed_sheets}
+          // placeholder={values.parts[index].printing[index].printed_sheets}
+          placeholder={props.initialValues.printed_sheets}
           onChange={handleChange}
         // errors={errors}
         />
@@ -113,7 +114,8 @@ const ShortEditFormSection = ( {props, handleChange }) => {
           controlId={`parts.${index}.printing.[0].circulation_sheets`}
           type="number"
           index={index}
-          defaultValue={values.circulation_sheets}
+          placeholder={props.initialValues.circulation_sheets}
+          // value={values.parts[index].printing[index].circulation_sheets}
           onChange={handleChange}
         // errors={errors}
         />

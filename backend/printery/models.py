@@ -70,6 +70,7 @@ class Paper(models.Model):
     # glossy = models.BooleanField(default=False)
     
     class Density(models.IntegerChoices):
+        D0 = 0, 'не известна'
         D80 = 80, '80'
         D100 = 100, '100'
         D105 = 105, '105'
@@ -88,6 +89,9 @@ class Paper(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.get_type_display()} {self.density} gr/m2"
+    
+    # class Meta:
+    #     unique_together = ('name', 'type', 'density', 'width', 'height')
 
     # def serialize(self):
     #     return {
@@ -196,24 +200,21 @@ class Part(models.Model):
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
-    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="part_paper", blank=True)
-    # paper_density = models.IntegerField(blank=True, null=True)
+    paper = models.ForeignKey(Paper, null=True, on_delete=models.PROTECT, related_name="part_paper", blank=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
-        ('4_4', '4+4'),
-        ('4_0', '4+0'),
-        ('1_1', '1+1'),
-        ('1_1', '1+0'),
+        ('4+4', '4+4'),
+        ('4+0', '4+0'),
+        ('1+1', '1+1'),
+        ('1+0', '1+0'),
     ]
     color = models.CharField(blank=True, max_length=3, choices=COLOR_CHOICES)
-
     LAMINATE_CHOICES = [
         (None, 'Select...'),
         ('MAT', 'Matte'),
         ('GL', 'Glossy'),
     ]
     laminate = models.CharField(blank=True, max_length=3, choices=LAMINATE_CHOICES)
-
     uflak = models.BooleanField(default=False)
 
     def __str__(self):

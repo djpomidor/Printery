@@ -13,6 +13,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from drf_writable_nested.serializers import WritableNestedModelSerializer
+
 class PaperSerializer(serializers.ModelSerializer):
     type_display = serializers.CharField(source='get_type_display', read_only=True)
     
@@ -35,23 +37,27 @@ class PaperSerializer(serializers.ModelSerializer):
 
 
 class PrintScheduleSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+    pk = serializers.IntegerField(required=False)
     order_part = serializers.PrimaryKeyRelatedField(read_only=True) 
     # part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
     # part_name = serializers.PrimaryKeyRelatedField(source='get_part_name_display', read_only=True) 
 
     class Meta:
         model = PrintSchedule
-        fields = ['pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida']
+        fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida']
 
 
-class PartSerializer(serializers.ModelSerializer):
+class PartSerializer(WritableNestedModelSerializer):
+    id = serializers.IntegerField(required=False)
+    pk = serializers.IntegerField(required=False)
     pages = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     order = serializers.PrimaryKeyRelatedField(read_only=True)
-    # paper = serializers.StringRelatedField(read_only=True)
-    paper = PaperSerializer()  # paper object
+    #paper = serializers.StringRelatedField(read_only=True)
+    paper = PaperSerializer(required=False)  # paper object
     paper_id = serializers.CharField(required=False, allow_null=True, allow_blank=True)
     color_display = serializers.CharField(source='get_color_display', read_only=True)
-    printing = PrintScheduleSerializer(many=True)
+    printing = PrintScheduleSerializer(many=True, required=False)
     part_name_display = serializers.CharField(source='get_part_name_display', read_only=True)
 
     def validate_pages(self, value):
@@ -64,10 +70,10 @@ class PartSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Part
-        fields = ['order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'color', 'color_display', 'laminate', 'uflak', 'printing']
+        fields = ['id', 'pk', 'order', 'part_name', 'part_name_display', 'pages', 'paper', 'paper_id', 'color', 'color_display', 'laminate', 'uflak', 'printing']
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderSerializer(WritableNestedModelSerializer):
     orderId = serializers.IntegerField(source='number', required=False)
     parts = PartSerializer(many=True)
     nameOfOrder = serializers.CharField(source='name')
@@ -85,17 +91,91 @@ class OrderSerializer(serializers.ModelSerializer):
         parts_data = validated_data.pop('parts')
         order = Order.objects.create(**validated_data)
         order.owner.set(owners)
+
         for part_data in parts_data:
             print("!@#$%__", part_data)
-            paper_data = part_data.pop('paper')
-            paper = Paper.objects.create(**paper_data)
-            print("!@#$%)KJHGG&%^__", paper.id)
-            printing_data = part_data.pop('printing')
+            # Handle paper data
+            paper_data = part_data.pop('paper', None)  # Use .pop with a default to avoid KeyError
+            if paper_data:
+                paper, created = Paper.objects.get_or_create(**paper_data)  # Use get_or_create to avoid duplicates
+            else:
+                paper = None
+            
+            # Handle printing data
+            printing_data = part_data.pop('printing', [])
             part = Part.objects.create(order=order, paper=paper, **part_data)
             # part.paper.set(paper.id)
             for printing in printing_data:
                 PrintSchedule.objects.create(order_part=part, **printing)
         return order
+        
+    def update(self, instance, validated_data):
+        print("!FAGAJKA& instance", instance)
+        print("!FAGAJKA& validated_data", validated_data)
+        # Iterate over the fields in validated_data
+        for attr, value in validated_data.items():
+            if attr == 'parts':
+                continue  # Skip parts for now; we'll handle them separately
+
+            # Only update if the value has changed
+            if getattr(instance, attr) != value:
+                setattr(instance, attr, value)
+
+        instance.save()
+
+        # Process the `parts` field
+        parts_data = validated_data.get('parts')
+        print("Parts Data:", parts_data)
+        if parts_data:
+            for part_data in parts_data:
+                part_id = part_data.get('id')
+                if part_id:
+                    part = Part.objects.get(pk=part_id, order=instance)
+                else:
+                    part = Part(order=instance)  # Create a new part if no ID is provided
+
+                # Update only modified fields for `Part`
+                for attr, value in part_data.items():
+                    if attr == 'printing':
+                        continue  # Skip printing; handle it separately
+                    elif attr == 'paper':
+                        # Обработка данных бумаги
+                        paper_data = value
+                        if paper_data:
+                            paper, _ = Paper.objects.get_or_create(**paper_data)  # Получаем или создаём объект Paper
+                            part.paper = paper  # Присваиваем объект Paper
+                    else:    
+                        # Only update if the value has changed
+                        if getattr(part, attr) != value:
+                            setattr(part, attr, value)
+                part.save()
+
+                # Process the nested `printing` field
+                printing_data = part_data.get('printing')
+                print("Printing Data:", printing_data)
+
+                if printing_data:
+                    for print_item in printing_data:
+                        print_id = print_item.get('pk')
+                        if print_id:
+                            printing_instance = PrintSchedule.objects.get(pk=print_id, order_part=part)
+                        else:
+                            printing_instance = PrintSchedule(order_part=part)
+
+                        # Update only modified fields for `Printing`
+                        for attr, value in print_item.items():
+                            if getattr(printing_instance, attr) != value:
+                                setattr(printing_instance, attr, value)
+                        printing_instance.save()
+
+        return instance
+    
+    def validate(self, data):
+        print("Incoming data:", self.initial_data)
+        print("Validated data:", data)
+        return data
+
+    
         
 ###################################################################################
 ###################################################################################

@@ -31,7 +31,7 @@ function PrintSchedulePage() {
         <div className="container-fluid overflow-x: auto;">
         <div className="row">
           <div className='col-lg-8 table-responsive'>
-          <PrintSchedule machine={machine} updateTrigger={updateTrigger}  className="py-6 bg-surface-secondary"/>
+          <PrintSchedule machine={machine} updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger} className="py-6 bg-surface-secondary"/>
         </div>
        <RightPanel updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger}/>
        </div>
