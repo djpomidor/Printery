@@ -103,7 +103,7 @@ const PrintSchedule = (props) => {
         try {
           var today = new window.Date();
           var beforeYesterday = new window.Date(today);
-          beforeYesterday.setDate(today.getDate() - 7);
+          beforeYesterday.setDate(today.getDate() - 14);
           const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
           const orders_full = response.data;
           const fetchedOrders = response.data;
@@ -168,7 +168,7 @@ const PrintSchedule = (props) => {
     setState(prevState => ({
       ...prevState,
       columns: newColumns,
-      orders_full: orders_full,
+      // orders_full: orders_full,
     }));
   };
 
@@ -210,6 +210,7 @@ const PrintSchedule = (props) => {
                         orders_full={orders_full}
                         updateTrigger={props.updateTrigger}
                         setUpdateTrigger={props.setUpdateTrigger}
+                        updatePositions={updatePositions}
                         />   // was key={item} !!
                     ))}
                     {provided.placeholder}

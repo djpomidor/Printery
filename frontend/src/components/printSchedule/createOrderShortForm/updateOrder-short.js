@@ -3,6 +3,14 @@
 export const UpdateOrder = async (values, user, props) => {
     console.log("values--", values);
     console.log("props--", props)
+    if (values.parts[0].printing[0].printing_day) {
+    let day = values.parts[0].printing[0].printing_day.toLocaleDateString('Ru', {  
+        day: "numeric", 
+        month:"numeric", 
+        weekday:"short",
+      });
+      values.parts[0].printing[0].parent_day = day + "_" + values.parts[0].printing[0].day_or_night;
+    }    
     switch(values.parts[0].printing[0].machine){
         case '1':
            values.parts[0].printing[0].sm1 = true;

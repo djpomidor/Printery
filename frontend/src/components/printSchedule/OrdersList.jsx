@@ -6,7 +6,7 @@ import Order from './Order'
 import Table from 'react-bootstrap/Table';
 import '../orders/css/style.css';
 
-const OrdersList = ({orders, title}) => {
+const OrdersList = ({orders, title, updateTrigger, setUpdateTrigger}) => {
   const [searchTerm, setSearchTerm] = useState("");
   // console.log("!__", orders);
   const filteredOrders = orders.filter((order) =>
@@ -35,7 +35,7 @@ const OrdersList = ({orders, title}) => {
         </thead>
         <tbody>
             {filteredOrders.map((order, i) => (
-                <Order key={i} {...order}/>
+                <Order key={i} {...order} updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger}/>
             ))}
         </tbody>
     </Table>

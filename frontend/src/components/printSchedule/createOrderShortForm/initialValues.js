@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-    orderId: yup.string().required(),
-    nameOfOrder: yup.string().required(),
+    orderId: yup.string().required('Это поле не может быть пустым'),
+    nameOfOrder: yup.string().required('Это поле не может быть пустым'),
     printed_sheets: yup.string(),
     circulation: yup.string(),
     circulation_sheets: yup.string(),

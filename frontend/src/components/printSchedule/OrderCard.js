@@ -78,9 +78,7 @@ const OrderIcon = styled.div`
 
 // `;
 
-const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger }) => {
-// console.log("___!!__order", orders_full)
-// console.log("item", item)
+const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger, updatePositions }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -116,8 +114,15 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
                 <OrderIcon><i className="bi bi-pencil-square"></i></OrderIcon>
               </Button>
             </OrderItem>
-            <OrderIcon><i className="bi bi-trash"></i></OrderIcon>
-
+            <OrderItem>
+              <Button
+                variant='light'
+                className='p-0 shadow-none'
+                onClick={() => {updatePositions(item.order_part, 0, ""); setUpdateTrigger(prevState => !prevState)}}
+              >
+                <OrderIcon><i className="bi bi-trash"></i></OrderIcon>
+              </Button>
+            </OrderItem>
 
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {
