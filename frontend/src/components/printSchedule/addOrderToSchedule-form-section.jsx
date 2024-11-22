@@ -11,68 +11,95 @@ import { useFormikContext } from 'formik';
 
 const AddOrderToScheduleFormSection = ( {props, handleChange }) => {
   const index = 0;
-  
+  const { errors, touched } = useFormikContext();
   const { values } = useFormikContext(); // Достаем значения и контекст из Formik
-  console.log("!jhfjhfjh__", props)
   return (
     <>
       <Row className="mt-3 mb-3">
-
-          <h1>с/з № {props.number}  {props.nameOfOrder}, {props.part_name}</h1>
-          {/* <FormNumberField  //№ заказа
-            sm="5"
-            controlId="validationFormik01"
-            label="№ заказа"
-            type="number"
-            name="orderId"
-            placeholder=""
-            disabled={true}
-            value={props.number}
-            //readOnly={true}
-          /> */}
-
-        
-        {/* <Col xs={6}>
-          <FormTextField  //Наименование
-            sm="5"
-            controlId="validationFormik02"
-            label="Наименование"
-            type="text"
-            name="nameOfOrder"
-            disabled={true}
-            //placeholder={values.nameOfOrder}
-            // value={values.nameOfOrder} // контролируемое значение
-            // onChange={handleChange} // добавляем обработчик для изменения значения
-          />
-        </Col> */}
-          
-
-
+        <h3>№ {props.number}  {props.nameOfOrder}, {props.part_name}</h3>
       </Row>
 
-      <Col>
+      {/* <Col>
+      <Field
+        name={`parts.${index}.printing.[0].printing_day`}
+        component={DatePickerField}
+        placeholder="Выберите дату"
+      />
+      </Col> */}
+
+
+      {/* <Col>
+      <Field 
+        name="parts.${index}.printing.[0].printing_day" 
+        component={DatePickerField} 
+        autoComplete="off"
+        placeholderText="Выберите дату"
+        >
+          {({ field }) => (
+            <Form.Group controlId="printing_day">
+              <Form.Label>Дата печати:</Form.Label>
+              <Form.Control
+                {...field}
+
+                isInvalid={touched.parts?.[0]?.printing?.[0]?.printing_day && !!errors.parts?.[0]?.printing?.[0]?.printing_day}
+              >
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                {errors.parts?.[0]?.printing?.[0]?.printing_day}
+              </Form.Control.Feedback>
+            </Form.Group>
+          )}
+      </Field>      
+      </Col> */}
+      
+      <Row className="mb-4">
         <label htmlFor={`parts.${index}.printing.[0].printing_day`} className="form-label">Дата печати:</label><br></br>
         <Field
-          className="form-control"
+          // className="form-control"
           id={`date_of_print_${index}`}
           placeholderText="Выберите дату"
           name={`parts.${index}.printing.[0].printing_day`}
           autoComplete="off"
+          isInvalid={touched.parts?.[0]?.printing?.[0]?.printing_day && !!errors.parts?.[0]?.printing?.[0]?.printing_day}
           component={DatePickerField} />
-      </Col>
+      </Row> 
 
-      <FormSelectField
+      {/* <Col>
+      <Field name="parts.0.printing.0.day_or_night">
+        {({ field }) => (
+          <Form.Group controlId="day_or_night">
+            <Form.Label>День/Ночь</Form.Label>
+            <Form.Control
+              {...field}
+              as="select"
+              isInvalid={touched.parts?.[0]?.printing?.[0]?.day_or_night && !!errors.parts?.[0]?.printing?.[0]?.day_or_night}
+            >
+              <option value="">...</option>
+              <option value="day">День</option>
+              <option value="night">Ночь</option>
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              {errors.parts?.[0]?.printing?.[0]?.day_or_night}
+            </Form.Control.Feedback>
+          </Form.Group>
+        )}
+      </Field>  
+      </Col> */}
+      <Row className="mb-4">
+        <FormSelectField
           sm="6"
           controlId={`parts.${index}.printing.[0].day_or_night`}
           label="День/ночь"
           type="text"
           name={`parts.${index}.printing.[0].day_or_night`}
-          placeholder=""
+          onChange={handleChange}
+          isInvalid={touched.parts?.[0]?.printing?.[0]?.day_or_night && !!errors.parts?.[0]?.printing?.[0]?.day_or_night}
         >
-          <option value=''>...</option>
+          <option value=''></option>
           <option value='day'>День</option>
           <option value='night'>Ночь</option>
-        </FormSelectField>
+        </FormSelectField>      
+      </Row>
 
       <Row className="mb-4">
         <FormSelectField  //Печатная машина
@@ -81,23 +108,15 @@ const AddOrderToScheduleFormSection = ( {props, handleChange }) => {
           label="Печатная машина"
           type="text"
           name={`parts.${index}.printing.[0].machine`}
-          //name="machine"
-          //defaultValue={values.machine}
-          //value={values.machine} 
+          errors={errors}
           onChange={handleChange}
+          isInvalid={touched.parts?.[0]?.printing?.[0]?.machine && !!errors.parts?.[0]?.printing?.[0]?.machine}
         >
-          {/* <option value={values.machine}>{values.machine}</option> */}
-          <option value=''>...Выберете</option>
+          <option value=''></option>
           <option value='1'>СМ-1</option>
           <option value='2'>СМ-2</option>
           <option value='3'>Рапида</option>
         </FormSelectField>
-      </Row>
-      <Row className="mb-4">
-
-      </Row>
-      <Row>
-
       </Row>
     </>
   );

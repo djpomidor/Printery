@@ -23,8 +23,9 @@ const AddOrderToScheduleForm = (props) => {
         id: yup.number(),
         printing: yup.array().of(
           yup.object().shape({
-            parent_day: yup.string(),
-            machine: yup.number(),
+            printing_day: yup.date().required("Дата печати обязательна"),
+            day_or_night: yup.string().required("Выберите день или ночь"),
+            machine: yup.number().required("Укажите печатную машину"),
           })
         )
       })
@@ -41,6 +42,9 @@ const AddOrderToScheduleForm = (props) => {
         printing: [
           {
             pk: props.initialValues.printing[0].pk,
+            printing_day: '',
+            day_or_night: '',
+            machine: ''
           } 
         ],
           
@@ -81,7 +85,7 @@ const AddOrderToScheduleForm = (props) => {
               handleChange={handleChange} // Передаем handleChange в дочерний компонент
           />
           {/* <FormSectionParts parts={values.parts} errors={errors}/> */}
-          <hr></hr>
+          {/* <hr></hr> */}
           <Button
                   // disabled={!isValid || isSubmitting}
                   variant="primary"
@@ -91,7 +95,7 @@ const AddOrderToScheduleForm = (props) => {
                   value="Сохранить"
                 />
   
-          <Col>
+          {/* <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -99,7 +103,7 @@ const AddOrderToScheduleForm = (props) => {
                     2
                   )}
                 </pre>
-              </Col>           
+              </Col>            */}
 
         </Form>
       )}

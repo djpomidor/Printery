@@ -12,15 +12,13 @@ const FormSelectField = ({
   inputGroupPrepend,
   children,
   defaultValue,
-  isInvalid,
+  errors,
 }) => {
   return (
     <Field name={name}>
       {({ field, form }) => {
-        // console.log("!!_field.name_", field.name)
-        // console.log("!!_form_!!_", form)
-        // console.log("!form.errors[field.name]!_", form.errors[field.name])
-        // const isInvalid = form.touched[field.name] && !!form.errors[field.name];
+        const isValid = !form.errors[field.name];
+        const isInvalid = form.touched[field.name] && !isValid;
         return (
           <Form.Group as={as} md={md} controlId={controlId}>
             <Form.Label>{label}</Form.Label>
@@ -29,29 +27,30 @@ const FormSelectField = ({
               <Form.Control
                 {...field}
                 type={type}
-                isInvalid={isInvalid}
+                isValid={form.touched[field.name] && !form.errors[field.name]}
+                isInvalid={form.touched[field.name] && !!form.errors[field.name]}
+                feedback={form.errors[field.name]}
                 as="select"
                 defaultValue={defaultValue}
               >
                 {children}
               </Form.Control>
               <Form.Control.Feedback type="invalid">
-              <ErrorMessage name={field.name}  />
                 {/* {form.errors[field.name]} */}
+                <ErrorMessage name={field.name} />
+                {/* {errors[field.name]} */}
               </Form.Control.Feedback>
             </InputGroup>
-            {/* Добавляем ErrorMessage для явного отображения
-            <ErrorMessage name={field.name} component="div" className="text-danger" /> */}
           </Form.Group>
         );
       }}
-    </Field>
+      </Field>
   );
 };
 
 FormSelectField.defaultProps = {
   type: "select",
-  inputGroupPrepend: null,
+  inputGroupPrepend: null
 };
 
 export default FormSelectField;

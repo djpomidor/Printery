@@ -1,28 +1,46 @@
 import React from 'react';
-import { Form, InputGroup } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
-// import 'react-datepicker/dist/react-datepicker.css';
+import { Form } from "react-bootstrap";
+import 'react-datepicker/dist/react-datepicker.css';
 import ru from 'date-fns/locale/ru';
+import { Field, ErrorMessage } from "formik";
 
-const DatePickerField = ({ as, md, controlId, label, placeholder, field, form, ...rest }) => {
+const DatePickerField = ({ field, form, placeholder, isInvalid, ...rest }) => {
+    const error = form.errors[field.name];
+    const touched = form.touched[field.name];
+    // const isInvalid = touched && !!error;
+    console.log("------isInvalid----------", isInvalid)
+    console.log("------rest----------", rest)
+    console.log("------error----------", error)
+
     const onChange = (date) => {
         form.setFieldValue(field.name, date);
     };
 
     return (
-        // <Form.Group as={as} md={md} controlId={controlId}>
-        //     <Form.Label>{label}</Form.Label>
+        <Form.Group>
             <DatePicker
-                wrapperClassName="datePicker"
+                wrapperClassName={`datePicker ${isInvalid ? 'is-invalid' : ''}`}
                 dateFormat="dd.MM.yyyy"
                 locale={ru}
-                icon="bi bi-calendar-event"
-                selected={field.value}
-                placeholder={placeholder}
+                selected={field.value || null} // Если значение пустое, устанавливаем null
+                placeholderText={placeholder}
                 onChange={onChange}
-                {...rest} />
-        // </Form.Group>;
-    )
+                className={`form-control ${isInvalid ? 'is-invalid' : ''}`} // Bootstrap классы для стиля ошибок
+                {...rest}
+            />
+            {isInvalid && (
+                <div className="invalid-feedback"><ErrorMessage name={field.name}/></div>
+            )}
+              {/* <Form.Control.Feedback type="invalid">
+              <ErrorMessage name={field.name}/> */}
+                {/* {form.errors[field.name]} */}
+              {/* </Form.Control.Feedback> */}
+            {/* </InputGroup> */}
+            {/* Добавляем ErrorMessage для явного отображения */}
+            {/* <ErrorMessage name={field.name} component="div" className="text-danger" />             */}
+        </Form.Group>
+    );
 };
 
-export default DatePickerField
+export default DatePickerField;
