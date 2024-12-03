@@ -3,17 +3,17 @@ import React from 'react';
 import { Draggable, } from 'react-beautiful-dnd';
 import styled from '@emotion/styled';
 import { Button } from 'react-bootstrap';
-
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-
 import EditOrderShortForm from './createOrderShortForm/EditOrderShortForm'; 
+import  { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const OrderInformation = styled.div`
   // border-bottom-width: 2px;
   display: flex;
   justify-content: space-between;
-  // flex-wrap: nowrap;
+  flex-wrap: nowrap;
   align-items: flex-start;
   padding: 0 15px;
   border-radius: 1px;
@@ -57,7 +57,7 @@ const OrderIdItem = styled.div`
 const OrderName = styled.div`
   padding-right: 10px;
   padding-left: 5px;
-  min-width: 120px;
+  min-width: 250px;
 `;
 
 const OrderItem = styled.div`
@@ -65,6 +65,14 @@ const OrderItem = styled.div`
   padding-left: 5px;
   white-space: nowrap;
   min-width: 70px;
+`;
+
+const OrderItemRight = styled.div`
+  // padding-right: 10px;
+  padding-left: 5px;
+  white-space: nowrap;
+  text-align: right;
+  min-width: 90px;
 `;
 
 const OrderIcon = styled.div`
@@ -80,12 +88,16 @@ const OrderIcon = styled.div`
 
 const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger, updatePositions }) => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { userGroups } = useContext(AuthContext);
 
   return (
-    <Draggable key={item.pk} draggableId={String(item.pk)} index={index}>
+    <Draggable key={item.pk} 
+      draggableId={String(item.pk)} 
+      index={index}
+      isDragDisabled={userGroups.includes("ctp_operators") || "true"}
+      >
       {(provided) => (
         <div className="fs-5"
           ref={provided.innerRef}
@@ -94,7 +106,7 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
         >
           <OrderInformation className="p-2 bg-white rounded">
 
-            <OrderIdItem>{"с/з " + item.number}</OrderIdItem>
+            <OrderIdItem>{"№ " + item.number}</OrderIdItem>
             {(item.partName === 'блок') ?
               <OrderName>{item.nameOfOrder}</OrderName> :
               <OrderName>{item.nameOfOrder + ", " + item.partName}</OrderName>
@@ -102,19 +114,44 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
             <OrderItem>{item.color}</OrderItem>
             <OrderItem>{item.printed_sheets + "п.л."}</OrderItem>
             <OrderItem>{"x" + item.circulation_sheets}</OrderItem>
-            <OrderItem>{item.paper.substr(0, 3) + '.'}</OrderItem>
-            <OrderItem>
+            <OrderItem>{item.paper}</OrderItem>
+            {/* <OrderItem>{item.paper.substr(0, 3) + '.'}</OrderItem> */}
+            {userGroups.includes("ctp_operators") ? (
+              <>
+                <OrderItemRight><div className='badge badge-lg badge-dot'>
+                  <Button
+                    variant='light'
+                    className='p-0 shadow-none'
+                    onClick={console.log("kjsdkjdskj")}>
+                      <i className="bg-danger"></i>
+                  </Button>
+                  <Button 
+                    variant='light'
+                    className='p-0 shadow-none'>
+                      <i className="bg-warning"></i>
+                  </Button>
+                  <Button 
+                    variant='light'
+                    className='p-0 shadow-none'>
+                      <i className="bg-success"></i>
+                  </Button>
+                </div>
+                </OrderItemRight>
+              </>
+            
+          ) : (
+          <>
+            <OrderItemRight>
               <Button
                 // size='sm'
                 variant='light'
                 className='p-0 shadow-none'
                 onClick={handleShow}
               >
-
                 <OrderIcon><i className="bi bi-pencil-square"></i></OrderIcon>
               </Button>
-            </OrderItem>
-            <OrderItem>
+            {/* </OrderItemRight>
+            <OrderItemRight> */}
               <Button
                 variant='light'
                 className='p-0 shadow-none'
@@ -122,7 +159,9 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
               >
                 <OrderIcon><i className="bi bi-trash"></i></OrderIcon>
               </Button>
-            </OrderItem>
+            </OrderItemRight>
+            </>
+          )}
 
             {/* <input name="myInput" type = "checkbox" value = {item.nameOfOrder} /> */}
             {/* <OrderItem>{new Date(item.created).toLocaleDateString('Ru', {

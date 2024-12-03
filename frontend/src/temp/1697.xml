@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateJob>
+<Job>
+	<OrderID>1697</OrderID>
+	<OrderType>Offset_Orders</OrderType>
+	<JobStatus>Ожидаем загрузку 96 страниц</JobStatus>
+	<Name>Рейтинг миллиардеров 2024 №1(11)</Name>
+	<JobDescription>журнал</JobDescription>
+	<NameTranslit>dp_Rejting_milliarderov_2024_N111</NameTranslit>
+	<DueDate>October 29, 2024</DueDate>
+	<JobManager>Панфилова О.С.</JobManager>
+	<JobManagerEmail>print@premium-press.ru</JobManagerEmail>
+	<Quantity>5000</Quantity>
+	<PageHeigth>280</PageHeigth>
+	<PageWidth>210</PageWidth>
+	<CoverPageWidth>
+		280+280+0		
+	</CoverPageWidth>
+	<TotalPages>96</TotalPages>
+	<BlockPages>88</BlockPages>
+	<CoverPages>6</CoverPages>
+	<VkleykaPages>2</VkleykaPages>
+	<Spine>0</Spine>
+	<BlockColors>4+4</BlockColors>
+	<CoverColors>4+4</CoverColors>
+	<VkleikaColors>4+4</VkleikaColors>
+	<Cloud_record_id></Cloud_record_id>	
+</Job>
+<Customer>
+	<CustomerID>00001553</CustomerID>
+	<CustomerName>АО "ДП Бизнес Пресс"</CustomerName>
+	<CustomerSR>Кузьмина Наталья</CustomerSR>
+	<CustomerSRPhone>+7 921 861-9036</CustomerSRPhone>
+	<CustomerSREmail>natalia.kuzmina@dp.ru; image@dp.ru; alexey.vorozheykin@dp.ru; 
+maya.ivanova@dp.ru</CustomerSREmail>
+	<CustomerFTPfolder>dp</CustomerFTPfolder>
+</Customer>
+<System>
+	<JobDirRoot>\\DELL_EVO\dataVolumes\</JobDirRoot>
+	<XMLRepository>\\AE\ExampleJobContainer\XML_Orders_Repository\2021\</XMLRepository>
+	<XMLToPOSHDir>\\AE\JobContainer_D\Hot_Folder_XML_to_POSH_v5\</XMLToPOSHDir>
+</System>
+</CreateJob>
+

@@ -2,6 +2,7 @@ import React from "react";
 import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -18,6 +19,31 @@ export const AuthProvider = ({ children }) => {
       ? jwt_decode(localStorage.getItem("authTokens"))
       : null
   );
+
+  const [userGroups, setUserGroups] = useState([]);
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/user-group/", {
+          headers: {
+            Authorization: `Bearer ${authTokens?.access}`,
+          },
+        });
+        setUserGroups(response.data.groups);
+        console.log("userGroups", userGroups);
+        console.log("response", response.data.groups);
+      } catch (error) {
+        console.error("Error fetching user groups:", error);
+        setUserGroups([]);
+      }
+    };
+
+    if (authTokens) {
+      fetchUserData();
+    }
+  }, [authTokens]);
+
   const [loading, setLoading] = useState(true);
 
   const history = useHistory();
@@ -40,8 +66,30 @@ export const AuthProvider = ({ children }) => {
       setUser(jwt_decode(data.access));
       localStorage.setItem("authTokens", JSON.stringify(data));
       history.push("/user-cabinet");
+      // Fetch user groups
+      const groupsResponse = await axios.get("http://127.0.0.1:8000/api/user-group/", {
+        headers: {
+          Authorization: `Bearer ${data.access}`,
+        },
+      });
+
+      const userGroups = groupsResponse.data.groups;
+
+      // Redirect based on group
+      if (userGroups.includes("admin")) {
+        history.push("/user-cabinet");
+      } else if (userGroups.includes("managers")) {
+        history.push("/manage");
+      } else if (userGroups.includes("technologists")) {
+        history.push("/tech");
+      } else if (userGroups.includes("ctp_operators")) {
+        history.push("/ctp");
+      } else {
+        history.push("/");
+      }
+
     } else {
-      alert("Something went wrong!");
+      alert("Не правильные имя пользователя или пароль!");
       console.log("1 !#!#!#____", data.detail);
     }
   };
@@ -83,6 +131,7 @@ export const AuthProvider = ({ children }) => {
   const contextData = {
     user,
     setUser,
+    userGroups,
     authTokens,
     setAuthTokens,
     registerUser,

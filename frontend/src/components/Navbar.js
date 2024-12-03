@@ -8,14 +8,18 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Nav from 'react-bootstrap/Nav';
 
+import BackButton from "./backButton"
+
+
 const Navbar = (props) => {
   console.log("ASDASDASD", props.props);
   const { user, logoutUser } = useContext(AuthContext);
   const [key, setKey] = useState('login');
   return (
+    <div className="mt-32">
     <nav>
       <div>
-        <h1>Printery</h1>
+        <h1 className="mb-10">Printery</h1>
         <div>
           {user ? (
             <>
@@ -24,7 +28,7 @@ const Navbar = (props) => {
                   <Nav.Link href="/">Home</Nav.Link>
                 </Nav.Item>*/}
                 <Nav.Item>
-                <Nav.Link href="/user-cabinet">User Cabinet</Nav.Link>
+                <Nav.Link as={BackButton}>Назад</Nav.Link>
                 </Nav.Item> 
               <button onClick={logoutUser}>Logout</button>
               </Nav>
@@ -47,6 +51,7 @@ const Navbar = (props) => {
         </div>
       </div>
     </nav>
+    </div>
   );
 };
 

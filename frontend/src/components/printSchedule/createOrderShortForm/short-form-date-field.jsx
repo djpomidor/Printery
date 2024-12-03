@@ -4,6 +4,8 @@ import { Form } from "react-bootstrap";
 import 'react-datepicker/dist/react-datepicker.css';
 import ru from 'date-fns/locale/ru';
 import { Field, ErrorMessage } from "formik";
+import "../../../css/flatpickr.css"
+
 
 const DatePickerField = ({ field, form, placeholder, isInvalid, ...rest }) => {
     const error = form.errors[field.name];

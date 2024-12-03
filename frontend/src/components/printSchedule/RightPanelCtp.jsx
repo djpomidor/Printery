@@ -7,15 +7,18 @@ import Collapse from 'react-bootstrap/Collapse';
 import CreateOrderShortForm from './createOrderShortForm/CreateOrderShortForm';
 import GetFilteredOrders from './GetFilteredOrders'
 
-const RightPanel = (props) => {
+const RightPanelCtp = (props) => {
+  console.log("-!-!-!_props", props)
+  
   const [open, setOpen] = useState(false)
   return (
-    <div className="col-lg-4">
-      <div className="card position-sticky top-40">
+    <div className="col-lg-2">
+      <div className="card position-sticky top-32">
         <div className="card-body pb-0">
           <h6 className="mb-4">Заказы</h6>
           <hr className="mt-4 mb-0"></hr>
-            <Row>
+            {/* <Row>
+
               <Button
                 onClick={() => setOpen(!open)}
                 aria-controls='collapse-form'
@@ -32,11 +35,13 @@ const RightPanel = (props) => {
           <hr className="mt-4 mb-0" />
           <Row>
           <GetFilteredOrders updateTrigger={props.updateTrigger} setUpdateTrigger={props.setUpdateTrigger}/>
-          </Row>
+          </Row> */}
+
+
         </div>
       </div>
     </div>
   )
 }
 
-export default RightPanel
+export default RightPanelCtp

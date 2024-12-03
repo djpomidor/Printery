@@ -191,3 +191,16 @@ class Update_position(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
+##########################################################################
+
+
+#эндпоинт для получения информации о текущем пользователе и его группах:
+
+class UserGroupView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        groups = user.groups.values_list('name', flat=True)  # Получить список групп
+        print("!_group", list(groups))
+        return Response({'groups': list(groups)})  

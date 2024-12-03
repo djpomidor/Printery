@@ -2,7 +2,7 @@ import React from 'react'
 import { Sidebar } from '../containers';
 import TopNav from '../containers/topnav/TopNav';
 import Nav from 'react-bootstrap/Nav';
-import PrintingQueue from '../components/printingqueue/PrintingQueue';
+// import PrintingQueue from '../components/printingqueue/PrintingQueue';
 
 const TechManage = () => {
     return (
@@ -15,7 +15,7 @@ const TechManage = () => {
               {/* <Main /> */}
             {/* </main> */}
             {/* <p>{res}</p> */}
-            <PrintingQueue />
+            {/* <PrintingQueue /> */}
           </div>
       </div>
       );

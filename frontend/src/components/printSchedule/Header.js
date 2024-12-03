@@ -5,7 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import './css/printSchedule.css';
 
-const Header = ({ onTabChange }) => {
+const Header = ({ onTabChange }, props) => {
   const [selectedTab, setSelectedTab] = useState('sm1');
 
   const handleClick = (tab) => {
@@ -14,12 +14,12 @@ const Header = ({ onTabChange }) => {
   };
   
   return (
-    <header className="sticky-top top-lg-0 d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
+    <header className="sticky-top top-lg-10 d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
       <div className="container-fluid ">
         <div className="row align-items-center py-6">
-          <div className="col-sm col-12">
+          {/* <div className="col-sm col-12">
             <h1 className="h1"><span className="d-inline-block me-3"></span>График печати</h1>
-          </div>
+          </div> */}
           <div className="col-sm-auto col-12 mt-4 mt-sm-0">
             <div className="hstack gap-2 justify-content-sm-end">
               {/* <a href="#modalExport" className="btn btn-sm btn-neutral border-base" data-bs-toggle="modal">

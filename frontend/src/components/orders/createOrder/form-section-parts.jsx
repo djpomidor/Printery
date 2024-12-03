@@ -59,9 +59,9 @@ function FormSectionParts({ parts, errors }) {
                   // error={console.log("!!!sdf", errors.parts[index].color)}
                 >
                   <option value="">Select...</option>
-                  <option value='4_4'>4(CMYK)+4(CMYK)</option>
-                  <option value='4_0'>4(CMYK)+0</option>
-                  <option value='1_1'>1(Black)+1(Black)</option>
+                  <option value='4+4'>4(CMYK)+4(CMYK)</option>
+                  <option value='4+0'>4(CMYK)+0</option>
+                  <option value='1+1'>1(Black)+1(Black)</option>
                 </FormSelectField>
   
                 <FormSelectField

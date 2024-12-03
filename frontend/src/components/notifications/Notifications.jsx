@@ -4,7 +4,7 @@ import img_profile from '../../assets/img-profile.jpg'
 const Notifications = () => {
   return (
     <div className="dropdown">
-    <a href="#" className="nav-link px-3 text-base text-muted text-opacity-70 text-opacity-100-hover" id="dropdown-notifications" data-bs-toggle="dropdown" aria-expanded="false">
+    <a href="#" className="nav-link px-3 text-base text-muted text-opacity-70 text-opacity-100-hover ms-auto me-4  d-md-flex" id="dropdown-notifications" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="bi bi-bell-fill"></i>
     </a>
     <div className="dropdown-menu dropdown-menu-end px-2" aria-labelledby="dropdown-notifications">

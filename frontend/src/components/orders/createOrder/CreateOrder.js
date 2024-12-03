@@ -10,6 +10,9 @@ import SelectField from './SelectField';
 import FormSection1 from './form-section-1';
 import FormSection2 from './form-section-2';
 import FormSectionParts from './form-section-parts';
+import XmlToJsonParser from './XmlToJsonParser.jsx';
+import Collapse from 'react-bootstrap/Collapse';
+import {initialValues} from "./initialValues";
 
 
 const schema = yup.object().shape({
@@ -28,14 +31,59 @@ const schema = yup.object().shape({
       paper_density: yup.string(),
     })
   ),
-  terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
+  // terms: yup.bool().required().oneOf([true], 'Terms must be accepted'),
 });
 
+const inilValues = initialValues;
 const CreateOrder = () => {
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
+  const [open, setOpen] = useState(false);
+ 
+  const [initialValues, setInitialValues] = useState(inilValues);
 
+  function deepMerge(target, source) {
+    if (Array.isArray(source)) {
+      // Если source — массив, то объединяем его с target (или заменяем, если target пуст)
+      return source.map((item, index) => {
+        if (typeof item === 'object') {
+          // Сливаем элементы массивов, если они объекты
+          return deepMerge(target[index] || {}, item);
+        }
+        // Иначе заменяем элемент
+        return item;
+      });
+    }
+  
+    // Если target и source — объекты, выполняем рекурсивное слияние
+    for (const key in source) {
+      if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        if (!target[key]) target[key] = {}; // Если ключ отсутствует, создаем объект
+        target[key] = deepMerge(target[key], source[key]);
+      } else {
+        // Заменяем значение
+        target[key] = source[key];
+      }
+    }
+  
+    return target;
+  }
+  
+
+    // Функция для обновления состояния родителя
+    const handleInitialValues = (value) => {
+      const json1 = initialValues;
+      const json2 = value;
+      // const merged = deepMerge(initialValues, value);
+      // console.log(JSON.stringify(merged, null, 2));
+      
+      const merged = deepMerge({}, json1);
+      deepMerge(merged, json2);
+      setInitialValues(merged);
+      console.log("Данные от ребенка:", merged);
+    };
+  
   const onSubmit = async (values) => {
     const newOrder = await addOrder(values, user);
     setValidated(true);
@@ -48,69 +96,8 @@ const CreateOrder = () => {
     <Formik
       validationSchema={schema}
       onSubmit={onSubmit}
-      initialValues={{
-        nameOfOrder: '',
-        typeOfOrder: '',
-        circulation: '',
-        binding: '',
-        width: '',
-        height: '',
-        parts: [
-          {
-            part_name: 'BLO',
-            pages: 1,
-            color: '',
-            paper: {
-              name: "",
-              type: "",
-              density: 0,
-              width: 0,
-              height: 0
-            },
-            printing: [
-              {
-                printed_sheets: 0,
-                circulation_sheets: 0,
-                parent_day: '',
-                machine: '',
-              }
-            ]
-          },
-          {
-            part_name: 'COV',
-            pages: '',
-            color: '',
-            paper: '',
-            paper_density: '',
-            printing: [
-              {
-                printed_sheets: 0,
-                circulation_sheets: 0,
-                parent_day: '',
-                machine: '',
-              }
-            ]
-            
-          },
-          {
-            part_name: 'INS',
-            pages: '',
-            color: '',
-            paper: '',
-            paper_density: '',
-            printing: [
-              {
-                printed_sheets: 0,
-                circulation_sheets: 0,
-                parent_day: '',
-                machine: '',
-              }
-            ]
-          },
-        ],
-        created: '',
-        terms: false,
-      }}
+      initialValues={initialValues}
+      enableReinitialize={true}
     >
       {({
         handleSubmit,
@@ -122,12 +109,27 @@ const CreateOrder = () => {
         errors,
         isSubmitting,
       }) => (
+        <>
+        <div className="mb-5">
+           <Button 
+            variant="outline-secondary"
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}> импортировать из XML файла
+          </Button>
+        </div >  
+        <Collapse in={open}>
+        <div id="example-collapse-text">
+          <XmlToJsonParser sendInitialValues={handleInitialValues} />
+        </div>
+      </Collapse>
+
         <Form noValidate onSubmit={handleSubmit}>
           <FormSection1 />
           <FormSection2 />
           <FormSectionParts parts={values.parts} errors={errors}/>
           <hr></hr>
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Check
               required
               name="terms"
@@ -138,7 +140,7 @@ const CreateOrder = () => {
               feedbackType="invalid"
               id="validationFormik0"
             />
-          </Form.Group>
+          </Form.Group> */}
           <Button
                   // disabled={!isValid || isSubmitting}
                   variant="primary"
@@ -159,6 +161,7 @@ const CreateOrder = () => {
               </Col>           
 
         </Form>
+        </>
       )}
     </Formik>
   );

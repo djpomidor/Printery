@@ -14,6 +14,7 @@ const OrderList = styled.div`
   min-height: 50px;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   background: #fff;
   // min-width: 800px;
   // border-radius: 5px;
@@ -91,6 +92,7 @@ const DayNightList = styled.div`
   border-radius: 10px;
   margin-bottom: 5px;
   width: 100%;
+  background-color: white;
 `;
 
 const PrintSchedule = (props) => {
@@ -122,17 +124,21 @@ const PrintSchedule = (props) => {
     }, [props.machine, props.updateTrigger]);  // Добавление machine в список зависимостей
  
   const updatePositions = async (itemId, newPosition, newColumnId) => {
+    const result = newColumnId || (window.confirm('Вы уверены, что хотите удалить этот заказ?'));
+    if (result) {
     try {
       const response = await api.put(`/orders/print-shedule/${itemId}-update_position/`, {
-        position: newPosition,
+        position: newPosition,  
         parent_day: newColumnId,
       });
+      
         // Do anything with the updated item data if necessary
       // console.log(response.data);
       } catch (error) {
       // Handle errors
       console.error(error);
-    }
+    }};
+
   };
   
   const onDragEnd = (result, columns, setState, orders_full) => {
@@ -200,7 +206,7 @@ const PrintSchedule = (props) => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div>
+                    {/* <div> */}
                     {column.items.map((item, index, orders_full) => (
                       <OrderCard 
                         key={item.pk} 
@@ -211,10 +217,10 @@ const PrintSchedule = (props) => {
                         updateTrigger={props.updateTrigger}
                         setUpdateTrigger={props.setUpdateTrigger}
                         updatePositions={updatePositions}
-                        />   // was key={item} !!
+                        />   
                     ))}
                     {provided.placeholder}
-                    </div>
+                    {/* </div> */}
                   </OrderList>
                   </DayNightList>
                   </Day>

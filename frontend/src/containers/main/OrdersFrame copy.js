@@ -10,7 +10,6 @@ const OrdersFrame = ({ currentComponent }) => {
         return (
         <div className="p-5 mb-3">
           <AuthProvider>
-            {console.log("KJHGdas", )}
           <XmlToJsonParser />
         </AuthProvider>
         </div>)
