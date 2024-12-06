@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-    orderId: yup.string().required('Это поле не может быть пустым'),
+    orderNumber: yup.string().required('Это поле не может быть пустым'),
     nameOfOrder: yup.string().required('Это поле не может быть пустым'),
     printed_sheets: yup.string(),
     circulation: yup.string(),
@@ -33,12 +33,10 @@ export const schema = yup.object().shape({
 const today = new Date();
 
   export const initialValues={
-    orderId: '',
+    orderNumber: '',
     nameOfOrder: '',
     // typeOfOrder: '',
     circulation: 0,
-    // circulation_sheets: '',
-    // printed_sheets: '',
     binding: '',
     width: 0,
     height: 0,

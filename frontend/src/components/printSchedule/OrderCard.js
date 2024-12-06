@@ -86,7 +86,7 @@ const OrderIcon = styled.div`
 
 // `;
 
-const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger, updatePositions }) => {
+const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdateTrigger, updatePositions, part, onSelectPart }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -106,7 +106,7 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
         >
           <OrderInformation className="p-2 bg-white rounded">
 
-            <OrderIdItem>{"№ " + item.number}</OrderIdItem>
+            <OrderIdItem>{"№ " + item.orderNumber}</OrderIdItem>
             {(item.partName === 'блок') ?
               <OrderName>{item.nameOfOrder}</OrderName> :
               <OrderName>{item.nameOfOrder + ", " + item.partName}</OrderName>
@@ -118,7 +118,8 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
             {/* <OrderItem>{item.paper.substr(0, 3) + '.'}</OrderItem> */}
             {userGroups.includes("ctp_operators") ? (
               <>
-                <OrderItemRight><div className='badge badge-lg badge-dot'>
+                <OrderItemRight>
+                  <div className='badge badge-lg badge-dot'>
                   <Button
                     variant='light'
                     className='p-0 shadow-none'
@@ -135,7 +136,16 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
                     className='p-0 shadow-none'>
                       <i className="bg-success"></i>
                   </Button>
+                  
                 </div>
+                <Button 
+                    variant='light'
+                    className='p-0 shadow-none'
+                    onClick={() => onSelectPart(item)}>
+                      <div className="align-middle">
+                      <OrderIcon><i className="bi bi-info-circle" ></i></OrderIcon>
+                      </div>
+                  </Button>
                 </OrderItemRight>
               </>
             
@@ -188,6 +198,7 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
                         updateTrigger={updateTrigger}
                         setUpdateTrigger={setUpdateTrigger}
                         handleClose={handleClose}
+                        onSelectPart={onSelectPart}
                         />
               </Modal.Body>
               {/* <Modal.Footer>

@@ -22,7 +22,7 @@ const ShortEditFormSection = ( {props, handleChange }) => {
             name="orderId"
             placeholder=""
             disabled={true}
-            value={values.number}
+            value={values.orderNumber}
             //readOnly={true}
           />
         </Col>

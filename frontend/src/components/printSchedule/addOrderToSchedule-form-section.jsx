@@ -56,7 +56,8 @@ const AddOrderToScheduleFormSection = ( {props, handleChange }) => {
         <label htmlFor={`parts.${index}.printing.[0].printing_day`} className="form-label">Дата печати:</label><br></br>
         <Field
           // className="form-control"
-          id={`date_of_print_${index}`}
+          // id={`date_of_print_${index}`}
+          controlId={`parts.${index}.printing.[0].printing_day`}
           placeholderText="Выберите дату"
           name={`parts.${index}.printing.[0].printing_day`}
           autoComplete="off"

@@ -28,7 +28,7 @@ function Order(props) {
   const [open, setOpen] = useState(false);
   return (
     <>
-    <tr id={props.number} 
+    <tr id={props.orderNumber} 
         onClick={() => setOpen(!open)}
         aria-controls={props.pk}
         aria-expanded={open}

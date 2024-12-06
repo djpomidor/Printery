@@ -65,7 +65,7 @@ function Order(props) {
         aria-expanded={open}
         style={{ cursor: 'pointer' }}
       >
-        <td>{props.number}</td>
+        <td>{props.orderNumber}</td>
         <td>
           {props.nameOfOrder}, {props.typeOfOrder}
         </td>

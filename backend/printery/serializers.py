@@ -34,7 +34,11 @@ class PaperSerializer(serializers.ModelSerializer):
 
 ##############################################################################################
 ##############################################################################################
+class CtpSerializer(serializers.ModelSerializer):
 
+    class Meta:
+         model = Ctp      
+         fields = ('plates', 'plates_bad','printing_id','plates_done_date','notes')
 
 class PrintScheduleSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
@@ -42,10 +46,11 @@ class PrintScheduleSerializer(serializers.ModelSerializer):
     order_part = serializers.PrimaryKeyRelatedField(read_only=True) 
     # part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
     # part_name = serializers.PrimaryKeyRelatedField(source='get_part_name_display', read_only=True) 
+    ctp = CtpSerializer(many=False, required=False)
 
     class Meta:
         model = PrintSchedule
-        fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida']
+        fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida', 'ctp']
 
 
 class PartSerializer(WritableNestedModelSerializer):
@@ -74,7 +79,7 @@ class PartSerializer(WritableNestedModelSerializer):
 
 
 class OrderSerializer(WritableNestedModelSerializer):
-    orderId = serializers.IntegerField(source='number', required=False)
+    orderNumber = serializers.IntegerField(source='number', required=False)
     parts = PartSerializer(many=True)
     nameOfOrder = serializers.CharField(source='name')
     typeOfOrder = serializers.CharField(source='type', allow_blank=True, required=False)
@@ -84,7 +89,7 @@ class OrderSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Order 
-        fields = ['pk','number', 'orderId', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
+        fields = ['pk','orderNumber', 'nameOfOrder', 'owner', 'typeOfOrder', 'circulation', 'binding', 'width', 'height', 'created', 'due_date', 'delivery_date', 'parts']
 
     def create(self, validated_data):
         owners = validated_data.pop('owner')
@@ -93,7 +98,6 @@ class OrderSerializer(WritableNestedModelSerializer):
         order.owner.set(owners)
 
         for part_data in parts_data:
-            print("!@#$%__", part_data)
             # Handle paper data
             paper_data = part_data.pop('paper', None)  # Use .pop with a default to avoid KeyError
             if paper_data:
@@ -110,8 +114,7 @@ class OrderSerializer(WritableNestedModelSerializer):
         return order
         
     def update(self, instance, validated_data):
-        print("!FAGAJKA& instance", instance)
-        print("!FAGAJKA& validated_data", validated_data)
+
         # Iterate over the fields in validated_data
         for attr, value in validated_data.items():
             if attr == 'parts':
@@ -125,7 +128,7 @@ class OrderSerializer(WritableNestedModelSerializer):
 
         # Process the `parts` field
         parts_data = validated_data.get('parts')
-        print("Parts Data:", parts_data)
+
         if parts_data:
             for part_data in parts_data:
                 part_id = part_data.get('id')
@@ -152,7 +155,6 @@ class OrderSerializer(WritableNestedModelSerializer):
 
                 # Process the nested `printing` field
                 printing_data = part_data.get('printing')
-                print("Printing Data:", printing_data)
 
                 if printing_data:
                     for print_item in printing_data:
@@ -171,8 +173,6 @@ class OrderSerializer(WritableNestedModelSerializer):
         return instance
     
     def validate(self, data):
-        print("Incoming data:", self.initial_data)
-        print("Validated data:", data)
         return data
 
     
@@ -235,7 +235,10 @@ class CreatOrderSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Order
-        fields = ('name', 'type', 'circulation', 'binding', 'width', 'height', 'due_date', 'delivery_date')       
+        fields = ('name', 'type', 'circulation', 'binding', 'width', 'height', 'due_date', 'delivery_date')    
+
+
+
 
 
 

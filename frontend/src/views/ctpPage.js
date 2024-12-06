@@ -11,7 +11,7 @@ import '.././css/utilities.css';
 import { Search, UserMenu, VerticalMenu } from '.././components';
 import { Main, Sidebar, TopNav } from '.././containers';
 import RightPanel from ".././components/printSchedule/RightPanel.jsx";
-import RightPanelCtp from ".././components/printSchedule/RightPanelCtp.jsx";
+import RightPanelCtp from "../components/ctp/RightPanelCtp.jsx";
 
 function CtpPage() {
   const [res, setRes] = useState("");
@@ -32,6 +32,7 @@ function CtpPage() {
 
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [machine, setMachine] = useState("sm1"); // состояние для хранения текущего значения machine
+  const [selectedPart, setSelectedPart] = useState(null); // Состояние для хранения выбранного заказа
   const handleTabChange = (selectedTab) => {
     setMachine(selectedTab); // обновление текущего значения machine при изменении вкладки
   };
@@ -49,11 +50,21 @@ function CtpPage() {
         <div className="container-fluid overflow-x: auto;">
         <div className="row">
           <div className='col-lg-10 table-responsive'>
-          <PrintSchedule machine={machine} updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger} className="py-6 bg-surface-secondary"/>
+          <PrintSchedule 
+            machine={machine} 
+            updateTrigger={updateTrigger} 
+            setUpdateTrigger={setUpdateTrigger} 
+            className="py-6 bg-surface-secondary"
+            onSelectPart={setSelectedPart}
+            />
         </div>
         {userGroups.includes("ctp_operators") ? (
           <>
-         <RightPanelCtp updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger}/>
+         <RightPanelCtp 
+          updateTrigger={updateTrigger} 
+          setUpdateTrigger={setUpdateTrigger}
+          part={selectedPart}
+          />
          <div>sdfsdfsdfsd</div>
          </>
         ) : (

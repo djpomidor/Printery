@@ -10,7 +10,7 @@ const OrdersList = ({orders, title, updateTrigger, setUpdateTrigger}) => {
   const [searchTerm, setSearchTerm] = useState("");
   // console.log("!__", orders);
   const filteredOrders = orders.filter((order) =>
-    order.number.toString().includes(searchTerm)
+    order.orderNumber.toString().includes(searchTerm)
   );
 
   return (

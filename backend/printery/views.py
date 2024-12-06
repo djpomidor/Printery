@@ -111,7 +111,6 @@ class OrderList(APIView):
                 #serializer_paper = PaperSerializer(data=part_data.get('paper'))
                 paper_data = part_data.get('paper')
                 # Check if a matching Paper already exists
-                print("!!!!paper_data", paper_data)
                 paper, created = Paper.objects.get_or_create(
                     name=paper_data['name'],
                     type=paper_data['type'],
@@ -204,3 +203,35 @@ class UserGroupView(APIView):
         groups = user.groups.values_list('name', flat=True)  # Получить список групп
         print("!_group", list(groups))
         return Response({'groups': list(groups)})  
+    
+
+class CtpView(APIView):
+    # permission_classes = [IsAuthenticated]
+    """
+    Retrieve, update or delete a ctp instance.
+    """
+    def get_object(self, part_id):
+        try:
+            return Ctp.objects.get(part_id=part_id)
+        except Ctp.DoesNotExist: 
+            raise Http404
+
+    def get(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        serializer = CtpSerializer(order)
+        return Response(serializer.data)
+
+    def put(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        serializer = CtpSerializer(order, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    

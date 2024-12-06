@@ -232,18 +232,30 @@ class Part(models.Model):
 
 class PrintSchedule(models.Model):
     order_part = models.ForeignKey(Part, related_name='printing', on_delete = models.CASCADE)
-    print_date = models.DateField(null=True, blank=True)
     sm1 = models.BooleanField(default=False)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
     printed_sheets = models.FloatField(null=True, blank=True)
     circulation_sheets = models.IntegerField(null=True, blank=True)
-    plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)
+    
+    def save(self, *args, **kwargs):
+        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+        super().save(*args, **kwargs)  # Call the superclass's save method
 
-    # def __str__(self):
-    #     if self.day:
-    #         return f"{self.print_date} (Day): №{self.order.number}"
-    #     else:
-    #         return f"{self.print_date} (Night): №{self.order.number}"
+        if is_new:  # If the instance was newly created
+            Ctp.objects.create(printing=self)    
+
+    def __str__(self):
+        if self.day:
+            return f"{self.print_date} (Day): №{self.order.number}"
+        else:
+            return f"{self.print_date} (Night): №{self.order.number}"
+
+class Ctp(models.Model):
+    plates = models.IntegerField(null=True, blank=True)
+    plates_bad = models.IntegerField(null=True, blank=True)
+    printing = models.ForeignKey(PrintSchedule, related_name='ctp', on_delete=models.CASCADE)
+    plates_done_date = models.DateField(null=True, blank=True) 
+    notes = models.TextField(blank=True)

@@ -15,6 +15,7 @@ urlpatterns = [
     path('test/', views.testEndPoint, name='test'),
     path('', views.getRoutes),
     path('user-group/', views.UserGroupView.as_view(), name='user-group'),    
+    
     path('orders/', views.OrderList.as_view(), name='order-list'),
     path('orders/<int:pk>/', views.OrderDetail.as_view()),
     path('orders/<int:pk>/edit', views.OrderDetail.as_view()),
@@ -22,6 +23,8 @@ urlpatterns = [
     path('orders/print-shedule/<int:pk>-update_position/', views.Update_position.as_view()),
     path('orders/print-shedule/<str:machine>/', views.OrdersByDate.as_view()),
     path('orders/print-shedule/<int:pk>/update/', views.OrderDetail.as_view()),
+    
+    path('ctp/<int:part_id>/', views.CtpView.as_view()),
 
 ]
 

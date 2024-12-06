@@ -2,60 +2,62 @@
 import React from 'react';
 import {Button, Col, Row, Form } from 'react-bootstrap';
 import { useState, useContext } from "react";
-import AuthContext from "../../../context/AuthContext";
+import AuthContext from "../../context/AuthContext.js";
 import { useFormikContext, Formik, Field, FieldArray, ErrorMessage } from 'formik';
-import { addOrder } from './addOrder-short';
-import ShortEditFormSection from './short-edit-form-section';
-import { initialValues, schema, } from './initialValues';
-import FormSectionParts from './short-form-section-parts'
-import { UpdateOrder } from './updateOrder-short';
-import GetInitialValues from './GetInitialValues';
+// import AddOrderToScheduleFormSection from './addOrderToSchedule-form-section';
+// import { initialValues, schema, } from './createOrderShortForm/initialValues';
+// import { UpdateOrder } from './updateOrder-short';
+// import updatePositions from './PrintSchedule.js'
+// import { UpdateOrder } from './createOrderShortForm/updateOrder-short.js'
+import {UpdateCtpInfo} from './UpdateCtpInfo.js'
+import * as yup from 'yup';
 
-const EditOrderShortForm = (props) => {
-  console.log("-props-", props)
+const AddCtpInstance = (props) => {
+  console.log("-props2-", props)
   const { user } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [errors, setErrors] = useState();
+  
+  const schema = yup.object().shape({
+    plates: yup.number(),
+    plates_bad: yup.number(),
+    plates_done_date: yup.date(),
+    notes: yup.string(),
+  });
 
   // Создаем начальные значения из props, чтобы они отобразились в форме
   const initialValues = {
-    orderId: props.initialValues.orderId,
-    orderNumber: props.initialValues.orderNumber || '',
-    nameOfOrder: props.initialValues.nameOfOrder || '',  // Если нет значения, будет пустая строка
-    machine: props.machine,
-    parts: [
-      {
-        id: props.initialValues.order_part,
-        color: props.initialValues.color,
-        paper: 
-          {
-            type: props.initialValues.paper_value,
-            density: props.initialValues.paper_density,
-          },
-        printing: [
-          {
-            pk: props.initialValues.pk,
-            printed_sheets: props.initialValues.printed_sheets,
-            circulation_sheets: props.initialValues.circulation_sheets
-          } 
-        ],
-          
-      }
-  ]
-
-    // Добавьте остальные поля, которые вам нужны
+    // part_id: props.initialValues.order || "",
+    part_id: 1221,
+    plates: 12,
+    plates_bad: 2,    
+    plates_done_date: null,
+    notes:""
+    
+  //   parts: [
+  //     {
+  //       id: props.initialValues.printing[0].order_part ||"",
+  //       printing: [
+  //         {
+  //           pk: props.initialValues.printing[0].pk || "",
+  //           printing_day: '',
+  //           day_or_night: '',
+  //           machine: ''
+  //         } 
+  //       ],
+  //     }
+  // ]
   };
   
   console.log("-initialValues-", initialValues)
   
   const onSubmit = async (values) => {
-    const updateOrder =  UpdateOrder(values, user);
+    const updateOrder =  UpdateCtpInfo(values, user);
     setValidated(true);
     setErrors(updateOrder);
     console.log("!update_errors$__", errors)
     props.handleClose(true)
     props.setUpdateTrigger(prevState => !prevState)
-    // props.onSelectPart(props.initialValues)
   };
 
   return (
@@ -75,12 +77,12 @@ const EditOrderShortForm = (props) => {
         isSubmitting,
       }) => (
         <Form noValidate onSubmit={handleSubmit} >
-          <ShortEditFormSection 
+          {/* <AddOrderToScheduleFormSection 
               props={props}
               handleChange={handleChange} // Передаем handleChange в дочерний компонент
-          />
+          /> */}
           {/* <FormSectionParts parts={values.parts} errors={errors}/> */}
-          <hr></hr>
+          {/* <hr></hr> */}
           <Button
                   // disabled={!isValid || isSubmitting}
                   variant="primary"
@@ -90,7 +92,7 @@ const EditOrderShortForm = (props) => {
                   value="Сохранить"
                 />
   
-          <Col>
+          {/* <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -98,7 +100,7 @@ const EditOrderShortForm = (props) => {
                     2
                   )}
                 </pre>
-              </Col>           
+              </Col>            */}
 
         </Form>
       )}
@@ -106,4 +108,4 @@ const EditOrderShortForm = (props) => {
   );
 }
 
-export default EditOrderShortForm;
+export default AddCtpInstance;
