@@ -91,6 +91,11 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const { userGroups } = useContext(AuthContext);
+  console.log("item.ctp.status", item.ctp.status)
+  const [color, setColor] = useState(() => 
+    (item.ctp.status && item.ctp.status === 'completed') ? (("bg-success"))
+    : (("bg-warning"))
+  ) 
 
   return (
     <Draggable key={item.pk} 
@@ -104,7 +109,7 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <OrderInformation className="p-2 bg-white rounded">
+          <OrderInformation className={color + " p-2  rounded"}>
 
             <OrderIdItem>{"№ " + item.orderNumber}</OrderIdItem>
             {(item.partName === 'блок') ?
@@ -121,26 +126,34 @@ const OrderCard = ({ item, index, machine, orders_full, updateTrigger, setUpdate
                 <OrderItemRight>
                   <div className='badge badge-lg badge-dot'>
                   <Button
-                    variant='light'
+                    variant='none'
                     className='p-0 shadow-none'
-                    onClick={console.log("kjsdkjdskj")}>
+                    onClick={()=>setColor("bg-white")}>
+                      <i className="bg-white"></i>
+                  </Button>
+                  <Button
+                    variant='none'
+                    className='p-0 shadow-none'
+                    onClick={()=>setColor("bg-danger")}>
                       <i className="bg-danger"></i>
                   </Button>
                   <Button 
-                    variant='light'
-                    className='p-0 shadow-none'>
+                    variant='none'
+                    className='p-0 shadow-none'
+                    onClick={()=>setColor("bg-warning")}>
                       <i className="bg-warning"></i>
                   </Button>
                   <Button 
-                    variant='light'
+                    variant='none'
+                    onClick={()=>setColor("bg-success")}
                     className='p-0 shadow-none'>
                       <i className="bg-success"></i>
                   </Button>
                   
                 </div>
                 <Button 
-                    variant='light'
-                    className='p-0 shadow-none'
+                    variant='none'
+                    className='ms-2 p-0 shadow-none'
                     onClick={() => onSelectPart(item)}>
                       <div className="align-middle">
                       <OrderIcon><i className="bi bi-info-circle" ></i></OrderIcon>

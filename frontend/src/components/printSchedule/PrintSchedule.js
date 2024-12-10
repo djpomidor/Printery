@@ -111,6 +111,7 @@ const PrintSchedule = (props) => {
           const fetchedOrders = response.data;
           console.log('fetchedOrders!!!', fetchedOrders);
           const fetchedColumns = daysOfPrint(fetchedOrders, props.machine); // Pass fetchedOrders to the daysOfPrint function
+          console.log('fetchedColumns!!!', fetchedColumns);
           setState({ orders: fetchedOrders, columns: fetchedColumns, orders_full: orders_full });
           
         } catch (error) {

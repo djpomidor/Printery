@@ -31,8 +31,6 @@ export const AuthProvider = ({ children }) => {
           },
         });
         setUserGroups(response.data.groups);
-        console.log("userGroups", userGroups);
-        console.log("response", response.data.groups);
       } catch (error) {
         console.error("Error fetching user groups:", error);
         setUserGroups([]);

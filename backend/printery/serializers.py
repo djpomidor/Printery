@@ -35,10 +35,12 @@ class PaperSerializer(serializers.ModelSerializer):
 ##############################################################################################
 ##############################################################################################
 class CtpSerializer(serializers.ModelSerializer):
+    # printing_id = serializers.PrimaryKeyRelatedField(read_only=True) 
 
     class Meta:
          model = Ctp      
-         fields = ('plates', 'plates_bad','printing_id','plates_done_date','notes')
+         fields = ('plates', 'plates_bad', 'plates_done_date','notes','status')
+         
 
 class PrintScheduleSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
@@ -46,12 +48,16 @@ class PrintScheduleSerializer(serializers.ModelSerializer):
     order_part = serializers.PrimaryKeyRelatedField(read_only=True) 
     # part_name = serializers.CharField(source='order_part.part_name', read_only=True) 
     # part_name = serializers.PrimaryKeyRelatedField(source='get_part_name_display', read_only=True) 
-    ctp = CtpSerializer(many=False, required=False)
+    ctp = CtpSerializer(read_only=True, many=False, required=False)
+    # ctp = models.OneToOneField('Ctp', on_delete=models.CASCADE, related_name='printing', null=True, blank=True)
 
     class Meta:
         model = PrintSchedule
         fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida', 'ctp']
-
+    
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return representation
 
 class PartSerializer(WritableNestedModelSerializer):
     id = serializers.IntegerField(required=False)

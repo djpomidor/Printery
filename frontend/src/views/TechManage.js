@@ -3,6 +3,7 @@ import { Sidebar } from '../containers';
 import TopNav from '../containers/topnav/TopNav';
 import Nav from 'react-bootstrap/Nav';
 // import PrintingQueue from '../components/printingqueue/PrintingQueue';
+import Color_switch from '../temp/color_switch';
 
 const TechManage = () => {
     return (
@@ -10,6 +11,9 @@ const TechManage = () => {
           <Sidebar />
           <div className="flex-lg-1 h-screen overflow-y-lg-auto">
             <TopNav />
+            <div>
+              <Color_switch></Color_switch>
+            </div>
             {/* <Header /> */}
             {/* <main className="py-6 bg-surface-secondary"> */}
               {/* <Main /> */}

@@ -22,9 +22,9 @@ function FormSectionParts({ parts, errors }) {
               </div>
               <div className="d-flex align-items-center">
                 <h6>
-                  {(part.part_name === 'BLO') ? ('Block') : ''}
-                  {(part.part_name === 'COV') ? ('Cover') : ''}
-                  {(part.part_name === 'INS') ? ('Insert') : ''}
+                  {(part.part_name === 'BLO') ? ('Блок') : ''}
+                  {(part.part_name === 'COV') ? ('Обложка') : ''}
+                  {(part.part_name === 'VKL') ? ('Вклейка') : ''}
                 </h6>
 
                 <button

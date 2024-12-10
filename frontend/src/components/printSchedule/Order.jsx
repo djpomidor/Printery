@@ -24,9 +24,9 @@ const Part = (props) => {
           </Button>
         </td>
         <td>
-          {part.part_name === 'BLO' ? 'Block' : ''}
-          {part.part_name === 'COV' ? 'Cover' : ''}
-          {part.part_name === 'INS' ? 'Insert' : ''}
+          {part.part_name === 'BLO' ? 'Блок' : ''}
+          {part.part_name === 'COV' ? 'Обложка' : ''}
+          {part.part_name === 'VKL' ? 'Вклейка' : ''}
         </td>
         <td>{part.color_display}</td>
         <td>{part.paper.type_display + ', ' + part.paper.density}</td>

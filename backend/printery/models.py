@@ -195,7 +195,7 @@ class Part(models.Model):
     NAME_CHOICES =[
         ('BLO', 'блок'),
         ('COV', 'обл.'),
-        ('INS', 'вкл.'),
+        ('VKL', 'вкл.'),
         ('FRZ', 'форзацы'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
@@ -230,6 +230,29 @@ class Part(models.Model):
 
 ###############################################################################################
 
+
+class Ctp(models.Model):
+    plates = models.IntegerField(null=True, blank=True)
+    plates_bad = models.IntegerField(null=True, blank=True)
+    # printing = models.OneToOneField('PrintSchedule', on_delete=models.CASCADE, related_name='ctp_details', null=True, blank=True)
+    printing = models.ForeignKey('PrintSchedule', null=True, blank=True, related_name='ctp_related', on_delete=models.CASCADE)
+    # part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    plates_done_date = models.DateTimeField(null=True, blank=True) 
+    notes = models.TextField(blank=True)
+    STATUS_CHOICES = [
+        ('no_status', 'Без статуса'),
+        ('in_progress', 'В работе'),
+        ('issues', 'Проблемы с заказом'),
+        ('completed', 'Сделан'),
+    ]
+
+    status = models.CharField(
+        max_length=15,  # Достаточно длинный, чтобы вместить самый длинный ключ
+        choices=STATUS_CHOICES,
+        default='no_status',  # Значение по умолчанию
+    )
+
+
 class PrintSchedule(models.Model):
     order_part = models.ForeignKey(Part, related_name='printing', on_delete = models.CASCADE)
     sm1 = models.BooleanField(default=False)
@@ -239,13 +262,18 @@ class PrintSchedule(models.Model):
     circulation_sheets = models.IntegerField(null=True, blank=True)
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)
+    ctp = models.ForeignKey(Ctp, on_delete=models.CASCADE, related_name='print_schedule', null=True, blank=True)
     
     def save(self, *args, **kwargs):
         is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
         super().save(*args, **kwargs)  # Call the superclass's save method
 
-        if is_new:  # If the instance was newly created
-            Ctp.objects.create(printing=self)    
+        if is_new and not self.ctp:  # Если это новое создание и ctp еще не задан
+            ctp_instance = Ctp.objects.create(printing_id=self.pk)
+            self.ctp = ctp_instance
+            # Обновляем объект без вызова повторного сохранения всей модели
+            PrintSchedule.objects.filter(pk=self.pk).update(ctp=ctp_instance)
+
 
     def __str__(self):
         if self.day:
@@ -253,9 +281,4 @@ class PrintSchedule(models.Model):
         else:
             return f"{self.print_date} (Night): №{self.order.number}"
 
-class Ctp(models.Model):
-    plates = models.IntegerField(null=True, blank=True)
-    plates_bad = models.IntegerField(null=True, blank=True)
-    printing = models.ForeignKey(PrintSchedule, related_name='ctp', on_delete=models.CASCADE)
-    plates_done_date = models.DateField(null=True, blank=True) 
-    notes = models.TextField(blank=True)
+

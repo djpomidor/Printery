@@ -169,6 +169,7 @@ class OrdersByDate(APIView):
         # orders = orders.filter(**{f'parts__printing__{field_name}': True})
         # print("_________", orders)
         serializer = OrderSerializer(orders, many=True)
+        # print("-----serializer", serializer.data)
         return Response(serializer.data)
 
 
@@ -201,7 +202,6 @@ class UserGroupView(APIView):
     def get(self, request):
         user = request.user
         groups = user.groups.values_list('name', flat=True)  # Получить список групп
-        print("!_group", list(groups))
         return Response({'groups': list(groups)})  
     
 

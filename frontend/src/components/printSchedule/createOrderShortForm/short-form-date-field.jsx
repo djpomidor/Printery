@@ -11,9 +11,9 @@ const DatePickerField = ({ field, form, placeholder, isInvalid, ...rest }) => {
     const error = form.errors[field.name];
     const touched = form.touched[field.name];
     // const isInvalid = touched && !!error;
-    console.log("------isInvalid----------", isInvalid)
-    console.log("------rest----------", rest)
-    console.log("------error----------", error)
+    // console.log("------isInvalid----------", isInvalid)
+    // console.log("------rest----------", rest)
+    // console.log("------error----------", error)
 
     const onChange = (date) => {
         form.setFieldValue(field.name, date);

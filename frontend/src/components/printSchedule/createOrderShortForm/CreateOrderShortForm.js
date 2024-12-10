@@ -65,7 +65,7 @@ const CreateOrderShortForm = (props) => {
                   value="Добавить заказ"
                 />
   
-          <Col>
+          {/* <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -73,7 +73,7 @@ const CreateOrderShortForm = (props) => {
                     2
                   )}
                 </pre>
-              </Col>           
+              </Col>            */}
 
         </Form>
       )}
