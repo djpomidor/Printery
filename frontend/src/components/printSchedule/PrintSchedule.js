@@ -180,6 +180,8 @@ const PrintSchedule = (props) => {
 
   // console.log("!!!", orders)
   return (
+    <>
+
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, state.columns, setState)} direction="vertical">
       <Container>
@@ -233,6 +235,7 @@ const PrintSchedule = (props) => {
         </OrderColumnStyles>
       </Container>
     </DragDropContext>
+    </>
   );
 };
 

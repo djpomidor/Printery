@@ -14,7 +14,7 @@ const daysOfPrint = (items, machine) => {
         if ((key + '_' + timeofday) === part.printing[0].parent_day && part.printing[0][machine] === true ) {
           itemsOfday.push(
             {
-              // 'orderId': item.pk,
+              'orderId': item.pk,
               'pk': part.printing[0].pk,
               'orderNumber': item.orderNumber,
               'nameOfOrder': item.nameOfOrder,
@@ -27,12 +27,14 @@ const daysOfPrint = (items, machine) => {
               'paper': part.paper.type_display,
               'paper_value': part.paper.type,
               'paper_density': part.paper.density,
+              'ctp_id': part?.printing[0]?.ctp_id,
               // 'part_id': 1221,
               'ctp': {
                 'plates': part?.printing[0]?.ctp?.plates,
                 'plates_bad': part?.printing[0]?.ctp?.plates_bad,    
                 'plates_done_date': part?.printing[0]?.ctp?.plates_done_date,
                 'notes': part?.printing[0]?.ctp?.notes,
+                'printing_id': part?.printing[0]?.ctp?.printing_id,
                 'status': part?.printing[0]?.ctp?.status,
               }
               

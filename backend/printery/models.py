@@ -194,8 +194,8 @@ class Part(models.Model):
     order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
         ('BLO', 'блок'),
-        ('COV', 'обл.'),
-        ('VKL', 'вкл.'),
+        ('COV', 'обложка'),
+        ('VKL', 'вклейка.'),
         ('FRZ', 'форзацы'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
@@ -240,7 +240,6 @@ class Ctp(models.Model):
     plates_done_date = models.DateTimeField(null=True, blank=True) 
     notes = models.TextField(blank=True)
     STATUS_CHOICES = [
-        ('no_status', 'Без статуса'),
         ('in_progress', 'В работе'),
         ('issues', 'Проблемы с заказом'),
         ('completed', 'Сделан'),
@@ -249,7 +248,9 @@ class Ctp(models.Model):
     status = models.CharField(
         max_length=15,  # Достаточно длинный, чтобы вместить самый длинный ключ
         choices=STATUS_CHOICES,
-        default='no_status',  # Значение по умолчанию
+        null=True,
+        blank=True
+        # default='null',  # Значение по умолчанию
     )
 
 
@@ -275,10 +276,10 @@ class PrintSchedule(models.Model):
             PrintSchedule.objects.filter(pk=self.pk).update(ctp=ctp_instance)
 
 
-    def __str__(self):
-        if self.day:
-            return f"{self.print_date} (Day): №{self.order.number}"
-        else:
-            return f"{self.print_date} (Night): №{self.order.number}"
+    # def __str__(self):
+    #     if self.day:
+    #         return f"{self.print_date} (Day): №{self.order.number}"
+    #     else:
+    #         return f"{self.print_date} (Night): №{self.order.number}"
 
 

@@ -51,7 +51,9 @@ function PrintSchedulePage() {
         <Header onTabChange={handleTabChange} />
         <div className="container-fluid overflow-x: auto;">
         <div className="row">
-          <div className={`col-lg-${userGroups.includes("ctp_operators")?('10'):("8")} table-responsive`}>
+        {/* <div className="sticky-top top-lg-36 d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 " id="topbar"> 
+        fgdgdfsgd</div> */}
+          <div className={`col-lg-${userGroups.includes("ctp_operators")?('10'):("8")} table-responsive `}>
           <PrintSchedule machine={machine} updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger} className="py-6 bg-surface-secondary"/>
         </div>
         {userGroups.includes("ctp_operators") || (

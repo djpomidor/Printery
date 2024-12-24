@@ -193,6 +193,27 @@ class Update_position(APIView):
   
 ##########################################################################
 
+class Ctp_view(APIView):
+    permission_classes = (AllowAny,)
+    def get_object(self, pk):
+        try:
+            return Ctp.objects.get(pk=pk)
+        except Order.DoesNotExist: 
+            raise Http404    
+        
+    def put(self, request, pk, format=None):
+        item = self.get_object(pk)
+        # position = request.data.get('position')
+        # parent_day = request.data.get('parent_day')
+        print("---------request.data", request.data)
+        serializer = CtpSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+##########################################################################
+
 
 #эндпоинт для получения информации о текущем пользователе и его группах:
 

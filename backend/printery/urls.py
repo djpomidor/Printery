@@ -25,7 +25,7 @@ urlpatterns = [
     path('orders/print-shedule/<int:pk>/update/', views.OrderDetail.as_view()),
     
     path('ctp/<int:part_id>/', views.CtpView.as_view()),
-
+    path('ctp/<int:pk>/update_ctp_info/', views.Ctp_view.as_view()),
 ]
 
 

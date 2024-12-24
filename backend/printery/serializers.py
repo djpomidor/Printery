@@ -39,7 +39,7 @@ class CtpSerializer(serializers.ModelSerializer):
 
     class Meta:
          model = Ctp      
-         fields = ('plates', 'plates_bad', 'plates_done_date','notes','status')
+         fields = ('plates', 'plates_bad', 'plates_done_date','notes','status','printing_id')
          
 
 class PrintScheduleSerializer(serializers.ModelSerializer):
@@ -53,7 +53,7 @@ class PrintScheduleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PrintSchedule
-        fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida', 'ctp']
+        fields = ['id', 'pk', 'order_part', 'printed_sheets', 'circulation_sheets', 'parent_day', 'position', 'order_part_id', 'sm1', 'sm2', 'rapida', 'ctp', 'ctp_id']
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)

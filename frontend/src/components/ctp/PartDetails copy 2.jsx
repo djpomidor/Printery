@@ -8,12 +8,10 @@ import UpdateCtpInfo from './UpdateCtpInfo.js'
 import AuthContext from "../../context/AuthContext";
 import useAxios from "../../utils/useAxios"
 
-const PartDetails = ( props) => {   
-    const {partDetails, onSelectPart} = props;
+const PartDetails = ({ partDetails }) => {    
     const api = useAxios();
     const { user } = useContext(AuthContext);
-    console.log("partDetails!", partDetails)
-    console.log("onSelectPart!", onSelectPart)
+    // console.log("partDetails!", partDetails)
     const [isEditing, setIsEditing] = useState(false);
 
     const handleEditClick = () => {
@@ -30,14 +28,12 @@ const PartDetails = ( props) => {
         <Container className="px-0">
             <EditCtpForm
                 initialValues={partDetails} // Передаем данные заказа как начальные значения
-                onSelectPart={onSelectPart}
                 onSubmit={async (updatedValues) => {
                     await UpdateCtpInfo(api, updatedValues, user);
                     // const updateCtpInfo =  UpdateCtpInfo(updatedValues, user);
                     // setValidated(true);
                     // setErrors(updateOrder);
                     console.log("Updated order:", updatedValues);
-                    onSelectPart(updatedValues);
                     setIsEditing(false); // Вернуться к просмотру после сохранения
                 }}
                 onCancel={handleCancelEdit} // Отмена редактирования

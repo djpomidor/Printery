@@ -15,7 +15,7 @@ const Header = ({ onTabChange }, props) => {
   
   return (
     <header className="sticky-top top-lg-10 d-lg-block overlap-10 flex-none bg-white shadow-sm mb-5 rounded">
-      <div className="container-fluid ">
+      <div className="ms-46 container-fluid ">
         <div className="row align-items-center py-6">
           {/* <div className="col-sm col-12">
             <h1 className="h1"><span className="d-inline-block me-3"></span>График печати</h1>

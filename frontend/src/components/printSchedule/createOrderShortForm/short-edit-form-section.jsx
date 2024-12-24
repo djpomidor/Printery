@@ -19,7 +19,7 @@ const ShortEditFormSection = ( {props, handleChange }) => {
             controlId="validationFormik01"
             label="№ заказа"
             type="number"
-            name="orderId"
+            name="orderNumber"
             placeholder=""
             disabled={true}
             value={values.orderNumber}
