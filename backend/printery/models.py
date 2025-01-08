@@ -195,7 +195,7 @@ class Part(models.Model):
     NAME_CHOICES =[
         ('BLO', 'блок'),
         ('COV', 'обложка'),
-        ('VKL', 'вклейка.'),
+        ('INS', 'вклейка.'),
         ('FRZ', 'форзацы'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)

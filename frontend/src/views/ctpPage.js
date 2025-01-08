@@ -52,7 +52,7 @@ function CtpPage() {
         <TopNav header="График печати" />
         <main className="py-6 bg-surface-secondary">
 
-          <isEditContext.Provider isEditing={isEditing}>
+          {/* <isEditContext.Provider isEditing={isEditing}> */}
             <Header onTabChange={handleTabChange} />
             <div className="container-fluid overflow-x: auto;">
               <div className="row">
@@ -83,7 +83,7 @@ function CtpPage() {
         
        </div>
        </div>
-       </isEditContext.Provider>
+       {/* </isEditContext.Provider> */}
        </main>
       </div>
   </div>

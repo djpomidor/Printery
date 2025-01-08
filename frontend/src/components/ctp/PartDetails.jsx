@@ -37,7 +37,9 @@ const PartDetails = ( props) => {
                     // setValidated(true);
                     // setErrors(updateOrder);
                     console.log("Updated order:", updatedValues);
+                    // partDetails = updatedValues;
                     onSelectPart(updatedValues);
+                    
                     setIsEditing(false); // Вернуться к просмотру после сохранения
                 }}
                 onCancel={handleCancelEdit} // Отмена редактирования
