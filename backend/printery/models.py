@@ -6,7 +6,8 @@ from django.db.models import Max
 import locale
 import datetime
 
-locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia" убрал "ru_RU.utf8" на win10
+#locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia" убрал "ru_RU.utf8" на win10
+locale.setlocale(locale.LC_TIME, "ru_RU.UTF-8")
 
 def parent_day():
     today = datetime.datetime.now()
