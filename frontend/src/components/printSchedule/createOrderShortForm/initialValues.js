@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
 export const schema = yup.object().shape({
-    orderId: yup.string().required(),
-    nameOfOrder: yup.string().required(),
+    orderNumber: yup.string().required('Это поле не может быть пустым'),
+    nameOfOrder: yup.string().required('Это поле не может быть пустым'),
     printed_sheets: yup.string(),
     circulation: yup.string(),
     circulation_sheets: yup.string(),
@@ -33,12 +33,10 @@ export const schema = yup.object().shape({
 const today = new Date();
 
   export const initialValues={
-    orderId: '',
+    orderNumber: '',
     nameOfOrder: '',
     // typeOfOrder: '',
     circulation: 0,
-    // circulation_sheets: '',
-    // printed_sheets: '',
     binding: '',
     width: 0,
     height: 0,
@@ -47,12 +45,13 @@ const today = new Date();
         part_name: 'BLO',
         pages: 1,
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          }
-        ,
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,
@@ -60,7 +59,7 @@ const today = new Date();
             parent_day: '',
             printing_day: "",
             day_or_night: "day",
-            machine: '',
+            machine: '1',
           }
         ]
       },
@@ -68,16 +67,17 @@ const today = new Date();
         part_name: 'COV',
         pages: '',
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          },
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: '',
             parent_day: '',
             printing_day: "",
             day_or_night: "day",
@@ -89,16 +89,17 @@ const today = new Date();
         part_name: 'INS',
         pages: '',
         color: '',
-        paper: 
-          {
-            type: '',
-            density: 100,
-          },
+        paper: {
+          name: "",
+          type: "",
+          density: 0,
+          width: 0,
+          height: 0
+        },
         printing: [
           {
             printed_sheets: 0,
             circulation_sheets: 0,
-            parent_day: '',
             parent_day: '',
             printing_day: "",
             day_or_night: "day",

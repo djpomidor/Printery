@@ -6,7 +6,7 @@ from django.db.models import Max
 import locale
 import datetime
 
-locale.setlocale(locale.LC_TIME, "ru_RU.utf8")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia"
+locale.setlocale(locale.LC_TIME, "Russian_Russia")  # Установить русскую локализацию. На Win10 было ru_RU или "Russian_Russia" убрал "ru_RU.utf8" на win10
 
 def parent_day():
     today = datetime.datetime.now()
@@ -70,6 +70,7 @@ class Paper(models.Model):
     # glossy = models.BooleanField(default=False)
     
     class Density(models.IntegerChoices):
+        D0 = 0, 'не известна'
         D80 = 80, '80'
         D100 = 100, '100'
         D105 = 105, '105'
@@ -81,13 +82,16 @@ class Paper(models.Model):
         D200 = 200, '200'
         D250 = 250, '250'
         D300 = 300, '300'
-    density = models.IntegerField(choices=Density.choices, null=True, blank=True)
+    density = models.IntegerField(null=True, blank=True, choices=Density.choices)
     width = models.IntegerField(null=True, blank=True)
     height = models.IntegerField(null=True, blank=True)
     manufacturer = models.ManyToManyField(Company, blank=True, related_name="made_by")
 
     def __str__(self):
         return f"{self.name} {self.get_type_display()} {self.density} gr/m2"
+    
+    # class Meta:
+    #     unique_together = ('name', 'type', 'density', 'width', 'height')
 
     # def serialize(self):
     #     return {
@@ -190,30 +194,27 @@ class Part(models.Model):
     order = models.ForeignKey(Order, related_name='parts', on_delete=models.CASCADE)
     NAME_CHOICES =[
         ('BLO', 'блок'),
-        ('COV', 'обл.'),
-        ('INS', 'вкл.'),
+        ('COV', 'обложка'),
+        ('INS', 'вклейка.'),
         ('FRZ', 'форзацы'),
     ]
     part_name = models.CharField(blank=True, max_length=3, choices=NAME_CHOICES)
     pages = models.IntegerField(blank=True, null=True)
-    paper = models.ForeignKey(Paper, null=True, on_delete=models.CASCADE, related_name="part_paper", blank=True)
-    # paper_density = models.IntegerField(blank=True, null=True)
+    paper = models.ForeignKey(Paper, null=True, on_delete=models.PROTECT, related_name="part_paper", blank=True)
     COLOR_CHOICES = [
         (None, 'Select...'),
-        ('4_4', '4+4'),
-        ('4_0', '4+0'),
-        ('1_1', '1+1'),
-        ('1_1', '1+0'),
+        ('4+4', '4+4'),
+        ('4+0', '4+0'),
+        ('1+1', '1+1'),
+        ('1+0', '1+0'),
     ]
     color = models.CharField(blank=True, max_length=3, choices=COLOR_CHOICES)
-
     LAMINATE_CHOICES = [
         (None, 'Select...'),
         ('MAT', 'Matte'),
         ('GL', 'Glossy'),
     ]
     laminate = models.CharField(blank=True, max_length=3, choices=LAMINATE_CHOICES)
-
     uflak = models.BooleanField(default=False)
 
     def __str__(self):
@@ -229,17 +230,51 @@ class Part(models.Model):
 
 ###############################################################################################
 
+
+class Ctp(models.Model):
+    plates = models.IntegerField(null=True, blank=True)
+    plates_bad = models.IntegerField(null=True, blank=True)
+    # printing = models.OneToOneField('PrintSchedule', on_delete=models.CASCADE, related_name='ctp_details', null=True, blank=True)
+    printing = models.ForeignKey('PrintSchedule', null=True, blank=True, related_name='ctp_related', on_delete=models.CASCADE)
+    # part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    plates_done_date = models.DateTimeField(null=True, blank=True) 
+    notes = models.TextField(blank=True)
+    STATUS_CHOICES = [
+        ('in_progress', 'В работе'),
+        ('issues', 'Проблемы с заказом'),
+        ('completed', 'Сделан'),
+    ]
+
+    status = models.CharField(
+        max_length=15,  # Достаточно длинный, чтобы вместить самый длинный ключ
+        choices=STATUS_CHOICES,
+        null=True,
+        blank=True
+        # default='null',  # Значение по умолчанию
+    )
+
+
 class PrintSchedule(models.Model):
     order_part = models.ForeignKey(Part, related_name='printing', on_delete = models.CASCADE)
-    print_date = models.DateField(null=True, blank=True)
     sm1 = models.BooleanField(default=False)
     sm2 = models.BooleanField(default=False)
     rapida = models.BooleanField(default=False)
-    printed_sheets = models.IntegerField(null=True, blank=True)
+    printed_sheets = models.FloatField(null=True, blank=True)
     circulation_sheets = models.IntegerField(null=True, blank=True)
-    plates_is_done = models.BooleanField(default=True)
     position = models.IntegerField(null=True, blank=True)
     parent_day = models.CharField(blank=True, max_length=20)
+    ctp = models.ForeignKey(Ctp, on_delete=models.CASCADE, related_name='print_schedule', null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        is_new = not self.pk  # Determine if the instance is new by checking if it has a primary key
+        super().save(*args, **kwargs)  # Call the superclass's save method
+
+        if is_new and not self.ctp:  # Если это новое создание и ctp еще не задан
+            ctp_instance = Ctp.objects.create(printing_id=self.pk)
+            self.ctp = ctp_instance
+            # Обновляем объект без вызова повторного сохранения всей модели
+            PrintSchedule.objects.filter(pk=self.pk).update(ctp=ctp_instance)
+
 
     # def __str__(self):
     #     if self.day:

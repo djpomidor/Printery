@@ -22,9 +22,9 @@ function FormSectionParts({ parts, errors }) {
               </div>
               <div className="d-flex align-items-center">
                 <h6>
-                  {(part.part_name === 'BLO') ? ('Block') : ''}
-                  {(part.part_name === 'COV') ? ('Cover') : ''}
-                  {(part.part_name === 'INS') ? ('Insert') : ''}
+                  {(part.part_name === 'BLO') ? ('Блок') : ''}
+                  {(part.part_name === 'COV') ? ('Обложка') : ''}
+                  {(part.part_name === 'VKL') ? ('Вклейка') : ''}
                 </h6>
 
                 <button
@@ -59,9 +59,9 @@ function FormSectionParts({ parts, errors }) {
                   // error={console.log("!!!sdf", errors.parts[index].color)}
                 >
                   <option value="">Select...</option>
-                  <option value='4_4'>4(CMYK)+4(CMYK)</option>
-                  <option value='4_0'>4(CMYK)+0</option>
-                  <option value='1_1'>1(Black)+1(Black)</option>
+                  <option value='4+4'>4(CMYK)+4(CMYK)</option>
+                  <option value='4+0'>4(CMYK)+0</option>
+                  <option value='1+1'>1(Black)+1(Black)</option>
                 </FormSelectField>
   
                 <FormSelectField
@@ -69,14 +69,14 @@ function FormSectionParts({ parts, errors }) {
                   sm="4"
                   label="Бумага"
                   className="form-control"
-                  name={`parts.${index}.paper_id`}
-                  type="number"
+                  name={`parts.${index}.paper.type`}
+                  type="text"
                 >
                   <option value="">Select...</option>
-                  <option value="1">Глянцевая</option>
-                  <option value="2">Матовая</option>
-                  <option value="3">Офсетная</option>
-                  <option value="4">Картон</option>
+                  <option value="GL">Глянцевая</option>
+                  <option value="MAT">Матовая</option>
+                  <option value="OFF">Офсетная</option>
+                  <option value="CAR">Картон</option>
                 </FormSelectField>
 
               {/* <div>
@@ -92,9 +92,9 @@ function FormSectionParts({ parts, errors }) {
                 <label className="form-label" htmlFor={'parts.${index}.paper_density'} >Плотность (гр/м<sup>2</sup>)</label>
                   <Field
                     className="form-control"
-                    name={`parts.${index}.paper_density`}
+                    name={`parts.${index}.paper.density`}
                     type="text"
-                    id={`parts.${index}.paper_density`}
+                    id={`parts.${index}.paper.density`}
                     list="paper_density" />
                 
 

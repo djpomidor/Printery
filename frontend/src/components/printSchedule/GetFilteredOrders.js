@@ -5,7 +5,6 @@ import useAxios from "../../utils/useAxios";
 import OrdersList from './OrdersList';
 
 function GetFilteredOrders(props) {
-  // const [updateTrigger, setUpdateTrigger] = useState(false);
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState();
 
@@ -37,7 +36,7 @@ function GetFilteredOrders(props) {
       {res?
        <p>{res}</p>
       :
-        <OrdersList orders={orders} title=""/>
+        <OrdersList orders={orders} title="" updateTrigger={props.updateTrigger} setUpdateTrigger={props.setUpdateTrigger}/>
       }
       </>
   );

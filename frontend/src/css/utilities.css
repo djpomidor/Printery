@@ -5910,9 +5910,18 @@ a.text-muted:hover {
     margin-left: 8rem !important
 }
 
+.ms-36 {
+    margin-left: 9rem !important
+}
+
 .ms-40 {
     margin-left: 10rem !important
 }
+
+.ms-46 {
+    margin-left: 11.5rem !important
+}
+
 
 .ms-48 {
     margin-left: 12rem !important
@@ -21538,6 +21547,9 @@ a.text-muted:hover {
     }
     .top-lg-32 {
         top: 8rem !important
+    }
+    .top-lg-36 {
+        top: 9rem !important
     }
     .top-lg-40 {
         top: 10rem !important

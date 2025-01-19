@@ -14,3 +14,7 @@ You need to run
 . venv/bin/activate
 or
 source venv/bin/activate
+
+# WIn10:
+C:\Users\Jack\projects\Printery\backend>
+.\.venv\Scripts\activate

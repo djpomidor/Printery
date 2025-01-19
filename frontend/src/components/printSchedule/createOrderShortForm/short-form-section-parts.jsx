@@ -24,9 +24,31 @@ function FormSectionParts({ parts, errors }) {
                           {(part.part_name === 'BLO') ? ('Блок') : ''}
                           {(part.part_name === 'COV') ? ('Обложка') : ''}
                           {(part.part_name === 'INS') ? ('Вклейка') : ''}
-                        </h5>
+                          {(part.part_name === 'FRZ') ? ('Форзац') : ''}
+                          </h5>
+                          {(part.part_name === '') ? 
+                            <FormSelectField
+                              controlId={`parts.${index}.part_name`}
+                              name={`parts.${index}.part_name`}
+                              type="text"
+                            >
+                              <option value='BLO'>Блок</option>
+                              <option value='COV'>Обложка</option>
+                              <option value='INS'>Вклейка</option>
+                              <option value='FRZ'>Форзац</option>
+                              
+
+                            </FormSelectField> : ''}
+                        
                       </Accordion.Header>
-                      <CloseButton className="px-4 ms-auto" onClick={() => remove(index)} />
+                      <Button 
+                        variant="light"
+                        // size="sm"
+                        className="px-4 ms-auto shadow-none" 
+                        onClick={() => remove(index)} >
+                        <i className="bi bi-trash"></i>
+                      </Button>
+
                     </div>
                     <Accordion.Body>
                       <Row className="mb-4">
@@ -79,9 +101,10 @@ function FormSectionParts({ parts, errors }) {
                           type="text"
                         >
                           <option value="">Select...</option>
-                          <option value='4_4'>4+4</option>
-                          <option value='4_0'>4+0</option>
-                          <option value='1_1'>1+1</option>
+                          <option value='4+4'>4+4</option>
+                          <option value='4+0'>4+0</option>
+                          <option value='1+1'>1+1</option>
+                          <option value='1+0'>1+0</option>
                         </FormSelectField>
 
                         <FormNumberPartField
@@ -129,8 +152,29 @@ function FormSectionParts({ parts, errors }) {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => push({ part_name: '', pages: '' })}
-          >Add Part</Button>
+            onClick={() => push({
+              part_name: '',
+              pages: 0,
+              color: '',
+              paper: {
+                name: "",
+                type: "",
+                density: 0,
+                width: 0,
+                height: 0
+              },
+              printing: [
+                {
+                  printed_sheets: 0,
+                  circulation_sheets: 0,
+                  parent_day: '',
+                  printing_day: "",
+                  day_or_night: "day",
+                  machine: '1',
+                }
+              ]
+            })}
+          >+ бумага </Button>
         </>
       )}
     </FieldArray>

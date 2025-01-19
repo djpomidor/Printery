@@ -2,9 +2,12 @@
 import React, { useState } from 'react';
 import avatar from '../../assets/avatar_saul.jpg';
 import logo_cmyk from '../../assets/logo-cmyk.png'
+import { Button, Col, Row } from 'react-bootstrap'
+import Collapse from 'react-bootstrap/Collapse';
 
-const Sidebar = () => {
+const Sidebar = ({setOpen}) => {
   const [toggleMenu, setToggleMenu] = useState(false);
+
 
   return (
     <nav className="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg scrollbar" id="sidebar">
@@ -12,9 +15,31 @@ const Sidebar = () => {
       <button className="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
-        <a className="navbar-brand d-inline-block py-lg-2 mb-lg-5 px-lg-6 me-0" href="/">
-        <img alt="..." src={ logo_cmyk } style={{width: "40px", height: "40px"}} className=''/> 
-          <span className="fs-5 fw-semibold">Printery</span></a>
+        <div className='row'>
+        <div className="col">
+                <a className="navbar-brand d-inline-block py-lg-2 mb-lg-5 px-lg-6 me-0" href="/">
+                <img alt="..." src={ logo_cmyk } style={{width: "40px", height: "40px"}} className=''/> 
+                <span className="fs-5 fw-semibold">Printery</span></a>
+            </div>
+            <div className="col text-end mt-4">
+                {/* <button className=" ms-n2" 
+                        type="button" 
+                        data-bs-toggle="collapse" 
+                        data-bs-target="#sidebarCollapse" 
+                        // aria-controls="sidebarCollapse" 
+                        // aria-expanded="false" 
+                        // aria-label="Toggle navigation"
+                        onClick={() => setOpen(!true)}
+                        aria-controls='sidebarCollapse'
+                        aria-expanded={true}>
+                        <i class="bi bi-caret-left"></i>
+                </button> */}
+                    {/* <div><a>
+                    <i class="bi bi-caret-left"></i>
+                    </a></div> */}
+            </div>
+        </div>   
+
         <div className="navbar-user d-lg-none">
             <div className="dropdown">
                 <a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,6 +57,7 @@ const Sidebar = () => {
                 </div>
             </div>
         </div>
+        
         <div className="collapse navbar-collapse" id="sidebarCollapse">
             <ul className="navbar-nav">
                 <li className="nav-item">
@@ -62,14 +88,14 @@ const Sidebar = () => {
                 </li> */}
 
                 <li className="nav-item">
-                    <a className="nav-link" href="#sidebar-user" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-user"><i className="bi bi-people"></i> User</a>
-                    <div className="collapse" id="sidebar-user">
+                    <a className="nav-link" href="/" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebar-user"><i className="bi bi-people"></i> Парсер</a>
+                    {/* <div className="collapse" id="sidebar-user">
                         <ul className="nav nav-sm flex-column">
                             <li className="nav-item"><a href="/pages/user/profile.html" className="nav-link">Profile</a></li>
                             <li className="nav-item"><a href="/pages/user/table-view.html" className="nav-link">Table View</a></li>
                             <li className="nav-item"><a href="/pages/user/permissions.html" className="nav-link">Permissions</a></li>
                         </ul>
-                    </div>
+                    </div> */}
                 </li>
 
                 <li className="nav-item">

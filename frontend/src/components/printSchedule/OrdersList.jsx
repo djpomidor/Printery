@@ -6,20 +6,22 @@ import Order from './Order'
 import Table from 'react-bootstrap/Table';
 import '../orders/css/style.css';
 
-const OrdersList = ({orders, title}) => {
+const OrdersList = ({orders, title, updateTrigger, setUpdateTrigger}) => {
   const [searchTerm, setSearchTerm] = useState("");
   // console.log("!__", orders);
   const filteredOrders = orders.filter((order) =>
-    order.number.toString().includes(searchTerm)
+    order.orderNumber.toString().includes(searchTerm)
   );
 
   return (
     <>
-    <input
+    <div className="form-outline">
+    <input className="form-control"
           type="text"
           placeholder="Поиск по номеру"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)} />
+    </div>
     <Table striped bordered hover className="custom-table" >
         <thead>
         <tr>
@@ -33,7 +35,7 @@ const OrdersList = ({orders, title}) => {
         </thead>
         <tbody>
             {filteredOrders.map((order, i) => (
-                <Order key={i} {...order}/>
+                <Order key={i} {...order} updateTrigger={updateTrigger} setUpdateTrigger={setUpdateTrigger}/>
             ))}
         </tbody>
     </Table>

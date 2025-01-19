@@ -14,6 +14,7 @@ import datetime
 from printery.models import *
 from printery.forms import *
 from django.forms import modelformset_factory
+from django.db import transaction
 
 from rest_framework.response import Response
 from rest_framework.request import Request
@@ -100,16 +101,30 @@ class OrderList(APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
 
+    @transaction.atomic  # Ensures all operations are completed or rolled back if there's an error
     def post(self, request, format=None):
         serializer_order = OrderSerializer(data=request.data)
         if serializer_order.is_valid():
             order = serializer_order.save()  # Save the Order model
             # Iterate over the parts data and create the associated PrintSchedule models
-            for part_data in request.data.get('parts'):
-                serializer_paper = PaperSerializer(data=part_data.get('paper'))
+            for part_data in request.data.get('parts', []):
+                #serializer_paper = PaperSerializer(data=part_data.get('paper'))
+                paper_data = part_data.get('paper')
+                # Check if a matching Paper already exists
+                paper, created = Paper.objects.get_or_create(
+                    name=paper_data['name'],
+                    type=paper_data['type'],
+                    density=paper_data['density'],
+                    width=paper_data['width'],
+                    height=paper_data['height'],
+                    defaults={'manufacturer': paper_data.get('manufacturer')}
+                )         
+
+                # Now create or update the part with the Paper instance
+                part_data['paper_id'] = paper.id
                 serializer_printSheduler = PrintScheduleSerializer(data=part_data.get('printing'))
-                if serializer_printSheduler.is_valid() and serializer_paper.is_valid():
-                    serializer_paper.save()
+                if serializer_printSheduler.is_valid():# and serializer_paper.is_valid():
+                    #serializer_paper.save()
                     serializer_printSheduler.save(order_part=part_data.get('pk'))  # Associate the PrintSchedule with the Order and Part
             return Response(serializer_order.data, status=status.HTTP_201_CREATED)
         return Response(serializer_order.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -132,7 +147,7 @@ class OrderDetail(APIView):
 
     def put(self, request, pk, format=None):
         order = self.get_object(pk)
-        serializer = OrderSerializer(order, data=request.data)
+        serializer = OrderSerializer(order, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -154,6 +169,7 @@ class OrdersByDate(APIView):
         # orders = orders.filter(**{f'parts__printing__{field_name}': True})
         # print("_________", orders)
         serializer = OrderSerializer(orders, many=True)
+        # print("-----serializer", serializer.data)
         return Response(serializer.data)
 
 
@@ -175,3 +191,68 @@ class Update_position(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   
+##########################################################################
+
+class Ctp_view(APIView):
+    permission_classes = (AllowAny,)
+    def get_object(self, pk):
+        try:
+            return Ctp.objects.get(pk=pk)
+        except Order.DoesNotExist: 
+            raise Http404    
+        
+    def put(self, request, pk, format=None):
+        item = self.get_object(pk)
+        # position = request.data.get('position')
+        # parent_day = request.data.get('parent_day')
+        print("---------request.data", request.data)
+        serializer = CtpSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+##########################################################################
+
+
+#эндпоинт для получения информации о текущем пользователе и его группах:
+
+class UserGroupView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        groups = user.groups.values_list('name', flat=True)  # Получить список групп
+        return Response({'groups': list(groups)})  
+    
+
+class CtpView(APIView):
+    # permission_classes = [IsAuthenticated]
+    """
+    Retrieve, update or delete a ctp instance.
+    """
+    def get_object(self, part_id):
+        try:
+            return Ctp.objects.get(part_id=part_id)
+        except Ctp.DoesNotExist: 
+            raise Http404
+
+    def get(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        serializer = CtpSerializer(order)
+        return Response(serializer.data)
+
+    def put(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        serializer = CtpSerializer(order, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, part_id, format=None):
+        order = self.get_object(part_id)
+        order.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    

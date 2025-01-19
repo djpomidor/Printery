@@ -17,7 +17,7 @@ const Part = (part) => {
         </td>
         <td>{part.pages}</td>
         <td>{part.color_display}</td>
-        <td>{`${part.paper.type_display}, ${part.paper_density} гр/м`}<sup>2</sup></td>
+        <td>{`${part.paper.type_display}, ${part.paper.density} гр/м`}<sup>2</sup></td>
         <td>{part.laminate}</td>
         <td>{part.uflak}</td>
       </tr>
@@ -28,7 +28,7 @@ function Order(props) {
   const [open, setOpen] = useState(false);
   return (
     <>
-    <tr id={props.number} 
+    <tr id={props.orderNumber} 
         onClick={() => setOpen(!open)}
         aria-controls={props.pk}
         aria-expanded={open}

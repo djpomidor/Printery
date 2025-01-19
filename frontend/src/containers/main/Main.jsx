@@ -19,7 +19,7 @@ const Main = ({title}) => {
           {currentComponent==="OrdersTable"?
           <h5 className="mb-0">Latest Orders</h5>
           :
-          <h5 className="mb-0">Create New Order</h5>}
+          <h5 className="mb-0">Создать заказ</h5>}
         </div>
           <OrdersFrame currentComponent={currentComponent} />
         </div>

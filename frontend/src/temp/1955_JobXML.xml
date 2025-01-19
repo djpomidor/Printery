@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateJob>
+<Job>
+	<OrderID>1955</OrderID>
+	<OrderType>Offset_Orders</OrderType>
+	<JobStatus>Ожидаем загрузку 2 страниц</JobStatus>
+	<Name>Газета Вестник Лаэс №24 ВКЛАДКА</Name>
+	<JobDescription>Газета "Вестник Лаэс №24 ВКЛАДКА ДЛЯ 1945</JobDescription>
+	<NameTranslit>del_Gazeta_Vestnik_Laes_N24_VKLADKA</NameTranslit>
+	<DueDate>December 23, 2024</DueDate>
+	<JobManager>Мякишева Э.</JobManager>
+	<JobManagerEmail>manager@premium-press.ru</JobManagerEmail>
+	<Quantity>2000</Quantity>
+	<PageHeigth>820</PageHeigth>
+	<PageWidth>574</PageWidth>
+	<CoverPageWidth>
+		820+820+0		
+	</CoverPageWidth>
+	<TotalPages>2</TotalPages>
+	<BlockPages>2</BlockPages>
+	<CoverPages> </CoverPages>
+	<VkleykaPages> </VkleykaPages>
+	<Spine>0</Spine>
+	<BlockColors>4+4</BlockColors>
+	<CoverColors></CoverColors>
+	<VkleikaColors>4+4</VkleikaColors>
+	<Cloud_record_id></Cloud_record_id>	
+</Job>
+<Customer>
+	<CustomerID>00001156</CustomerID>
+	<CustomerName>ООО "Типография "Премиум Пресс"</CustomerName>
+	<CustomerSR>Раевский Кирилл</CustomerSR>
+	<CustomerSRPhone>+7 952 267 11 04</CustomerSRPhone>
+	<CustomerSREmail>umlaut13@mail.ru</CustomerSREmail>
+	<CustomerFTPfolder>delpressa</CustomerFTPfolder>
+</Customer>
+<System>
+	<JobDirRoot>\\DELL_EVO\dataVolumes\</JobDirRoot>
+	<XMLRepository>\\AE\ExampleJobContainer\XML_Orders_Repository\2021\</XMLRepository>
+	<XMLToPOSHDir>\\AE\JobContainer_D\Hot_Folder_XML_to_POSH_v5\</XMLToPOSHDir>
+</System>
+</CreateJob>
+

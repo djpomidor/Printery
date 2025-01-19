@@ -8932,7 +8932,8 @@ fieldset:disabled .btn {
 @media (min-width: 992px) {
     .navbar-vertical.navbar-expand-lg.show {
         border-radius: 0;
-        max-width: 270px;
+        max-width: 240px; 
+        /* max-width: 270px; */
     }
     .navbar-vertical.navbar-expand-lg.show.navbar-lg {
         max-width: 320px;

@@ -12,7 +12,13 @@ const FormTextField = ({
   type,
   placeholder,
   error,
-  inputGroupPrepend
+  inputGroupPrepend,
+  disabled,
+  readOnly,
+  value,
+  //onChange,
+  //defaultValue,
+
 }) => {
   return (
     <Field name={name} >
@@ -31,6 +37,11 @@ const FormTextField = ({
                 isValid={form.touched[field.name] && isValid}
                 isInvalid={isInvalid}
                 feedback={form.errors[field.name]}
+                disabled={disabled}
+                readOnly={readOnly}
+                value={value}
+                //onChange={onChange}
+                //defaultValue={defaultValue}
               />
 
               <Form.Control.Feedback type="invalid">

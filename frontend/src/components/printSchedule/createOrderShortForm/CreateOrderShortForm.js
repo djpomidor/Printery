@@ -18,8 +18,8 @@ const CreateOrderShortForm = (props) => {
     const newOrder = await addOrder(values, user, props);
     setValidated(true);
     setErrors(newOrder);
-    console.log("!@#$__", errors)
-    resetForm();
+    console.log("errors__", errors)
+    //resetForm();
   };
 
   // const name_of_parts = [['Block', 'BLO'], ['Cover', 'COV'], ['insert', 'INS']]
@@ -62,10 +62,10 @@ const CreateOrderShortForm = (props) => {
                   as="input"
                   // size="lg"
                   type="submit"
-                  value="Submit"
+                  value="Добавить заказ"
                 />
   
-          <Col>
+          {/* <Col>
                 <pre style={{ margin: "0 auto" }}>
                   {JSON.stringify(
                     { ...values, ...errors, isValid, isSubmitting },
@@ -73,7 +73,7 @@ const CreateOrderShortForm = (props) => {
                     2
                   )}
                 </pre>
-              </Col>           
+              </Col>            */}
 
         </Form>
       )}

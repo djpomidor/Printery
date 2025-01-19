@@ -14,6 +14,7 @@ const OrderList = styled.div`
   min-height: 50px;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   background: #fff;
   // min-width: 800px;
   // border-radius: 5px;
@@ -28,6 +29,7 @@ const Day = styled.div`
   align-items: baseline;
   // border-radius: 5px;
   background-color: #fff;
+  min-width: 120px;
   
 `;
 const OrderColumnStyles = styled.div`
@@ -64,13 +66,15 @@ const Date = styled.div`
   // align-self: flex-start;
   // min-width: 20vh;
   // max-width: 100px;
-  width:21vh;
+  // width:21vh;
+  min-width: 18vh;
 `;
 const DateToday = styled.div`
   font-weight: 800 !important;
   color: #ff4e4e;
   padding: 2px 0px;
   width:21vh;
+  min-width: 18vh;
 `;
  const DayNight = styled.div`
   margin-left: 15px;
@@ -88,10 +92,11 @@ const DayNightList = styled.div`
   border-radius: 10px;
   margin-bottom: 5px;
   width: 100%;
+  background-color: white;
 `;
 
 const PrintSchedule = (props) => {
-  const [state, setState] = useState({ orders: [], columns: {} });
+  const [state, setState] = useState({ orders: [], columns: {}, orders_full: [] });
   const api = useAxios();
   const [res, setRes] = useState("");
      
@@ -100,11 +105,15 @@ const PrintSchedule = (props) => {
         try {
           var today = new window.Date();
           var beforeYesterday = new window.Date(today);
-          beforeYesterday.setDate(today.getDate() - 7);
+          beforeYesterday.setDate(today.getDate() - 14);
           const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
+          const orders_full = response.data;
           const fetchedOrders = response.data;
+          console.log('fetchedOrders!!!', fetchedOrders);
           const fetchedColumns = daysOfPrint(fetchedOrders, props.machine); // Pass fetchedOrders to the daysOfPrint function
-          setState({ orders: fetchedOrders, columns: fetchedColumns });
+          console.log('fetchedColumns!!!', fetchedColumns);
+          setState({ orders: fetchedOrders, columns: fetchedColumns, orders_full: orders_full });
+          
         } catch (error) {
           setRes("Something went wrong: ", error);
           console.log('Aaalarmee!!!', res);
@@ -115,20 +124,24 @@ const PrintSchedule = (props) => {
     }, [props.machine, props.updateTrigger]);  // Добавление machine в список зависимостей
  
   const updatePositions = async (itemId, newPosition, newColumnId) => {
+    const result = newColumnId || (window.confirm('Вы уверены, что хотите удалить этот заказ?'));
+    if (result) {
     try {
       const response = await api.put(`/orders/print-shedule/${itemId}-update_position/`, {
-        position: newPosition,
+        position: newPosition,  
         parent_day: newColumnId,
       });
+      
         // Do anything with the updated item data if necessary
       // console.log(response.data);
       } catch (error) {
       // Handle errors
       console.error(error);
-    }
+    }};
+
   };
   
-  const onDragEnd = (result, columns, setState) => {
+  const onDragEnd = (result, columns, setState, orders_full) => {
     if (!result.destination) return;
     const { source, destination } = result;
     const newColumns = { ...columns };
@@ -160,10 +173,15 @@ const PrintSchedule = (props) => {
     }
     setState(prevState => ({
       ...prevState,
-      columns: newColumns
+      columns: newColumns,
+      // orders_full: orders_full,
     }));
   };
+
+  // console.log("!!!", orders)
   return (
+    <>
+
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, state.columns, setState)} direction="vertical">
       <Container>
@@ -190,12 +208,23 @@ const PrintSchedule = (props) => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div>
-                    {column.items.map((item, index) => (
-                      <OrderCard key={item.pk} item={item} index={index} />   // was key={item} !!
+                    {/* <div> */}
+                    {column.items.map((item, index, orders_full) => (
+                      <OrderCard 
+                        key={item.pk} 
+                        item={item} 
+                        index={index} 
+                        machine={props.machine} 
+                        orders_full={orders_full}
+                        updateTrigger={props.updateTrigger}
+                        setUpdateTrigger={props.setUpdateTrigger}
+                        updatePositions={updatePositions}
+                        part={props.part}
+                        onSelectPart={props.onSelectPart}
+                        />   
                     ))}
                     {provided.placeholder}
-                    </div>
+                    {/* </div> */}
                   </OrderList>
                   </DayNightList>
                   </Day>
@@ -206,6 +235,7 @@ const PrintSchedule = (props) => {
         </OrderColumnStyles>
       </Container>
     </DragDropContext>
+    </>
   );
 };
 
