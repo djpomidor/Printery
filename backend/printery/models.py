@@ -116,7 +116,7 @@ class Order(models.Model):
             return max_number + 1
 
     number = models.IntegerField(unique=True, default=counter)
-    name = models.CharField(blank=True, max_length=16)
+    name = models.CharField(blank=True, max_length=32)
     owner = models.ManyToManyField('User', blank=False, related_name="order_owners")
 
     BOOK = 'BK'
