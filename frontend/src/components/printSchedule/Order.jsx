@@ -67,7 +67,7 @@ function Order(props) {
       >
         <td>{props.orderNumber}</td>
         <td>
-          {props.nameOfOrder}, {props.typeOfOrder}
+          {props.nameOfOrder}
         </td>
         <td>
           {props.width}x{props.height}
@@ -85,11 +85,11 @@ function Order(props) {
                     <tr>
                       <th></th>
                       <th></th>
-                      <th>Color</th>
-                      <th>Paper</th>
+                      <th>Красочность</th>
+                      <th>Бумага</th>
                       <th></th>
-                      <th>Offset Lak</th>
-                      <th>Laminate</th>
+                      <th>Лак</th>
+                      <th>Ламинат</th>
                     </tr>
                   </thead>
                 )}

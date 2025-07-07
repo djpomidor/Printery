@@ -25,11 +25,11 @@ const OrdersList = ({orders, title, updateTrigger, setUpdateTrigger}) => {
     <Table striped bordered hover className="custom-table" >
         <thead>
         <tr>
-          <th scope="col">с/з</th>
-          <th scope="col">Title</th>
-          <th scope="col">Size</th>
-          <th scope="col">Circulation</th>
-          <th scope="col">Delivery Date</th>
+          <th scope="col">№</th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Формат</th>
+          <th scope="col">Тираж</th>
+          {/* <th scope="col">Delivery Date</th> */}
           {/* <th scope="col">Due Date</th> */}
         </tr>
         </thead>

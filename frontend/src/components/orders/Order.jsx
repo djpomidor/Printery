@@ -57,7 +57,7 @@ function Order(props) {
             <th>Paper</th>
             <th></th>
             <th>Offset Lak</th>
-            <th>Laminate</th>
+            <th>Ламинат</th>
             
         </tr>
         </thead>

@@ -101,11 +101,11 @@ function Order(props) {
             <th></th>
             <th></th>
             {/* <th>Pages</th> */}
-            <th>Color</th>
-            <th>Paper</th>
+            <th>Красочность</th>
+            <th>Бумага</th>
             <th></th>
-            <th>Offset Lak</th>
-            <th>Laminate</th>
+            <th>Лак</th>
+            <th>Ламинат</th>
             
         </tr>
         </thead>

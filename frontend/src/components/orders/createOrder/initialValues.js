@@ -83,7 +83,7 @@ const today = new Date();
         
       },
       {
-        part_name: 'VKL',
+        part_name: 'INS',
         pages: '',
         color: '',
         paper: {

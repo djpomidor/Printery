@@ -24,7 +24,7 @@ function FormSectionParts({ parts, errors }) {
                 <h6>
                   {(part.part_name === 'BLO') ? ('Блок') : ''}
                   {(part.part_name === 'COV') ? ('Обложка') : ''}
-                  {(part.part_name === 'VKL') ? ('Вклейка') : ''}
+                  {(part.part_name === 'INS') ? ('Вклейка') : ''}
                 </h6>
 
                 <button
