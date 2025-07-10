@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend/backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "3001:3000"  # Прокидываем порт для доступа к API
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: app_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    volumes:
+      - ./backend:/app  # Монтируем код для разработки
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:3000"  # Прокидываем порт для доступа к приложению
+    environment:
+      REACT_APP_API_URL: "http://backend:3001"  # Ссылка на бэкенд API
+    volumes:
+      - ./frontend:/app  # Монтируем код для разработки
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./backend/sqlite_dump.sql:/docker-entrypoint-initdb.d/sqlite_dump.sql  # Подключаем дамп
+volumes:
+  pg_data:
+

@@ -124,7 +124,7 @@ const PrintSchedule = (props) => {
     }, [props.machine, props.updateTrigger]);  // Добавление machine в список зависимостей
  
   const updatePositions = async (itemId, newPosition, newColumnId) => {
-    const result = newColumnId || (window.confirm('Вы уверены, что хотите удалить этот заказ?'));
+    const result = newColumnId || (window.confirm('Вы уверены, что хотите удалить этот заказ из очереди печати?'));
     if (result) {
     try {
       const response = await api.put(`/orders/print-shedule/${itemId}-update_position/`, {
