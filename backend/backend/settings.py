@@ -100,17 +100,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'printery_db',
+#         'USER': 'printery_user',
+#         'PASSWORD': 'P@s$w0rd2025!',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'printery_db',
-        'USER': 'printery_user',
-        'PASSWORD': 'mypassword',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'printery_db'),
+        'USER': os.getenv('DB_USER', 'printery_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'P@s$w0rd2025!'),
+        'HOST': os.getenv('DB_HOST', 'db'),  # Docker — 'db', локально — 'localhost'
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
