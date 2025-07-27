@@ -1,10 +1,11 @@
 import useAxios from "../../utils/useAxios";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const UpdateCtpInfo = async (api, values) => {
   const { plates, plates_bad, plates_done_date, notes, status } = values.ctp;
 
   try {
-    const response = await api.put(`http://127.0.0.1:8000/api/ctp/${values.ctp_id}/update_ctp_info/`, {
+    const response = await api.put(`${API_URL}/api/ctp/${values.ctp_id}/update_ctp_info/`, {
       plates,
       plates_bad,
       plates_done_date,

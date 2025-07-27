@@ -3,7 +3,7 @@ import { Sidebar } from '../containers';
 import TopNav from '../containers/topnav/TopNav';
 import Nav from 'react-bootstrap/Nav';
 // import PrintingQueue from '../components/printingqueue/PrintingQueue';
-import Color_switch from '../temp/color_switch';
+import Color_switch from '../utils/color_switch'; 
 
 const TechManage = () => {
     return (

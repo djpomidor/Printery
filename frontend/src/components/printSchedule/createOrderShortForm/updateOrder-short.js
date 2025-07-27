@@ -1,4 +1,5 @@
 // import useAxios from "../../../utils/useAxios";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const UpdateOrder = async (values, user, props) => {
     console.log("values--", values);
@@ -69,8 +70,8 @@ export const UpdateOrder = async (values, user, props) => {
     // });
 
     try {
-        // const response = await api.put(`http://127.0.0.1:8000/api/orders/print-shedule/${values.orderId}-update/`, {
-        const response = await fetch(`http://127.0.0.1:8000/api/orders/print-shedule/${values.orderId}/update/`, {
+        // const response = await api.put(`${API_URL}/api/orders/print-shedule/${values.orderId}-update/`, {
+        const response = await fetch(`${API_URL}/api/orders/print-shedule/${values.orderId}/update/`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

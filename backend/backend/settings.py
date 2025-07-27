@@ -21,7 +21,7 @@ SECRET_KEY = 'django-insecure-f7&72^*eay5008d*71tmx2n!p6tm#@nkhib96ye39^_h89)6%!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["195.66.87.120", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -117,7 +117,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'printery_db'),
         'USER': os.getenv('DB_USER', 'printery_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'P@s$w0rd2025!'),
-        'HOST': os.getenv('DB_HOST', 'db'),  # Docker — 'db', локально — 'localhost'
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # Docker — 'db', локально — 'localhost'
         'PORT': os.getenv('DB_PORT', '5432'),
     }
 }

@@ -1,12 +1,14 @@
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const addOrder = async (values, user) => {
     values.owner = [user.user_id]
     values.parts = values.parts.filter((part) => {
         // part.paper = parseInt(part.paper)
-        return part.pages != 0;
+        return part.pages !== 0;
     });
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/orders/", {
+        const response = await fetch(`${API_URL}/api/orders/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

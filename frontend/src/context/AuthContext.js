@@ -3,6 +3,7 @@ import { createContext, useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const AuthContext = createContext();
 
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user-group/", {
+        const response = await axios.get(`${API_URL}/api/user-group/`, {
           headers: {
             Authorization: `Bearer ${authTokens?.access}`,
           },
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   const history = useHistory();
 
   const loginUser = async (username, password) => {
-    const response = await fetch("http://127.0.0.1:8000/api/token/", {
+    const response = await fetch(`${API_URL}/api/token/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authTokens", JSON.stringify(data));
       history.push("/user-cabinet");
       // Fetch user groups
-      const groupsResponse = await axios.get("http://127.0.0.1:8000/api/user-group/", {
+      const groupsResponse = await axios.get(`${API_URL}/api/user-group/`, {
         headers: {
           Authorization: `Bearer ${data.access}`,
         },
@@ -94,7 +95,7 @@ export const AuthProvider = ({ children }) => {
 
   const registerUser = async (username, password, password2) => {
     try {
-    const response = await fetch("http://127.0.0.1:8000/api/register/", {
+    const response = await fetch(`${API_URL}/api/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
