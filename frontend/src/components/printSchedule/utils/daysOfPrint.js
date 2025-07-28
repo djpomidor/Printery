@@ -11,6 +11,9 @@ const daysOfPrint = (items, machine) => {
     let itemsOfday = [];
     items.forEach((item) => {
       item.parts.forEach((part) => {
+
+        console.log("----!!!!------", part.printing[0].parent_day)
+
         if ((key + '_' + timeofday) === part.printing[0].parent_day && part.printing[0][machine] === true ) {
           itemsOfday.push(
             {

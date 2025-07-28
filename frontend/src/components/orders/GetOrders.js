@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useAxios from "../../utils/useAxios";
 
 import OrdersList from './OrdersList';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function GetOrders() {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ function GetOrders() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/orders/");
+        const response = await api.get(`${API_URL}/api/orders/`);
         // console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);

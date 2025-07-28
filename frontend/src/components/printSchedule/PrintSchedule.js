@@ -7,6 +7,8 @@ import useAxios from "../../utils/useAxios";
 import { v4 as uuidv4 } from 'uuid';
 import daysOfPrint from './utils/daysOfPrint';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 const Container = styled.div`
   display: flex;
 `;
@@ -106,7 +108,8 @@ const PrintSchedule = (props) => {
           var today = new window.Date();
           var beforeYesterday = new window.Date(today);
           beforeYesterday.setDate(today.getDate() - 14);
-          const response = await api.get(`/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
+          console.log(await api.get(`${API_URL}/api/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`));
+          const response = await api.get(`${API_URL}/api/orders/print-shedule/${beforeYesterday.toISOString().substring(0,10)}`);
           const orders_full = response.data;
           const fetchedOrders = response.data;
           console.log('fetchedOrders!!!', fetchedOrders);

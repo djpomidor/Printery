@@ -14,7 +14,7 @@ const Getdata = () => {
     const fetchData = async () => {
       const currentDate = "2023-07-27 15:33:28.146113";
       try {
-        const response = await api.get("/orders/last-month/" + currentDate);
+        const response = await api.get(`${API_URL}/orders/last-month/` + currentDate);
         console.log('response!!!', response.data);
         setRes(response.data.response);
         setOrders(response.data);
