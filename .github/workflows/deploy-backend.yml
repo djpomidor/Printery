@@ -1,0 +1,33 @@
+# .github/workflows/deploy-backend.yml
+
+name: Deploy Backend
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+    branches:
+      - master
+
+jobs:
+  backend-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy backend files
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          source: "backend"
+          target: "/home/YOUR_USER/app"
+
+      - name: Rebuild and restart backend
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /home/YOUR_USER/app
+            docker-compose up -d --build backend
