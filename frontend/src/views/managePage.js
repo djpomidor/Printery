@@ -18,14 +18,14 @@ function ManagePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/test/");
+        const response = await api.get("/test/");
         setRes(response.data.response);
       } catch {
         setRes("Something went wrong");
       }
     };
     fetchData();
-  }, []);
+  }, [api]);
 
   return (
     <div className="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
