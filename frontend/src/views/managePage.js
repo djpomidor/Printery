@@ -18,7 +18,7 @@ function ManagePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/test/");
+        const response = await api.get("/api/test/");
         setRes(response.data.response);
       } catch {
         setRes("Something went wrong");
