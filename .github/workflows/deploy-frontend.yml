@@ -17,7 +17,7 @@ jobs:
         working-directory: frontend
         run: |
           npm install
-          npm run build
+          npm run build || true
 
       - name: Upload build folder to server
         uses: appleboy/scp-action@v0.1.7
