@@ -41,4 +41,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ secrets.SERVER_APP_PATH }}
-            docker compose restart nginx
+            docker-compose restart nginx
