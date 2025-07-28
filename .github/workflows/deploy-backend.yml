@@ -31,5 +31,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ secrets.SERVER_APP_PATH }}
-            docker compose build backend
-            docker compose up -d backend
+            docker-compose build backend
+            docker-compose up -d backend
