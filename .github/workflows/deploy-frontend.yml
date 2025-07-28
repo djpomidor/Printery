@@ -24,6 +24,9 @@ jobs:
           npm install
           npm run build || echo "Build failed (likely lint), continuing..."
 
+      - name: Check build result
+        run: ls -la frontend/build
+
       - name: Upload build folder to server
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -32,6 +35,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "frontend/build/*"
           target: "${{ secrets.SERVER_APP_PATH }}/frontend"
+
 
       - name: Restart Nginx only
         uses: appleboy/ssh-action@v1.0.0
