@@ -30,7 +30,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "frontend/build/*"
+          source: "build/*"
           target: "${{ secrets.SERVER_APP_PATH }}/frontend"
 
       - name: Restart Nginx only
