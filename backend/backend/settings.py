@@ -117,7 +117,7 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME', 'printery_db'),
         'USER': os.getenv('DB_USER', 'printery_user'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'P@s$w0rd2025!'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),  # Docker — 'db', локально — 'localhost'
+        'HOST': os.getenv('DB_HOST', 'db'),  # Docker — 'db', локально — 'localhost'
         'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
