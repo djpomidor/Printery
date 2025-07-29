@@ -4,10 +4,12 @@ services:
   db:
     image: postgres:15
     container_name: postgres_db
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: printery_db
-      POSTGRES_USER: printery_user
-      POSTGRES_PASSWORD: P@s$w0rd2025!
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -18,30 +20,31 @@ services:
       context: ./backend/backend
       dockerfile: Dockerfile
     container_name: backend
-    ports:
-      - "3001:8000"  # Django на 8000, наружу — 3001
-    depends_on:
-      - db
+    env_file:
+      - .env
     environment:
       DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: printery_db
-      DB_USER: printery_user
-      DB_PASSWORD: P@s$w0rd2025!
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./backend:/app
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend
+    depends_on:
+      - db
     ports:
-      - "3000:3000"
-    environment:
-      REACT_APP_API_URL: "http://localhost:3001"  # для разработки
+      - "8000:8000"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
     volumes:
-      - ./frontend:/app
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/build:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
 
 volumes:
   pg_data:
