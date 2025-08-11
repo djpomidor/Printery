@@ -9,3 +9,4 @@ backend/finalproject/static/
 .vscode/settings.json
 frontend/.env
 backend/backend/settings.py
+frontend/package-lock.json
